@@ -1,0 +1,2273 @@
+# vsim -novopt uart_top -l uart_txrx_cmd_case.log "+UVM_TESTNAME=apb_uart_rx_read_with_cmd_test" "+data_bit=8" "+baudrate=128000" "+parity=1" "+stp_bit=2" 
+# Start time: 18:49:57 on Jan 02,2024
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# 
+# Refreshing C:/Users/Jaydeep Solanki/Desktop/New folder b2b tx ok/SIM/work.uart_top
+# Refreshing C:/Users/Jaydeep Solanki/Desktop/New folder b2b tx ok/SIM/work.uart_top_sv_unit
+# Loading sv_std.std
+# Loading mtiUvm.uvm_pkg
+# Loading work.uart_top_sv_unit
+# Loading work.uart_top
+# Refreshing C:/Users/Jaydeep Solanki/Desktop/New folder b2b tx ok/SIM/work.uart_interface
+# Loading work.uart_interface
+# Loading mtiUvm.questa_uvm_pkg
+# ** Warning: (vsim-3764) ../UART_UVC/TEST/uart_base_test.sv(58): Stand-alone call to function 'get' treated as implicit void cast.
+#    Time: 0 ps  Iteration: 0  Region: /uart_top_sv_unit File: ../UART_UVC/ENV/apb_defines.sv
+# ** Warning: (vsim-3764) ../UART_UVC/TEST/uart_base_test.sv(59): Stand-alone call to function 'get' treated as implicit void cast.
+#    Time: 0 ps  Iteration: 0  Region: /uart_top_sv_unit File: ../UART_UVC/ENV/apb_defines.sv
+# ** Warning: (vsim-8441) ../UART_UVC/UART_TX_AGENT/uart_driver.sv(88): Clocking block output uif.uart_drv_cb.txd is not legal in this
+# 
+# or another expression.
+#    Time: 0 ps  Iteration: 0  Region: /uart_top_sv_unit::uart_driver File: ../UART_UVC/ENV/apb_defines.sv
+# Loading C:/questasim64_10.4e/uvm-1.1d\win64\uvm_dpi.dll
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(215) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(217) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO @ 0: reporter [RNTST] Running test apb_uart_rx_read_with_cmd_test...
+# UVM_INFO ../UART_UVC/ENV/uvc_env_top.sv(63) @ 0: uvm_test_top.env_hh [env_hh] here no of uvc is=2  & size of uvc array =2
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(43) @ 0: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon] using uvm_default_printer show reg_configs
+# --------------------------------------------------------------------------
+# Name                       Type             Size  Value                   
+# --------------------------------------------------------------------------
+# reg_cfg                    uart_reg_config  -     @819                    
+#   tx_word_length           string           8     FIVE_BIT                
+#   rx_word_length           string           8     FIVE_BIT                
+#   tx_start_bit             string           13    ONE_START_BIT           
+#   rx_start_bit             string           13    ONE_START_BIT           
+#   tx_stop_bit              string           12    ONE_STOP_BIT            
+#   rx_stop_bit              string           12    ONE_STOP_BIT            
+#   tx_start_bit             string           13    ONE_START_BIT           
+#   rx_start_bit             string           13    ONE_START_BIT           
+#   tx_parity                string           14    PARITY_DISABLE          
+#   rx_parity                string           14    PARITY_DISABLE          
+#   tx_parity_type           string           11    EVEN_PARITY             
+#   rx_parity_type           string           11    EVEN_PARITY             
+#   tx_dlab_bit              string           7     SET_REG                 
+#   tx_dlab_bit              string           7     SET_REG                 
+#   is_rbr_buffer_full       string           20    RBR_BUFFER_NOT_EMPTY    
+#   is_thr_buffer_full       string           20    THR_BUFFER_NOT_EMPTY    
+#   is_over_run_error        string           17    NO_OVER_RUN_ERROR       
+#   is_over_run_error        string           17    NO_OVER_RUN_ERROR       
+#   is_tx_break_error        string           14    NO_BREAK_ERROR          
+#   is_rx_break_error        string           14    NO_BREAK_ERROR          
+#   is_tx_parity_error       string           22    NO_PARITY_ERROR_OCCURE  
+#   is_rx_parity_error       string           22    NO_PARITY_ERROR_OCCURE  
+#   is_tx_framing_error      string           16    NO_FRAMING_ERROR        
+#   is_rx_framing_error      string           16    NO_FRAMING_ERROR        
+#   is_rx_tx_data_available  string           20    ANY_BUFFER_HAVE_DATA    
+#   is_any_error             string           15    NO_ERROR_OCCURE         
+#   is_intrupt_for_rbr       string           18    NO_INTRUPT_FOR_RBR      
+#   is_intrupt_for_thr       string           18    NO_INTRUPT_FOR_THR      
+#   tx_lsr_error_intrupt     string           24    LSR_ERROR_INTRUPT_ENABLE
+#   rx_lsr_error_intrupt     string           24    LSR_ERROR_INTRUPT_ENABLE
+#   fifo_mode_enable         string           12    FIFO_MODE_ON            
+#   fifo_mode_enable         string           12    FIFO_MODE_ON            
+# --------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/TEST/uart_base_test.sv(74) @ 0: uvm_test_top [uvm_test_top] [**********************************************************************************************************************]
+# --------------------------------------------------------------------------
+# Name                           Type                            Size  Value
+# --------------------------------------------------------------------------
+# uvm_test_top                   apb_uart_rx_read_with_cmd_test  -     @465 
+#   env_hh                       uvc_env_top                     -     @473 
+#     uart_sb                    uart_scoreboard                 -     @492 
+#       mmon_imp                 uvm_analysis_imp_mas_mon        -     @500 
+#       umon_imp                 uvm_analysis_imp_slv_mon        -     @509 
+#     uvc_h[0]                   uart_uvc_env                    -     @518 
+#       tx_agent_h               uart_tx_agent                   -     @549 
+#         an_port                uvm_analysis_port               -     @560 
+#         drv                    uart_driver                     -     @571 
+#           rsp_port             uvm_analysis_port               -     @588 
+#           seq_item_port        uvm_seq_item_pull_port          -     @579 
+#         seqr                   uart_sequencer                  -     @602 
+#           get_port             uvm_blocking_get_port           -     @725 
+#           rsp_export           uvm_analysis_export             -     @610 
+#           seq_item_export      uvm_seq_item_pull_imp           -     @716 
+#           arbitration_queue    array                           0     -    
+#           lock_queue           array                           0     -    
+#           num_last_reqs        integral                        32    'd1  
+#           num_last_rsps        integral                        32    'd1  
+#         tx_mon                 uart_tx_monitor                 -     @738 
+#           get_imp              uvm_blocking_get_imp            -     @755 
+#           item_collected_port  uvm_analysis_port               -     @746 
+#     uvc_h[1]                   uart_uvc_env                    -     @526 
+#       rx_agent_h               uart_rx_agent                   -     @776 
+#         an_port                uvm_analysis_port               -     @787 
+#         rx_mon                 uart_rx_monitor                 -     @798 
+#           item_collected_port  uvm_analysis_port               -     @806 
+# --------------------------------------------------------------------------
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1268) @ 0: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(48) @ 0: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] -----------------------------------------------------  RX MONITOR RESET PHASE CALLED ------------------------------------------------------------------------
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(51) @ 0: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  tx monitor reset phase is arrived
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(37) @ 0: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  ********************************************** reset_phase called ***************************************************************
+# UVM_INFO ../UART_UVC/TEST/apb_uart_rx_read_with_cmd_test.sv(15) @ 0: uvm_test_top [uvm_test_top] configure_phase called
+# UVM_INFO ../UART_UVC/TEST/apb_uart_rx_read_with_cmd_test.sv(21) @ 0: uvm_test_top [uvm_test_top] configure_phase returning
+# Baud is 7.000000
+# UVM_INFO ../UART_UVC/SEQS/uart_reg_config_seqs.sv(139) @ 0: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] THE baud rate value is 7  and dll value is 7 and dlm value is 0 rx dll is 7 and rx dlm is 0 and tx dll is 7 and tx dlm is 0 combine rx value is 7 and tx value is 7
+# baud_set=10000011
+# lcr_set_reg=00001111
+# UVM_INFO ../UART_UVC/SEQS/uart_reg_config_seqs.sv(223) @ 0: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h] using uvm_default_printer show reg_configs
+# --------------------------------------------------------------------------
+# Name                       Type             Size  Value                   
+# --------------------------------------------------------------------------
+# uart_reg_config            uart_reg_config  -     @844                    
+#   tx_word_length           string           9     EIGHT_BIT               
+#   rx_word_length           string           9     EIGHT_BIT               
+#   tx_start_bit             string           13    ONE_START_BIT           
+#   rx_start_bit             string           13    ONE_START_BIT           
+#   tx_stop_bit              string           12    TWO_STOP_BIT            
+#   rx_stop_bit              string           12    TWO_STOP_BIT            
+#   tx_start_bit             string           13    ONE_START_BIT           
+#   rx_start_bit             string           13    ONE_START_BIT           
+#   tx_parity                string           13    PARITY_ENABLE           
+#   rx_parity                string           13    PARITY_ENABLE           
+#   tx_parity_type           string           11    EVEN_PARITY             
+#   rx_parity_type           string           11    EVEN_PARITY             
+#   tx_dlab_bit              string           7     SET_REG                 
+#   tx_dlab_bit              string           7     SET_REG                 
+#   is_rbr_buffer_full       string           20    RBR_BUFFER_NOT_EMPTY    
+#   is_thr_buffer_full       string           20    THR_BUFFER_NOT_EMPTY    
+#   is_over_run_error        string           17    NO_OVER_RUN_ERROR       
+#   is_over_run_error        string           17    NO_OVER_RUN_ERROR       
+#   is_tx_break_error        string           14    NO_BREAK_ERROR          
+#   is_rx_break_error        string           14    NO_BREAK_ERROR          
+#   is_tx_parity_error       string           22    NO_PARITY_ERROR_OCCURE  
+#   is_rx_parity_error       string           22    NO_PARITY_ERROR_OCCURE  
+#   is_tx_framing_error      string           16    NO_FRAMING_ERROR        
+#   is_rx_framing_error      string           16    NO_FRAMING_ERROR        
+#   is_rx_tx_data_available  string           20    ANY_BUFFER_HAVE_DATA    
+#   is_any_error             string           15    NO_ERROR_OCCURE         
+#   is_intrupt_for_rbr       string           18    NO_INTRUPT_FOR_RBR      
+#   is_intrupt_for_thr       string           18    NO_INTRUPT_FOR_THR      
+#   tx_lsr_error_intrupt     string           24    LSR_ERROR_INTRUPT_ENABLE
+#   rx_lsr_error_intrupt     string           24    LSR_ERROR_INTRUPT_ENABLE
+#   fifo_mode_enable         string           12    FIFO_MODE_ON            
+#   fifo_mode_enable         string           12    FIFO_MODE_ON            
+# --------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 31250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 203
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 93750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 201
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 46
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 142
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 188
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 218
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 245
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 22
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     203                                               
+#   tx_fifo                      integral       8     'b11001011                                        
+#   parity_data                  integral       8     203                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    31250                                             
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 137
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 227
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 9
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 193
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 195
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 225
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 87
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 10
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 1031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 215
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 1093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 108
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 1156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 90
+# UVM_INFO ../UART_UVC/SEQS/uart_slave_write_seqs.sv(23) @ 1218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr@@seq_h [seq_h] [SEQS] data is generated in seq is 0, and parity data is 114
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 1406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 1406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 1843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 2281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 2718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 3156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 3593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 4031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 4468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 6218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     203     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 6218750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 6218750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 6218750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{203}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 6218750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# -----------------------------------------------
+# Name            Type           Size  Value     
+# -----------------------------------------------
+# uart_config     uart_seq_item  -     @815      
+#   kind_e        write_read     3     WRITE_OF  
+#   TX_STATE      state          3     IDLE      
+#   RX_STATE      state          3     STOP      
+#   tx_shifter    integral       8     'd0       
+#   tx_fifo       integral       8     'd0       
+#   tx_fifo       integral       8     'b0       
+#   parity_data   integral       8     'd0       
+#   rx_shifter    integral       8     'b11001011
+#   rx_shifter    integral       8     203       
+#   TX_START      integral       1     'd0       
+#   TX_STOP       integral       1     'd0       
+#   RX_START      integral       1     'd0       
+#   tx_shift      integral       1     1         
+#   rx_shift      integral       1     1         
+#   tx_valid      integral       1     'd0       
+#   tx_gated_clk  integral       1     'd0       
+#   rx_gated_clk  integral       1     1         
+# -----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 6218750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 6218750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 6218750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{203}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 6218750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 6218750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{203}
+# act_data in compare=203                 622
+# exp_data in compare=203                 622
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 6218750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=1
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 6656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     201                                               
+#   tx_fifo                      integral       8     'b11001001                                        
+#   parity_data                  integral       8     201                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    93750                                             
+#   end_time                     time           64    31250                                             
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 7093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 7093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 7531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 7531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 7968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 8406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 8843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 9281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 9718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 10156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 10593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 12343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     201     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 12343750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 12343750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 12343750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{201}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 12343750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# -----------------------------------------------
+# Name            Type           Size  Value     
+# -----------------------------------------------
+# uart_config     uart_seq_item  -     @815      
+#   kind_e        write_read     3     WRITE_OF  
+#   TX_STATE      state          3     IDLE      
+#   RX_STATE      state          3     STOP      
+#   tx_shifter    integral       8     'd0       
+#   tx_fifo       integral       8     'd0       
+#   tx_fifo       integral       8     'b0       
+#   parity_data   integral       8     'd0       
+#   rx_shifter    integral       8     'b11001001
+#   rx_shifter    integral       8     201       
+#   TX_START      integral       1     'd0       
+#   TX_STOP       integral       1     'd0       
+#   RX_START      integral       1     'd0       
+#   tx_shift      integral       1     1         
+#   rx_shift      integral       1     1         
+#   tx_valid      integral       1     'd0       
+#   tx_gated_clk  integral       1     'd0       
+#   rx_gated_clk  integral       1     1         
+# -----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 12343750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 12343750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 12343750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{201}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 12343750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 12343750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{201}
+# act_data in compare=201                1234
+# exp_data in compare=201                1234
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 12343750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=2
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 12781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     'd46                                              
+#   tx_fifo                      integral       8     'b101110                                          
+#   parity_data                  integral       8     'd46                                              
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    156250                                            
+#   end_time                     time           64    93750                                             
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 13218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 13218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 13656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 13656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 14093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 14531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 14968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 15406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 15843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 16281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 16718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 18468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     'd46    
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 18468750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 18468750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 18468750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{46}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 18468750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @815    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     STOP    
+#   tx_shifter    integral       8     'd0     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b101110
+#   rx_shifter    integral       8     'd46    
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     'd0     
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     1       
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     1       
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 18468750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 18468750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 18468750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{46}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 18468750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 18468750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{46}
+# act_data in compare=46                1847
+# exp_data in compare=46                1847
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 18468750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=3
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 18906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     142                                               
+#   tx_fifo                      integral       8     'b10001110                                        
+#   parity_data                  integral       8     142                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    218750                                            
+#   end_time                     time           64    156250                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 19343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 19343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 19781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 19781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 20218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 20656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 21093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 21531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 21968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 22406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 22843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 24593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     142     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 24593750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 24593750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 24593750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{142}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 24593750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# -----------------------------------------------
+# Name            Type           Size  Value     
+# -----------------------------------------------
+# uart_config     uart_seq_item  -     @815      
+#   kind_e        write_read     3     WRITE_OF  
+#   TX_STATE      state          3     IDLE      
+#   RX_STATE      state          3     STOP      
+#   tx_shifter    integral       8     'd0       
+#   tx_fifo       integral       8     'd0       
+#   tx_fifo       integral       8     'b0       
+#   parity_data   integral       8     'd0       
+#   rx_shifter    integral       8     'b10001110
+#   rx_shifter    integral       8     142       
+#   TX_START      integral       1     'd0       
+#   TX_STOP       integral       1     'd0       
+#   RX_START      integral       1     'd0       
+#   tx_shift      integral       1     1         
+#   rx_shift      integral       1     1         
+#   tx_valid      integral       1     'd0       
+#   tx_gated_clk  integral       1     'd0       
+#   rx_gated_clk  integral       1     1         
+# -----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 24593750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 24593750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 24593750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{142}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 24593750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 24593750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{142}
+# act_data in compare=142                2459
+# exp_data in compare=142                2459
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 24593750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=4
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 25031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     188                                               
+#   tx_fifo                      integral       8     'b10111100                                        
+#   parity_data                  integral       8     188                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    281250                                            
+#   end_time                     time           64    218750                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 25468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 25468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 25906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 25906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 26343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 26781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 27218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 27656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 28093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 28531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 28968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 30718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     188     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 30718750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 30718750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 30718750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{188}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 30718750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# -----------------------------------------------
+# Name            Type           Size  Value     
+# -----------------------------------------------
+# uart_config     uart_seq_item  -     @815      
+#   kind_e        write_read     3     WRITE_OF  
+#   TX_STATE      state          3     IDLE      
+#   RX_STATE      state          3     STOP      
+#   tx_shifter    integral       8     'd0       
+#   tx_fifo       integral       8     'd0       
+#   tx_fifo       integral       8     'b0       
+#   parity_data   integral       8     'd0       
+#   rx_shifter    integral       8     'b10111100
+#   rx_shifter    integral       8     188       
+#   TX_START      integral       1     'd0       
+#   TX_STOP       integral       1     'd0       
+#   RX_START      integral       1     'd0       
+#   tx_shift      integral       1     1         
+#   rx_shift      integral       1     1         
+#   tx_valid      integral       1     'd0       
+#   tx_gated_clk  integral       1     'd0       
+#   rx_gated_clk  integral       1     1         
+# -----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 30718750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 30718750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 30718750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{188}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 30718750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 30718750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{188}
+# act_data in compare=188                3072
+# exp_data in compare=188                3072
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 30718750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=5
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 31156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     218                                               
+#   tx_fifo                      integral       8     'b11011010                                        
+#   parity_data                  integral       8     218                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    343750                                            
+#   end_time                     time           64    281250                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 31593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 31593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 32031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 32031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 32468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 32906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 33343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 33781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 34218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 34656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 35093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 36843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     218     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 36843750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 36843750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 36843750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{218}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 36843750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# -----------------------------------------------
+# Name            Type           Size  Value     
+# -----------------------------------------------
+# uart_config     uart_seq_item  -     @815      
+#   kind_e        write_read     3     WRITE_OF  
+#   TX_STATE      state          3     IDLE      
+#   RX_STATE      state          3     STOP      
+#   tx_shifter    integral       8     'd0       
+#   tx_fifo       integral       8     'd0       
+#   tx_fifo       integral       8     'b0       
+#   parity_data   integral       8     'd0       
+#   rx_shifter    integral       8     'b11011010
+#   rx_shifter    integral       8     218       
+#   TX_START      integral       1     'd0       
+#   TX_STOP       integral       1     'd0       
+#   RX_START      integral       1     'd0       
+#   tx_shift      integral       1     1         
+#   rx_shift      integral       1     1         
+#   tx_valid      integral       1     'd0       
+#   tx_gated_clk  integral       1     'd0       
+#   rx_gated_clk  integral       1     1         
+# -----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 36843750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 36843750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 36843750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{218}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 36843750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 36843750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{218}
+# act_data in compare=218                3684
+# exp_data in compare=218                3684
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 36843750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=6
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 37281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     245                                               
+#   tx_fifo                      integral       8     'b11110101                                        
+#   parity_data                  integral       8     245                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    406250                                            
+#   end_time                     time           64    343750                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 37718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 37718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 38156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 38156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 38593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 39031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 39468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 39906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 40343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 40781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 41218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 42968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     245     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 42968750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 42968750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 42968750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{245}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 42968750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# -----------------------------------------------
+# Name            Type           Size  Value     
+# -----------------------------------------------
+# uart_config     uart_seq_item  -     @815      
+#   kind_e        write_read     3     WRITE_OF  
+#   TX_STATE      state          3     IDLE      
+#   RX_STATE      state          3     STOP      
+#   tx_shifter    integral       8     'd0       
+#   tx_fifo       integral       8     'd0       
+#   tx_fifo       integral       8     'b0       
+#   parity_data   integral       8     'd0       
+#   rx_shifter    integral       8     'b11110101
+#   rx_shifter    integral       8     245       
+#   TX_START      integral       1     'd0       
+#   TX_STOP       integral       1     'd0       
+#   RX_START      integral       1     'd0       
+#   tx_shift      integral       1     1         
+#   rx_shift      integral       1     1         
+#   tx_valid      integral       1     'd0       
+#   tx_gated_clk  integral       1     'd0       
+#   rx_gated_clk  integral       1     1         
+# -----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 42968750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 42968750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 42968750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{245}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 42968750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 42968750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{245}
+# act_data in compare=245                4297
+# exp_data in compare=245                4297
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 42968750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=7
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 43406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     'd22                                              
+#   tx_fifo                      integral       8     'b10110                                           
+#   parity_data                  integral       8     'd22                                              
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    468750                                            
+#   end_time                     time           64    406250                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 43843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 43843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 44281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 44281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 44718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 45156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 45593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 46031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 46468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 46906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 47343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 49093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     'd22    
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 49093750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 49093750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 49093750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{22}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 49093750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @815    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     STOP    
+#   tx_shifter    integral       8     'd0     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b10110 
+#   rx_shifter    integral       8     'd22    
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     'd0     
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     1       
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     1       
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 49093750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 49093750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 49093750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{22}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 49093750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 49093750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{22}
+# act_data in compare=22                4909
+# exp_data in compare=22                4909
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 49093750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=8
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 49531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     137                                               
+#   tx_fifo                      integral       8     'b10001001                                        
+#   parity_data                  integral       8     137                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    531250                                            
+#   end_time                     time           64    468750                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 49968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 49968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 50406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 50406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 50843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 51281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 51718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 52156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 52593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 53031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 53468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 55218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     137     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 55218750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 55218750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 55218750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{137}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 55218750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# -----------------------------------------------
+# Name            Type           Size  Value     
+# -----------------------------------------------
+# uart_config     uart_seq_item  -     @815      
+#   kind_e        write_read     3     WRITE_OF  
+#   TX_STATE      state          3     IDLE      
+#   RX_STATE      state          3     STOP      
+#   tx_shifter    integral       8     'd0       
+#   tx_fifo       integral       8     'd0       
+#   tx_fifo       integral       8     'b0       
+#   parity_data   integral       8     'd0       
+#   rx_shifter    integral       8     'b10001001
+#   rx_shifter    integral       8     137       
+#   TX_START      integral       1     'd0       
+#   TX_STOP       integral       1     'd0       
+#   RX_START      integral       1     'd0       
+#   tx_shift      integral       1     1         
+#   rx_shift      integral       1     1         
+#   tx_valid      integral       1     'd0       
+#   tx_gated_clk  integral       1     'd0       
+#   rx_gated_clk  integral       1     1         
+# -----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 55218750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 55218750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 55218750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{137}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 55218750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 55218750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{137}
+# act_data in compare=137                5522
+# exp_data in compare=137                5522
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 55218750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=9
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 55656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     227                                               
+#   tx_fifo                      integral       8     'b11100011                                        
+#   parity_data                  integral       8     227                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    593750                                            
+#   end_time                     time           64    531250                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 56093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 56093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 56531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 56531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 56968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 57406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 57843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 58281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 58718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 59156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 59593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 61343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     227     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 61343750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 61343750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 61343750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{227}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 61343750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# -----------------------------------------------
+# Name            Type           Size  Value     
+# -----------------------------------------------
+# uart_config     uart_seq_item  -     @815      
+#   kind_e        write_read     3     WRITE_OF  
+#   TX_STATE      state          3     IDLE      
+#   RX_STATE      state          3     STOP      
+#   tx_shifter    integral       8     'd0       
+#   tx_fifo       integral       8     'd0       
+#   tx_fifo       integral       8     'b0       
+#   parity_data   integral       8     'd0       
+#   rx_shifter    integral       8     'b11100011
+#   rx_shifter    integral       8     227       
+#   TX_START      integral       1     'd0       
+#   TX_STOP       integral       1     'd0       
+#   RX_START      integral       1     'd0       
+#   tx_shift      integral       1     1         
+#   rx_shift      integral       1     1         
+#   tx_valid      integral       1     'd0       
+#   tx_gated_clk  integral       1     'd0       
+#   rx_gated_clk  integral       1     1         
+# -----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 61343750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 61343750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 61343750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{227}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 61343750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 61343750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{227}
+# act_data in compare=227                6134
+# exp_data in compare=227                6134
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 61343750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=10
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 61781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     'd9                                               
+#   tx_fifo                      integral       8     'b1001                                            
+#   parity_data                  integral       8     'd9                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    656250                                            
+#   end_time                     time           64    593750                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 62218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 62218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 62656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 62656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 63093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 63531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 63968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 64406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 64843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 65281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 65718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 67468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     'd9     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 67468750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 67468750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 67468750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{9}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 67468750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @815    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     STOP    
+#   tx_shifter    integral       8     'd0     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b1001  
+#   rx_shifter    integral       8     'd9     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     'd0     
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     1       
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     1       
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 67468750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 67468750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 67468750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{9}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 67468750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 67468750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{9}
+# act_data in compare=9                6747
+# exp_data in compare=9                6747
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 67468750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=11
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 67906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     193                                               
+#   tx_fifo                      integral       8     'b11000001                                        
+#   parity_data                  integral       8     193                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    718750                                            
+#   end_time                     time           64    656250                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 68343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 68343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 68781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 68781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 69218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 69656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 70093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 70531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 70968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 71406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 71843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 73593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     193     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 73593750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 73593750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 73593750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{193}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 73593750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# -----------------------------------------------
+# Name            Type           Size  Value     
+# -----------------------------------------------
+# uart_config     uart_seq_item  -     @815      
+#   kind_e        write_read     3     WRITE_OF  
+#   TX_STATE      state          3     IDLE      
+#   RX_STATE      state          3     STOP      
+#   tx_shifter    integral       8     'd0       
+#   tx_fifo       integral       8     'd0       
+#   tx_fifo       integral       8     'b0       
+#   parity_data   integral       8     'd0       
+#   rx_shifter    integral       8     'b11000001
+#   rx_shifter    integral       8     193       
+#   TX_START      integral       1     'd0       
+#   TX_STOP       integral       1     'd0       
+#   RX_START      integral       1     'd0       
+#   tx_shift      integral       1     1         
+#   rx_shift      integral       1     1         
+#   tx_valid      integral       1     'd0       
+#   tx_gated_clk  integral       1     'd0       
+#   rx_gated_clk  integral       1     1         
+# -----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 73593750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 73593750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 73593750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{193}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 73593750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 73593750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{193}
+# act_data in compare=193                7359
+# exp_data in compare=193                7359
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 73593750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=12
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 74031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     195                                               
+#   tx_fifo                      integral       8     'b11000011                                        
+#   parity_data                  integral       8     195                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    781250                                            
+#   end_time                     time           64    718750                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 74468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 74468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 74906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 74906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 75343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 75781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 76218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 76656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 77093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 77531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 77968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 79718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     195     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 79718750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 79718750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 79718750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{195}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 79718750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# -----------------------------------------------
+# Name            Type           Size  Value     
+# -----------------------------------------------
+# uart_config     uart_seq_item  -     @815      
+#   kind_e        write_read     3     WRITE_OF  
+#   TX_STATE      state          3     IDLE      
+#   RX_STATE      state          3     STOP      
+#   tx_shifter    integral       8     'd0       
+#   tx_fifo       integral       8     'd0       
+#   tx_fifo       integral       8     'b0       
+#   parity_data   integral       8     'd0       
+#   rx_shifter    integral       8     'b11000011
+#   rx_shifter    integral       8     195       
+#   TX_START      integral       1     'd0       
+#   TX_STOP       integral       1     'd0       
+#   RX_START      integral       1     'd0       
+#   tx_shift      integral       1     1         
+#   rx_shift      integral       1     1         
+#   tx_valid      integral       1     'd0       
+#   tx_gated_clk  integral       1     'd0       
+#   rx_gated_clk  integral       1     1         
+# -----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 79718750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 79718750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 79718750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{195}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 79718750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 79718750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{195}
+# act_data in compare=195                7972
+# exp_data in compare=195                7972
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 79718750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=13
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 80156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     225                                               
+#   tx_fifo                      integral       8     'b11100001                                        
+#   parity_data                  integral       8     225                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    843750                                            
+#   end_time                     time           64    781250                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 80593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 80593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 81031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 81031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 81468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 81906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 82343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 82781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 83218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 83656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 84093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 85843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     225     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 85843750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 85843750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 85843750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{225}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 85843750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# -----------------------------------------------
+# Name            Type           Size  Value     
+# -----------------------------------------------
+# uart_config     uart_seq_item  -     @815      
+#   kind_e        write_read     3     WRITE_OF  
+#   TX_STATE      state          3     IDLE      
+#   RX_STATE      state          3     STOP      
+#   tx_shifter    integral       8     'd0       
+#   tx_fifo       integral       8     'd0       
+#   tx_fifo       integral       8     'b0       
+#   parity_data   integral       8     'd0       
+#   rx_shifter    integral       8     'b11100001
+#   rx_shifter    integral       8     225       
+#   TX_START      integral       1     'd0       
+#   TX_STOP       integral       1     'd0       
+#   RX_START      integral       1     'd0       
+#   tx_shift      integral       1     1         
+#   rx_shift      integral       1     1         
+#   tx_valid      integral       1     'd0       
+#   tx_gated_clk  integral       1     'd0       
+#   rx_gated_clk  integral       1     1         
+# -----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 85843750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 85843750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 85843750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{225}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 85843750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 85843750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{225}
+# act_data in compare=225                8584
+# exp_data in compare=225                8584
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 85843750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=14
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 86281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     'd87                                              
+#   tx_fifo                      integral       8     'b1010111                                         
+#   parity_data                  integral       8     'd87                                              
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    906250                                            
+#   end_time                     time           64    843750                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 86718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 86718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 87156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 87156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 87593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 88031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 88468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 88906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 89343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 89781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 90218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 91968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     'd87    
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 91968750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 91968750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 91968750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{87}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 91968750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# ----------------------------------------------
+# Name            Type           Size  Value    
+# ----------------------------------------------
+# uart_config     uart_seq_item  -     @815     
+#   kind_e        write_read     3     WRITE_OF 
+#   TX_STATE      state          3     IDLE     
+#   RX_STATE      state          3     STOP     
+#   tx_shifter    integral       8     'd0      
+#   tx_fifo       integral       8     'd0      
+#   tx_fifo       integral       8     'b0      
+#   parity_data   integral       8     'd0      
+#   rx_shifter    integral       8     'b1010111
+#   rx_shifter    integral       8     'd87     
+#   TX_START      integral       1     'd0      
+#   TX_STOP       integral       1     'd0      
+#   RX_START      integral       1     'd0      
+#   tx_shift      integral       1     1        
+#   rx_shift      integral       1     1        
+#   tx_valid      integral       1     'd0      
+#   tx_gated_clk  integral       1     'd0      
+#   rx_gated_clk  integral       1     1        
+# ----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 91968750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 91968750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 91968750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{87}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 91968750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 91968750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{87}
+# act_data in compare=87                9197
+# exp_data in compare=87                9197
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 91968750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=15
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 92406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     'd10                                              
+#   tx_fifo                      integral       8     'b1010                                            
+#   parity_data                  integral       8     'd10                                              
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    968750                                            
+#   end_time                     time           64    906250                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 92843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 92843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 93281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 93281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 93718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 94156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 94593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 95031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 95468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 95906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 96343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 98093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     'd10    
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 98093750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 98093750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 98093750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{10}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 98093750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @815    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     STOP    
+#   tx_shifter    integral       8     'd0     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b1010  
+#   rx_shifter    integral       8     'd10    
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     'd0     
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     1       
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     1       
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 98093750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 98093750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 98093750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{10}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 98093750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 98093750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{10}
+# act_data in compare=10                9809
+# exp_data in compare=10                9809
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 98093750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=16
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 98531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     215                                               
+#   tx_fifo                      integral       8     'b11010111                                        
+#   parity_data                  integral       8     215                                               
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    1031250                                           
+#   end_time                     time           64    968750                                            
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 98968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 98968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 99406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 99406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 99843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 100281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 100718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 101156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 101593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 102031250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 102468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 104218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     215     
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 104218750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 104218750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 104218750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{215}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 104218750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# -----------------------------------------------
+# Name            Type           Size  Value     
+# -----------------------------------------------
+# uart_config     uart_seq_item  -     @815      
+#   kind_e        write_read     3     WRITE_OF  
+#   TX_STATE      state          3     IDLE      
+#   RX_STATE      state          3     STOP      
+#   tx_shifter    integral       8     'd0       
+#   tx_fifo       integral       8     'd0       
+#   tx_fifo       integral       8     'b0       
+#   parity_data   integral       8     'd0       
+#   rx_shifter    integral       8     'b11010111
+#   rx_shifter    integral       8     215       
+#   TX_START      integral       1     'd0       
+#   TX_STOP       integral       1     'd0       
+#   RX_START      integral       1     'd0       
+#   tx_shift      integral       1     1         
+#   rx_shift      integral       1     1         
+#   tx_valid      integral       1     'd0       
+#   tx_gated_clk  integral       1     'd0       
+#   rx_gated_clk  integral       1     1         
+# -----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 104218750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 104218750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 104218750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{215}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 104218750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 104218750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{215}
+# act_data in compare=215               10422
+# exp_data in compare=215               10422
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 104218750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=17
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 104656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     'd108                                             
+#   tx_fifo                      integral       8     'b1101100                                         
+#   parity_data                  integral       8     'd108                                             
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    1093750                                           
+#   end_time                     time           64    1031250                                           
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 105093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 105093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 105531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 105531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 105968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 106406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 106843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 107281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 107718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 108156250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 108593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 110343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     'd108   
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 110343750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 110343750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 110343750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{108}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 110343750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# ----------------------------------------------
+# Name            Type           Size  Value    
+# ----------------------------------------------
+# uart_config     uart_seq_item  -     @815     
+#   kind_e        write_read     3     WRITE_OF 
+#   TX_STATE      state          3     IDLE     
+#   RX_STATE      state          3     STOP     
+#   tx_shifter    integral       8     'd0      
+#   tx_fifo       integral       8     'd0      
+#   tx_fifo       integral       8     'b0      
+#   parity_data   integral       8     'd0      
+#   rx_shifter    integral       8     'b1101100
+#   rx_shifter    integral       8     'd108    
+#   TX_START      integral       1     'd0      
+#   TX_STOP       integral       1     'd0      
+#   RX_START      integral       1     'd0      
+#   tx_shift      integral       1     1        
+#   rx_shift      integral       1     1        
+#   tx_valid      integral       1     'd0      
+#   tx_gated_clk  integral       1     'd0      
+#   rx_gated_clk  integral       1     1        
+# ----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 110343750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 110343750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 110343750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{108}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 110343750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 110343750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{108}
+# act_data in compare=108               11034
+# exp_data in compare=108               11034
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 110343750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=18
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 110781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     'd90                                              
+#   tx_fifo                      integral       8     'b1011010                                         
+#   parity_data                  integral       8     'd90                                              
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    1156250                                           
+#   end_time                     time           64    1093750                                           
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 111218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 111218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 111656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 111656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 112093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 112531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 112968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 113406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 113843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 114281250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 114718750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 116468750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     'd90    
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 116468750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 116468750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 116468750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{90}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 116468750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# ----------------------------------------------
+# Name            Type           Size  Value    
+# ----------------------------------------------
+# uart_config     uart_seq_item  -     @815     
+#   kind_e        write_read     3     WRITE_OF 
+#   TX_STATE      state          3     IDLE     
+#   RX_STATE      state          3     STOP     
+#   tx_shifter    integral       8     'd0      
+#   tx_fifo       integral       8     'd0      
+#   tx_fifo       integral       8     'b0      
+#   parity_data   integral       8     'd0      
+#   rx_shifter    integral       8     'b1011010
+#   rx_shifter    integral       8     'd90     
+#   TX_START      integral       1     'd0      
+#   TX_STOP       integral       1     'd0      
+#   RX_START      integral       1     'd0      
+#   tx_shift      integral       1     1        
+#   rx_shift      integral       1     1        
+#   tx_valid      integral       1     'd0      
+#   tx_gated_clk  integral       1     'd0      
+#   rx_gated_clk  integral       1     1        
+# ----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 116468750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 116468750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 116468750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{90}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 116468750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 116468750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{90}
+# act_data in compare=90               11647
+# exp_data in compare=90               11647
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 116468750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=19
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(91) @ 116906250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv]  Tx driver got the data in tx fifo is 
+# ------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                             
+# ------------------------------------------------------------------------------------------------------
+# uart_config                    uart_seq_item  -     @845                                              
+#   kind_e                       write_read     3     WRITE_OF                                          
+#   TX_STATE                     state          3     START                                             
+#   RX_STATE                     state          3     IDLE                                              
+#   tx_shifter                   integral       8     'd0                                               
+#   tx_fifo                      integral       8     'd114                                             
+#   tx_fifo                      integral       8     'b1110010                                         
+#   parity_data                  integral       8     'd114                                             
+#   rx_shifter                   integral       8     'b0                                               
+#   rx_shifter                   integral       8     'd0                                               
+#   TX_START                     integral       1     'd0                                               
+#   TX_STOP                      integral       1     'd0                                               
+#   RX_START                     integral       1     'd0                                               
+#   tx_shift                     integral       1     1                                                 
+#   rx_shift                     integral       1     'd0                                               
+#   tx_valid                     integral       1     'd0                                               
+#   tx_gated_clk                 integral       1     1                                                 
+#   rx_gated_clk                 integral       1     'd0                                               
+#   begin_time                   time           64    1218750                                           
+#   end_time                     time           64    1156250                                           
+#   depth                        int            32    'd2                                               
+#   parent sequence (name)       string         5     seq_h                                             
+#   parent sequence (full name)  string         50    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h
+#   sequencer                    string         44    uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr      
+# ------------------------------------------------------------------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(73) @ 117343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_driver.sv(99) @ 117343750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.drv [drv] time in driver before wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(76) @ 117781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor after wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 117781250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 118218750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 118656250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 119093750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 119531250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 119968750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 120406250: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(96) @ 120843750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon] time in monitor @ wait
+# UVM_INFO ../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv(125) @ 122593750: uvm_test_top.env_hh.uvc_h[0].tx_agent_h.tx_mon [tx_mon]  [BEFORE] Tx monitor samples transaction is 
+# ---------------------------------------------
+# Name            Type           Size  Value   
+# ---------------------------------------------
+# uart_config     uart_seq_item  -     @764    
+#   kind_e        write_read     3     WRITE_OF
+#   TX_STATE      state          3     IDLE    
+#   RX_STATE      state          3     IDLE    
+#   tx_shifter    integral       8     'd114   
+#   tx_fifo       integral       8     'd0     
+#   tx_fifo       integral       8     'b0     
+#   parity_data   integral       8     'd0     
+#   rx_shifter    integral       8     'b0     
+#   rx_shifter    integral       8     'd0     
+#   TX_START      integral       1     'd0     
+#   TX_STOP       integral       1     1       
+#   RX_START      integral       1     'd0     
+#   tx_shift      integral       1     1       
+#   rx_shift      integral       1     'd0     
+#   tx_valid      integral       1     'd0     
+#   tx_gated_clk  integral       1     'd0     
+#   rx_gated_clk  integral       1     'd0     
+# ---------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(84) @ 122593750: uvm_test_top.env_hh.uart_sb [uart_sb]  in master wr is =1 if write mode(wr=1) or read mode(wr=0) 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(86) @ 122593750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write master]exp_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(89) @ 122593750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write master]exp_data_write='{114}
+# UVM_INFO ../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv(142) @ 122593750: uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon [rx_mon] [BEFORE] recived transaction is 
+# ----------------------------------------------
+# Name            Type           Size  Value    
+# ----------------------------------------------
+# uart_config     uart_seq_item  -     @815     
+#   kind_e        write_read     3     WRITE_OF 
+#   TX_STATE      state          3     IDLE     
+#   RX_STATE      state          3     STOP     
+#   tx_shifter    integral       8     'd0      
+#   tx_fifo       integral       8     'd0      
+#   tx_fifo       integral       8     'b0      
+#   parity_data   integral       8     'd0      
+#   rx_shifter    integral       8     'b1110010
+#   rx_shifter    integral       8     'd114    
+#   TX_START      integral       1     'd0      
+#   TX_STOP       integral       1     'd0      
+#   RX_START      integral       1     'd0      
+#   tx_shift      integral       1     1        
+#   rx_shift      integral       1     1        
+#   tx_valid      integral       1     'd0      
+#   tx_gated_clk  integral       1     'd0      
+#   rx_gated_clk  integral       1     1        
+# ----------------------------------------------
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(104) @ 122593750: uvm_test_top.env_hh.uart_sb [uart_sb]  in slave wr is =0  
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(106) @ 122593750: uvm_test_top.env_hh.uart_sb [uart_sb] [BEFORE PUSH uart write slave side]act_data_write='{}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(109) @ 122593750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart write slave side]act_data_write='{114}
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(121) @ 122593750: uvm_test_top.env_hh.uart_sb [uart_sb] INSIDE WRITE COMPARE CONDITION
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(124) @ 122593750: uvm_test_top.env_hh.uart_sb [uart_sb] [AFTER PUSH uart read operation]exp_data_read='{} and act_data is '{114}
+# act_data in compare=114               12259
+# exp_data in compare=114               12259
+# ***********************************||||||||||| PASS WRITE DATA SUCESSFULLY |||||||||********************************
+# 
+# UVM_INFO ../UART_UVC/ENV/uart_scoreboard.sv(131) @ 122593750: uvm_test_top.env_hh.uart_sb [passed condition] ********---DATA MATCHED --->>>>>PASS<<<<<---********
+# passed write condition time=20
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :  494
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    0
+# ** Report counts by id
+# [Questa UVM]     2
+# [RNTST]     1
+# [TEST_DONE]     1
+# [drv]    41
+# [env_hh]     1
+# [passed condition]    20
+# [rx_mon]    21
+# [seq_h]    21
+# [tx_mon]   221
+# [uart_sb]   160
+# [uvm_test_top]     3
+# [uvm_test_top.env_hh.uvc_h[0].tx_agent_h.seqr.seq_h]     1
+# [uvm_test_top.env_hh.uvc_h[1].rx_agent_h.rx_mon]     1
+# ** Note: $finish    : C:/questasim64_10.4e/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 5001218750 ps  Iteration: 96  Instance: /uart_top
+# 1
+# Break in Task uvm_pkg/uvm_root::run_test at C:/questasim64_10.4e/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# End time: 18:53:46 on Jan 02,2024, Elapsed time: 0:03:49
+# Errors: 0, Warnings: 4

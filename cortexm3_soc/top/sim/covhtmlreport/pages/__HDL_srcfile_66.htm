@@ -1,0 +1,189 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>//////////////////////////////////////////////////////////////////</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>////</q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>////</q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>//// 	FIFO BLOCK to I2C Core</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>////</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>////</q-m>
+<a name="7"><q-n>     7  </q-n></a><q-m>////</q-m>
+<a name="8"><q-n>     8  </q-n></a><q-m>//// This file is part of the APB to I2C project</q-m>
+<a name="9"><q-n>     9  </q-n></a><q-m>////</q-m>
+<a name="10"><q-n>     10  </q-n></a><q-m>//// http://www.opencores.org/cores/apbi2c/</q-m>
+<a name="11"><q-n>     11  </q-n></a><q-m>////</q-m>
+<a name="12"><q-n>     12  </q-n></a><q-m>////</q-m>
+<a name="13"><q-n>     13  </q-n></a><q-m>////</q-m>
+<a name="14"><q-n>     14  </q-n></a><q-m>//// Description</q-m>
+<a name="15"><q-n>     15  </q-n></a><q-m>////</q-m>
+<a name="16"><q-n>     16  </q-n></a><q-m>//// Implementation of APB IP core according to</q-m>
+<a name="17"><q-n>     17  </q-n></a><q-m>////</q-m>
+<a name="18"><q-n>     18  </q-n></a><q-m>//// apbi2c_spec IP core specification document.</q-m>
+<a name="19"><q-n>     19  </q-n></a><q-m>////</q-m>
+<a name="20"><q-n>     20  </q-n></a><q-m>////</q-m>
+<a name="21"><q-n>     21  </q-n></a><q-m>////</q-m>
+<a name="22"><q-n>     22  </q-n></a><q-m>//// To Do: This block inst functional yet when you try only write half registers and it didnt go correctly FULL and EMPTY</q-m>
+<a name="23"><q-n>     23  </q-n></a><q-m>////</q-m>
+<a name="24"><q-n>     24  </q-n></a><q-m>////</q-m>
+<a name="25"><q-n>     25  </q-n></a><q-m>////</q-m>
+<a name="26"><q-n>     26  </q-n></a><q-m>////</q-m>
+<a name="27"><q-n>     27  </q-n></a><q-m>////</q-m>
+<a name="28"><q-n>     28  </q-n></a><q-m>//// Author(s): - Felipe Fernandes Da Costa, fefe2560@gmail.com</q-m>
+<a name="29"><q-n>     29  </q-n></a><q-m>////</q-m>
+<a name="30"><q-n>     30  </q-n></a><q-m>///////////////////////////////////////////////////////////////// </q-m>
+<a name="31"><q-n>     31  </q-n></a><q-m>////</q-m>
+<a name="32"><q-n>     32  </q-n></a><q-m>////</q-m>
+<a name="33"><q-n>     33  </q-n></a><q-m>//// Copyright (C) 2009 Authors and OPENCORES.ORG</q-m>
+<a name="34"><q-n>     34  </q-n></a><q-m>////</q-m>
+<a name="35"><q-n>     35  </q-n></a><q-m>////</q-m>
+<a name="36"><q-n>     36  </q-n></a><q-m>////</q-m>
+<a name="37"><q-n>     37  </q-n></a><q-m>//// This source file may be used and distributed without</q-m>
+<a name="38"><q-n>     38  </q-n></a><q-m>////</q-m>
+<a name="39"><q-n>     39  </q-n></a><q-m>//// restriction provided that this copyright statement is not</q-m>
+<a name="40"><q-n>     40  </q-n></a><q-m>////</q-m>
+<a name="41"><q-n>     41  </q-n></a><q-m>//// removed from the file and that any derivative work contains</q-m>
+<a name="42"><q-n>     42  </q-n></a><q-m>//// the original copyright notice and the associated disclaimer.</q-m>
+<a name="43"><q-n>     43  </q-n></a><q-m>////</q-m>
+<a name="44"><q-n>     44  </q-n></a><q-m>////</q-m>
+<a name="45"><q-n>     45  </q-n></a><q-m>//// This source file is free software; you can redistribute it</q-m>
+<a name="46"><q-n>     46  </q-n></a><q-m>////</q-m>
+<a name="47"><q-n>     47  </q-n></a><q-m>//// and/or modify it under the terms of the GNU Lesser General</q-m>
+<a name="48"><q-n>     48  </q-n></a><q-m>////</q-m>
+<a name="49"><q-n>     49  </q-n></a><q-m>//// Public License as published by the Free Software Foundation;</q-m>
+<a name="50"><q-n>     50  </q-n></a><q-m>//// either version 2.1 of the License, or (at your option) any</q-m>
+<a name="51"><q-n>     51  </q-n></a><q-m>////</q-m>
+<a name="52"><q-n>     52  </q-n></a><q-m>//// later version.</q-m>
+<a name="53"><q-n>     53  </q-n></a><q-m>////</q-m>
+<a name="54"><q-n>     54  </q-n></a><q-m>////</q-m>
+<a name="55"><q-n>     55  </q-n></a><q-m>////</q-m>
+<a name="56"><q-n>     56  </q-n></a><q-m>//// This source is distributed in the hope that it will be</q-m>
+<a name="57"><q-n>     57  </q-n></a><q-m>////</q-m>
+<a name="58"><q-n>     58  </q-n></a><q-m>//// useful, but WITHOUT ANY WARRANTY; without even the implied</q-m>
+<a name="59"><q-n>     59  </q-n></a><q-m>////</q-m>
+<a name="60"><q-n>     60  </q-n></a><q-m>//// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR</q-m>
+<a name="61"><q-n>     61  </q-n></a><q-m>////</q-m>
+<a name="62"><q-n>     62  </q-n></a><q-m>//// PURPOSE. See the GNU Lesser General Public License for more</q-m>
+<a name="63"><q-n>     63  </q-n></a><q-m>//// details.</q-m>
+<a name="64"><q-n>     64  </q-n></a><q-m>////</q-m>
+<a name="65"><q-n>     65  </q-n></a><q-m>////</q-m>
+<a name="66"><q-n>     66  </q-n></a><q-m>////</q-m>
+<a name="67"><q-n>     67  </q-n></a><q-m>//// You should have received a copy of the GNU Lesser General</q-m>
+<a name="68"><q-n>     68  </q-n></a><q-m>////</q-m>
+<a name="69"><q-n>     69  </q-n></a><q-m>//// Public License along with this source; if not, download it</q-m>
+<a name="70"><q-n>     70  </q-n></a><q-m>////</q-m>
+<a name="71"><q-n>     71  </q-n></a><q-m>//// from http://www.opencores.org/lgpl.shtml</q-m>
+<a name="72"><q-n>     72  </q-n></a><q-m>////</q-m>
+<a name="73"><q-n>     73  </q-n></a><q-m>////</q-m>
+<a name="74"><q-n>     74  </q-n></a><q-m>///////////////////////////////////////////////////////////////////</q-m>
+<a name="75"><q-n>     75  </q-n></a>`<q-a>timescale</q-w> 1<q-v>ns</q-w>/1<q-v>ps</q-w>
+<a name="76"><q-n>     76  </q-n></a><q-w>module</q-w> fifo
+<a name="77"><q-n>     77  </q-n></a>#(
+<a name="78"><q-n>     78  </q-n></a>	<q-w>parameter</q-w> <q-w>integer</q-w> DWIDTH = 32,
+<a name="79"><q-n>     79  </q-n></a>	<q-w>parameter</q-w> <q-w>integer</q-w> AWIDTH = 4
+<a name="80"><q-n>     80  </q-n></a>)
+<a name="81"><q-n>     81  </q-n></a>
+<a name="82"><q-n>     82  </q-n></a>(
+<a name="83"><q-n>     83  </q-n></a>	<q-w>input</q-w> clock, reset, wr_en, rd_en,
+<a name="84"><q-n>     84  </q-n></a>	<q-w>input</q-w> [DWIDTH-1:0] data_in,
+<a name="85"><q-n>     85  </q-n></a>	<q-w>output</q-w> f_full, f_empty,
+<a name="86"><q-n>     86  </q-n></a>	<q-w>output</q-w> [DWIDTH-1:0] data_out
+<a name="87"><q-n>     87  </q-n></a>);
+<a name="88"><q-n>     88  </q-n></a>
+<a name="89"><q-n>     89  </q-n></a>
+<a name="90"><q-n>     90  </q-n></a>	<q-w>reg</q-w> [DWIDTH-1:0] mem [0:2**AWIDTH-1];
+<a name="91"><q-n>     91  </q-n></a>	<q-m>//parameter integer DEPTH = 1 &lt;&lt; AWIDTH;</q-m>
+<a name="92"><q-n>     92  </q-n></a>	<q-m>//wire [DWIDTH-1:0] data_ram_out;</q-m>
+<a name="93"><q-n>     93  </q-n></a>	<q-m>//wire wr_en_ram; </q-m>
+<a name="94"><q-n>     94  </q-n></a>	<q-m>//wire rd_en_ram;	</q-m>
+<a name="95"><q-n>     95  </q-n></a>
+<a name="96"><q-n>     96  </q-n></a>	<q-w>reg</q-w> [AWIDTH-1:0] wr_ptr;
+<a name="97"><q-n>     97  </q-n></a>	<q-w>reg</q-w> [AWIDTH-1:0] rd_ptr;
+<a name="98"><q-n>     98  </q-n></a>	<q-w>reg</q-w> [AWIDTH-1:0] counter;
+<a name="99"><q-n>     99  </q-n></a>
+<a name="100"><q-n>     100  </q-n></a>	<q-w>wire</q-w> [AWIDTH-1:0] wr;
+<a name="101"><q-n>     101  </q-n></a>	<q-w>wire</q-w> [AWIDTH-1:0] rd;
+<a name="102"><q-n>     102  </q-n></a>	<q-w>wire</q-w> [AWIDTH-1:0] w_counter;
+<a name="103"><q-n>     103  </q-n></a><q-m>//Write pointer</q-m>
+<a name="104"><q-n>     104  </q-n></a>	<q-w>always</q-w>@(<q-a>posedge</q-w> clock)
+<a name="105"><q-n>     105  </q-n></a>	<q-w>begin</q-w>
+<a name="106"><q-n>     106  </q-n></a>		<q-w>if</q-w> (reset)
+<a name="107"><q-n>     107  </q-n></a>		<q-w>begin</q-w>
+<a name="108"><q-n>     108  </q-n></a>			wr_ptr &lt;= {(AWIDTH){1'b0}};
+<a name="109"><q-n>     109  </q-n></a>		<q-w>end</q-w>
+<a name="110"><q-n>     110  </q-n></a>		<q-w>else</q-w> <q-w>if</q-w> (wr_en &amp;&amp; !f_full)
+<a name="111"><q-n>     111  </q-n></a>		<q-w>begin</q-w>
+<a name="112"><q-n>     112  </q-n></a>			mem[wr_ptr]&lt;=data_in;
+<a name="113"><q-n>     113  </q-n></a>			wr_ptr &lt;= wr;
+<a name="114"><q-n>     114  </q-n></a>		<q-w>end</q-w>
+<a name="115"><q-n>     115  </q-n></a>	<q-w>end</q-w>
+<a name="116"><q-n>     116  </q-n></a>
+<a name="117"><q-n>     117  </q-n></a><q-m>//Read pointer</q-m>
+<a name="118"><q-n>     118  </q-n></a>	<q-w>always</q-w>@(<q-a>posedge</q-w> clock)
+<a name="119"><q-n>     119  </q-n></a>	<q-w>begin</q-w>
+<a name="120"><q-n>     120  </q-n></a>		<q-w>if</q-w> (reset)
+<a name="121"><q-n>     121  </q-n></a>		<q-w>begin</q-w>
+<a name="122"><q-n>     122  </q-n></a>			rd_ptr &lt;= {(AWIDTH){1'b0}};
+<a name="123"><q-n>     123  </q-n></a>		<q-w>end</q-w>
+<a name="124"><q-n>     124  </q-n></a>		<q-w>else</q-w> <q-w>if</q-w> (rd_en &amp;&amp; !f_empty)
+<a name="125"><q-n>     125  </q-n></a>		<q-w>begin</q-w>
+<a name="126"><q-n>     126  </q-n></a>			rd_ptr &lt;= rd;
+<a name="127"><q-n>     127  </q-n></a>		<q-w>end</q-w>
+<a name="128"><q-n>     128  </q-n></a>	<q-w>end</q-w>
+<a name="129"><q-n>     129  </q-n></a>
+<a name="130"><q-n>     130  </q-n></a><q-m>//Counter</q-m>
+<a name="131"><q-n>     131  </q-n></a>	<q-w>always</q-w>@(<q-a>posedge</q-w> clock)
+<a name="132"><q-n>     132  </q-n></a>	<q-w>begin</q-w>
+<a name="133"><q-n>     133  </q-n></a>		<q-w>if</q-w> (reset)
+<a name="134"><q-n>     134  </q-n></a>		<q-w>begin</q-w>
+<a name="135"><q-n>     135  </q-n></a>			counter &lt;= {(AWIDTH){1'b0}};
+<a name="136"><q-n>     136  </q-n></a>		<q-w>end</q-w>
+<a name="137"><q-n>     137  </q-n></a>		<q-w>else</q-w>
+<a name="138"><q-n>     138  </q-n></a>		<q-w>begin</q-w>
+<a name="139"><q-n>     139  </q-n></a>			<q-w>if</q-w> (rd_en &amp;&amp; !f_empty &amp;&amp; !wr_en)
+<a name="140"><q-n>     140  </q-n></a>			<q-w>begin</q-w>
+<a name="141"><q-n>     141  </q-n></a>				counter &lt;= w_counter;	
+<a name="142"><q-n>     142  </q-n></a>			<q-w>end</q-w>
+<a name="143"><q-n>     143  </q-n></a>			<q-w>else</q-w> <q-w>if</q-w> (wr_en &amp;&amp; !f_full &amp;&amp; !rd_en) 
+<a name="144"><q-n>     144  </q-n></a>			<q-w>begin</q-w>
+<a name="145"><q-n>     145  </q-n></a>				counter &lt;= w_counter;
+<a name="146"><q-n>     146  </q-n></a>			<q-w>end</q-w>
+<a name="147"><q-n>     147  </q-n></a>		<q-w>end</q-w>
+<a name="148"><q-n>     148  </q-n></a>	<q-w>end</q-w>
+<a name="149"><q-n>     149  </q-n></a>
+<a name="150"><q-n>     150  </q-n></a>	<q-w>assign</q-w> f_full = (counter == 4'd15)?1'b1:1'b0;<q-m>//DEPTH- 1) ; </q-m>
+<a name="151"><q-n>     151  </q-n></a>	<q-w>assign</q-w> f_empty = (counter == 4'd0)?1'b1:1'b0;<q-m>//{AWIDTH{1'b0}});</q-m>
+<a name="152"><q-n>     152  </q-n></a>	<q-w>assign</q-w> wr = (wr_en &amp;&amp; !f_full)?wr_ptr + 4'd1:wr_ptr + 4'd0;
+<a name="153"><q-n>     153  </q-n></a>	<q-w>assign</q-w> rd = (rd_en &amp;&amp; !f_empty)?rd_ptr+ 4'd1:rd_ptr+ 4'd0;
+<a name="154"><q-n>     154  </q-n></a>	<q-w>assign</q-w> w_counter = (rd_en &amp;&amp; !f_empty &amp;&amp; !wr_en)? counter - 4'd1:
+<a name="155"><q-n>     155  </q-n></a>			   (wr_en &amp;&amp; !f_full &amp;&amp; !rd_en)? counter + 4'd1:
+<a name="156"><q-n>     156  </q-n></a>			    w_counter + 4'd0;
+<a name="157"><q-n>     157  </q-n></a>	<q-m>//assign wr_en_ram = wr_en;</q-m>
+<a name="158"><q-n>     158  </q-n></a>	<q-m>//assign rd_en_ram = rd_en;</q-m>
+<a name="159"><q-n>     159  </q-n></a>	<q-w>assign</q-w> data_out = mem[rd_ptr];<q-m>//data_ram_out;</q-m>
+<a name="160"><q-n>     160  </q-n></a><q-m>/*</q-m>
+<a name="161"><q-n>     161  </q-n></a><q-m>dp_ram #(DWIDTH, AWIDTH)</q-m>
+<a name="162"><q-n>     162  </q-n></a><q-m>RAM_1 	(</q-m>
+<a name="163"><q-n>     163  </q-n></a><q-m>		.clock(clock),</q-m>
+<a name="164"><q-n>     164  </q-n></a><q-m>		.reset(reset),</q-m>
+<a name="165"><q-n>     165  </q-n></a><q-m>		.wr_en(wr_en_ram),</q-m>
+<a name="166"><q-n>     166  </q-n></a><q-m>		.rd_en(rd_en_ram),</q-m>
+<a name="167"><q-n>     167  </q-n></a><q-m>		.data_in(data_in),</q-m>
+<a name="168"><q-n>     168  </q-n></a><q-m>		.wr_addr(wr_ptr),</q-m>
+<a name="169"><q-n>     169  </q-n></a><q-m>		.data_out(data_ram_out),</q-m>
+<a name="170"><q-n>     170  </q-n></a><q-m>		.rd_addr(rd_ptr)</q-m>
+<a name="171"><q-n>     171  </q-n></a><q-m>	);</q-m>
+<a name="172"><q-n>     172  </q-n></a><q-m>*/</q-m>
+<a name="173"><q-n>     173  </q-n></a><q-w>endmodule</q-w>
+</pre>
+</tt>
+
+  
+</body>
+</html>

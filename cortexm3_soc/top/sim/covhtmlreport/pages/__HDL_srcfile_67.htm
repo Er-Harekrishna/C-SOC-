@@ -1,0 +1,487 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>//-----------------------------------------------------------------------------</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>// The confidential and proprietary information contained in this file may</q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>// only be used by a person authorised under and to the extent permitted</q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>// by a subsisting licensing agreement from ARM Limited.</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>//</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>//            (C) COPYRIGHT 2001-2013-2019 ARM Limited.</q-m>
+<a name="7"><q-n>     7  </q-n></a><q-m>//                ALL RIGHTS RESERVED</q-m>
+<a name="8"><q-n>     8  </q-n></a><q-m>//</q-m>
+<a name="9"><q-n>     9  </q-n></a><q-m>// This entire notice must be reproduced on all copies of this file</q-m>
+<a name="10"><q-n>     10  </q-n></a><q-m>// and copies of this file may only be made by a person if such person is</q-m>
+<a name="11"><q-n>     11  </q-n></a><q-m>// permitted to do so under the terms of a subsisting license agreement</q-m>
+<a name="12"><q-n>     12  </q-n></a><q-m>// from ARM Limited.</q-m>
+<a name="13"><q-n>     13  </q-n></a><q-m>//</q-m>
+<a name="14"><q-n>     14  </q-n></a><q-m>//      SVN Information</q-m>
+<a name="15"><q-n>     15  </q-n></a><q-m>//</q-m>
+<a name="16"><q-n>     16  </q-n></a><q-m>//      Checked In          : $Date: 2012-10-15 18:01:36 +0100 (Mon, 15 Oct 2012) $</q-m>
+<a name="17"><q-n>     17  </q-n></a><q-m>//</q-m>
+<a name="18"><q-n>     18  </q-n></a><q-m>//      Revision            : $Revision: 225465 $</q-m>
+<a name="19"><q-n>     19  </q-n></a><q-m>//</q-m>
+<a name="20"><q-n>     20  </q-n></a><q-m>//      Release Information : Cortex-M System Design Kit-r1p0-01rel0</q-m>
+<a name="21"><q-n>     21  </q-n></a><q-m>//</q-m>
+<a name="22"><q-n>     22  </q-n></a><q-m>//-----------------------------------------------------------------------------</q-m>
+<a name="23"><q-n>     23  </q-n></a><q-m>//</q-m>
+<a name="24"><q-n>     24  </q-n></a><q-m>//------------------------------------------------------------------------------</q-m>
+<a name="25"><q-n>     25  </q-n></a><q-m>//  Abstract            : The Input Stage is used to hold a pending transfer</q-m>
+<a name="26"><q-n>     26  </q-n></a><q-m>//                        when the required output stage is not available.</q-m>
+<a name="27"><q-n>     27  </q-n></a><q-m>//</q-m>
+<a name="28"><q-n>     28  </q-n></a><q-m>//-----------------------------------------------------------------------------</q-m>
+<a name="29"><q-n>     29  </q-n></a>
+<a name="30"><q-n>     30  </q-n></a>`<q-a>timescale</q-w> 1<q-v>ns</q-w>/1<q-v>ps</q-w>
+<a name="31"><q-n>     31  </q-n></a>
+<a name="32"><q-n>     32  </q-n></a><q-w>module</q-w> cm3_in (
+<a name="33"><q-n>     33  </q-n></a>
+<a name="34"><q-n>     34  </q-n></a>    <q-m>// Common AHB signals</q-m>
+<a name="35"><q-n>     35  </q-n></a>    HCLK,
+<a name="36"><q-n>     36  </q-n></a>    HRESETn,
+<a name="37"><q-n>     37  </q-n></a>
+<a name="38"><q-n>     38  </q-n></a>    <q-m>// Input Port Address/Control Signals</q-m>
+<a name="39"><q-n>     39  </q-n></a>    HSELS,
+<a name="40"><q-n>     40  </q-n></a>    HADDRS,
+<a name="41"><q-n>     41  </q-n></a>    HAUSERS,
+<a name="42"><q-n>     42  </q-n></a>    HTRANSS,
+<a name="43"><q-n>     43  </q-n></a>    HWRITES,
+<a name="44"><q-n>     44  </q-n></a>    HSIZES,
+<a name="45"><q-n>     45  </q-n></a>    HBURSTS,
+<a name="46"><q-n>     46  </q-n></a>    HPROTS,
+<a name="47"><q-n>     47  </q-n></a>    HMASTERS,
+<a name="48"><q-n>     48  </q-n></a>    HMASTLOCKS,
+<a name="49"><q-n>     49  </q-n></a>    HREADYS,
+<a name="50"><q-n>     50  </q-n></a>
+<a name="51"><q-n>     51  </q-n></a>    <q-m>// Internal Response</q-m>
+<a name="52"><q-n>     52  </q-n></a>    active_ip,
+<a name="53"><q-n>     53  </q-n></a>    readyout_ip,
+<a name="54"><q-n>     54  </q-n></a>    resp_ip,
+<a name="55"><q-n>     55  </q-n></a>
+<a name="56"><q-n>     56  </q-n></a>    <q-m>// Input Port Response</q-m>
+<a name="57"><q-n>     57  </q-n></a>    HREADYOUTS,
+<a name="58"><q-n>     58  </q-n></a>    HRESPS,
+<a name="59"><q-n>     59  </q-n></a>
+<a name="60"><q-n>     60  </q-n></a>    <q-m>// Internal Address/Control Signals</q-m>
+<a name="61"><q-n>     61  </q-n></a>    sel_ip,
+<a name="62"><q-n>     62  </q-n></a>    addr_ip,
+<a name="63"><q-n>     63  </q-n></a>    auser_ip,
+<a name="64"><q-n>     64  </q-n></a>    trans_ip,
+<a name="65"><q-n>     65  </q-n></a>    write_ip,
+<a name="66"><q-n>     66  </q-n></a>    size_ip,
+<a name="67"><q-n>     67  </q-n></a>    burst_ip,
+<a name="68"><q-n>     68  </q-n></a>    prot_ip,
+<a name="69"><q-n>     69  </q-n></a>    master_ip,
+<a name="70"><q-n>     70  </q-n></a>    mastlock_ip,
+<a name="71"><q-n>     71  </q-n></a>    held_tran_ip
+<a name="72"><q-n>     72  </q-n></a>
+<a name="73"><q-n>     73  </q-n></a>    );
+<a name="74"><q-n>     74  </q-n></a>
+<a name="75"><q-n>     75  </q-n></a>
+<a name="76"><q-n>     76  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="77"><q-n>     77  </q-n></a><q-m>// Input and Output declarations</q-m>
+<a name="78"><q-n>     78  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="79"><q-n>     79  </q-n></a>
+<a name="80"><q-n>     80  </q-n></a>    <q-w>input</q-w>         HCLK;            <q-m>// AHB System Clock</q-m>
+<a name="81"><q-n>     81  </q-n></a>    <q-w>input</q-w>         HRESETn;         <q-m>// AHB System Reset</q-m>
+<a name="82"><q-n>     82  </q-n></a>    <q-w>input</q-w>         HSELS;           <q-m>// Slave Select from AHB</q-m>
+<a name="83"><q-n>     83  </q-n></a>    <q-w>input</q-w>  [31:0] HADDRS;          <q-m>// Address bus from AHB</q-m>
+<a name="84"><q-n>     84  </q-n></a>    <q-w>input</q-w>  [31:0] HAUSERS;         <q-m>// Additional user adress bus</q-m>
+<a name="85"><q-n>     85  </q-n></a>    <q-w>input</q-w>   [1:0] HTRANSS;         <q-m>// Transfer type from AHB</q-m>
+<a name="86"><q-n>     86  </q-n></a>    <q-w>input</q-w>         HWRITES;         <q-m>// Transfer direction from AHB</q-m>
+<a name="87"><q-n>     87  </q-n></a>    <q-w>input</q-w>   [2:0] HSIZES;          <q-m>// Transfer size from AHB</q-m>
+<a name="88"><q-n>     88  </q-n></a>    <q-w>input</q-w>   [2:0] HBURSTS;         <q-m>// Burst type from AHB</q-m>
+<a name="89"><q-n>     89  </q-n></a>    <q-w>input</q-w>   [3:0] HPROTS;          <q-m>// Protection control from AHB</q-m>
+<a name="90"><q-n>     90  </q-n></a>    <q-w>input</q-w>   [3:0] HMASTERS;        <q-m>// Master number from AHB</q-m>
+<a name="91"><q-n>     91  </q-n></a>    <q-w>input</q-w>         HMASTLOCKS;      <q-m>// Locked Sequence  from AHB</q-m>
+<a name="92"><q-n>     92  </q-n></a>    <q-w>input</q-w>         HREADYS;         <q-m>// Transfer done from AHB</q-m>
+<a name="93"><q-n>     93  </q-n></a>    <q-w>input</q-w>         active_ip;          <q-m>// active_ip signal</q-m>
+<a name="94"><q-n>     94  </q-n></a>    <q-w>input</q-w>         readyout_ip;        <q-m>// HREADYOUT input</q-m>
+<a name="95"><q-n>     95  </q-n></a>    <q-w>input</q-w>   [1:0] resp_ip;            <q-m>// HRESP input</q-m>
+<a name="96"><q-n>     96  </q-n></a>
+<a name="97"><q-n>     97  </q-n></a>    <q-w>output</q-w>        HREADYOUTS;      <q-m>// HREADY feedback to AHB</q-m>
+<a name="98"><q-n>     98  </q-n></a>    <q-w>output</q-w>  [1:0] HRESPS;          <q-m>// Transfer response to AHB</q-m>
+<a name="99"><q-n>     99  </q-n></a>    <q-w>output</q-w>        sel_ip;             <q-m>// HSEL output</q-m>
+<a name="100"><q-n>     100  </q-n></a>    <q-w>output</q-w> [31:0] addr_ip;            <q-m>// HADDR output</q-m>
+<a name="101"><q-n>     101  </q-n></a>    <q-w>output</q-w> [31:0] auser_ip;           <q-m>// HAUSER output</q-m>
+<a name="102"><q-n>     102  </q-n></a>    <q-w>output</q-w>  [1:0] trans_ip;           <q-m>// HTRANS output</q-m>
+<a name="103"><q-n>     103  </q-n></a>    <q-w>output</q-w>        write_ip;           <q-m>// HWRITE output</q-m>
+<a name="104"><q-n>     104  </q-n></a>    <q-w>output</q-w>  [2:0] size_ip;            <q-m>// HSIZE output</q-m>
+<a name="105"><q-n>     105  </q-n></a>    <q-w>output</q-w>  [2:0] burst_ip;           <q-m>// HBURST output</q-m>
+<a name="106"><q-n>     106  </q-n></a>    <q-w>output</q-w>  [3:0] prot_ip;            <q-m>// HPROT output</q-m>
+<a name="107"><q-n>     107  </q-n></a>    <q-w>output</q-w> [3:0]  master_ip;          <q-m>// HMASTER output</q-m>
+<a name="108"><q-n>     108  </q-n></a>    <q-w>output</q-w>        mastlock_ip;        <q-m>// HMASTLOCK output</q-m>
+<a name="109"><q-n>     109  </q-n></a>    <q-w>output</q-w>        held_tran_ip;        <q-m>// Holding register active flag</q-m>
+<a name="110"><q-n>     110  </q-n></a>
+<a name="111"><q-n>     111  </q-n></a>
+<a name="112"><q-n>     112  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="113"><q-n>     113  </q-n></a><q-m>// Constant declarations</q-m>
+<a name="114"><q-n>     114  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="115"><q-n>     115  </q-n></a>
+<a name="116"><q-n>     116  </q-n></a><q-m>// HTRANS transfer type signal encoding</q-m>
+<a name="117"><q-n>     117  </q-n></a>`<q-a>define</q-w> TRN_IDLE    2'b00     <q-m>// Idle Transfer</q-m>
+<a name="118"><q-n>     118  </q-n></a>`<q-a>define</q-w> TRN_BUSY    2'b01     <q-m>// Busy Transfer</q-m>
+<a name="119"><q-n>     119  </q-n></a>`<q-a>define</q-w> TRN_NONSEQ  2'b10     <q-m>// Nonsequential transfer</q-m>
+<a name="120"><q-n>     120  </q-n></a>`<q-a>define</q-w> TRN_SEQ     2'b11     <q-m>// Sequential transfer</q-m>
+<a name="121"><q-n>     121  </q-n></a>
+<a name="122"><q-n>     122  </q-n></a><q-m>// HBURST transfer type signal encoding</q-m>
+<a name="123"><q-n>     123  </q-n></a>`<q-a>define</q-w> BUR_SINGLE  3'b000    <q-m>// Single BURST</q-m>
+<a name="124"><q-n>     124  </q-n></a>`<q-a>define</q-w> BUR_INCR    3'b001    <q-m>// Incremental BURSTS</q-m>
+<a name="125"><q-n>     125  </q-n></a>`<q-a>define</q-w> BUR_WRAP4   3'b010    <q-m>// 4-beat wrap</q-m>
+<a name="126"><q-n>     126  </q-n></a>`<q-a>define</q-w> BUR_INCR4   3'b011    <q-m>// 4-beat incr</q-m>
+<a name="127"><q-n>     127  </q-n></a>`<q-a>define</q-w> BUR_WRAP8   3'b100    <q-m>// 8-beat wrap</q-m>
+<a name="128"><q-n>     128  </q-n></a>`<q-a>define</q-w> BUR_INCR8   3'b101    <q-m>// 8-beat incr</q-m>
+<a name="129"><q-n>     129  </q-n></a>`<q-a>define</q-w> BUR_WRAP16  3'b110    <q-m>// 16-beat wrap</q-m>
+<a name="130"><q-n>     130  </q-n></a>`<q-a>define</q-w> BUR_INCR16  3'b111    <q-m>// 16-beat incr</q-m>
+<a name="131"><q-n>     131  </q-n></a>
+<a name="132"><q-n>     132  </q-n></a><q-m>// HRESP signal encoding</q-m>
+<a name="133"><q-n>     133  </q-n></a>`<q-a>define</q-w> RSP_OKAY    2'b00      <q-m>// OKAY response</q-m>
+<a name="134"><q-n>     134  </q-n></a>`<q-a>define</q-w> RSP_ERROR   2'b01     <q-m>// ERROR response</q-m>
+<a name="135"><q-n>     135  </q-n></a>`<q-a>define</q-w> RSP_RETRY   2'b10     <q-m>// RETRY response</q-m>
+<a name="136"><q-n>     136  </q-n></a>`<q-a>define</q-w> RSP_SPLIT   2'b11     <q-m>// SPLIT response</q-m>
+<a name="137"><q-n>     137  </q-n></a>
+<a name="138"><q-n>     138  </q-n></a>
+<a name="139"><q-n>     139  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="140"><q-n>     140  </q-n></a><q-m>// Wire declarations</q-m>
+<a name="141"><q-n>     141  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="142"><q-n>     142  </q-n></a>
+<a name="143"><q-n>     143  </q-n></a>    <q-w>wire</q-w>        HCLK;            <q-m>// AHB System Clock</q-m>
+<a name="144"><q-n>     144  </q-n></a>    <q-w>wire</q-w>        HRESETn;         <q-m>// AHB System Reset</q-m>
+<a name="145"><q-n>     145  </q-n></a>    <q-w>wire</q-w>        HSELS;           <q-m>// Slave Select from AHB</q-m>
+<a name="146"><q-n>     146  </q-n></a>    <q-w>wire</q-w> [31:0] HADDRS;          <q-m>// Address bus from AHB</q-m>
+<a name="147"><q-n>     147  </q-n></a>    <q-w>wire</q-w> [31:0] HAUSERS;         <q-m>// Additional user adress bus</q-m>
+<a name="148"><q-n>     148  </q-n></a>    <q-w>wire</q-w>  [1:0] HTRANSS;         <q-m>// Transfer type from AHB</q-m>
+<a name="149"><q-n>     149  </q-n></a>    <q-w>wire</q-w>        HWRITES;         <q-m>// Transfer direction from AHB</q-m>
+<a name="150"><q-n>     150  </q-n></a>    <q-w>wire</q-w>  [2:0] HSIZES;          <q-m>// Transfer size from AHB</q-m>
+<a name="151"><q-n>     151  </q-n></a>    <q-w>wire</q-w>  [2:0] HBURSTS;         <q-m>// Burst type from AHB</q-m>
+<a name="152"><q-n>     152  </q-n></a>    <q-w>wire</q-w>  [3:0] HPROTS;          <q-m>// Protection control from AHB</q-m>
+<a name="153"><q-n>     153  </q-n></a>    <q-w>wire</q-w>  [3:0] HMASTERS;        <q-m>// Master number from AHB</q-m>
+<a name="154"><q-n>     154  </q-n></a>    <q-w>wire</q-w>        HMASTLOCKS;      <q-m>// Locked Sequence  from AHB</q-m>
+<a name="155"><q-n>     155  </q-n></a>    <q-w>wire</q-w>        HREADYS;         <q-m>// Transfer done from AHB</q-m>
+<a name="156"><q-n>     156  </q-n></a>    <q-w>reg</q-w>         HREADYOUTS;      <q-m>// HREADY feedback to AHB</q-m>
+<a name="157"><q-n>     157  </q-n></a>    <q-w>reg</q-w>   [1:0] HRESPS;          <q-m>// Transfer response to AHB</q-m>
+<a name="158"><q-n>     158  </q-n></a>    <q-w>reg</q-w>         sel_ip;             <q-m>// HSEL output</q-m>
+<a name="159"><q-n>     159  </q-n></a>    <q-w>reg</q-w>  [31:0] addr_ip;            <q-m>// HADDR output</q-m>
+<a name="160"><q-n>     160  </q-n></a>    <q-w>reg</q-w>  [31:0] auser_ip;           <q-m>// HAUSER output</q-m>
+<a name="161"><q-n>     161  </q-n></a>    <q-w>wire</q-w>  [1:0] trans_ip;           <q-m>// HTRANS output</q-m>
+<a name="162"><q-n>     162  </q-n></a>    <q-w>reg</q-w>         write_ip;           <q-m>// HWRITE output</q-m>
+<a name="163"><q-n>     163  </q-n></a>    <q-w>reg</q-w>   [2:0] size_ip;            <q-m>// HSIZE output</q-m>
+<a name="164"><q-n>     164  </q-n></a>    <q-w>wire</q-w>  [2:0] burst_ip;           <q-m>// HBURST output</q-m>
+<a name="165"><q-n>     165  </q-n></a>    <q-w>reg</q-w>   [3:0] prot_ip;            <q-m>// HPROT output</q-m>
+<a name="166"><q-n>     166  </q-n></a>    <q-w>reg</q-w>   [3:0] master_ip;          <q-m>// HMASTER output</q-m>
+<a name="167"><q-n>     167  </q-n></a>    <q-w>reg</q-w>         mastlock_ip;        <q-m>// HMASTLOCK output</q-m>
+<a name="168"><q-n>     168  </q-n></a>    <q-w>wire</q-w>        held_tran_ip;        <q-m>// Holding register active flag</q-m>
+<a name="169"><q-n>     169  </q-n></a>    <q-w>wire</q-w>        active_ip;          <q-m>// active_ip signal</q-m>
+<a name="170"><q-n>     170  </q-n></a>    <q-w>wire</q-w>        readyout_ip;        <q-m>// HREADYOUT input</q-m>
+<a name="171"><q-n>     171  </q-n></a>    <q-w>wire</q-w>  [1:0] resp_ip;            <q-m>// HRESP input</q-m>
+<a name="172"><q-n>     172  </q-n></a>
+<a name="173"><q-n>     173  </q-n></a>
+<a name="174"><q-n>     174  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="175"><q-n>     175  </q-n></a><q-m>// Signal declarations</q-m>
+<a name="176"><q-n>     176  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="177"><q-n>     177  </q-n></a>
+<a name="178"><q-n>     178  </q-n></a>    <q-w>wire</q-w>        load_reg;             <q-m>// Holding register load flag</q-m>
+<a name="179"><q-n>     179  </q-n></a>    <q-w>wire</q-w>        pend_tran;            <q-m>// An active transfer cannot complete</q-m>
+<a name="180"><q-n>     180  </q-n></a>    <q-w>reg</q-w>         pend_tran_reg;         <q-m>// Registered version of pend_tran</q-m>
+<a name="181"><q-n>     181  </q-n></a>    <q-w>wire</q-w>        addr_valid;           <q-m>// Indicates address phase of</q-m>
+<a name="182"><q-n>     182  </q-n></a>                                     <q-m>// valid transfer</q-m>
+<a name="183"><q-n>     183  </q-n></a>    <q-w>reg</q-w>         data_valid;           <q-m>// Indicates data phase of</q-m>
+<a name="184"><q-n>     184  </q-n></a>                                     <q-m>// valid transfer</q-m>
+<a name="185"><q-n>     185  </q-n></a>    <q-w>reg</q-w>   [1:0] reg_trans;            <q-m>// Registered HTRANSS</q-m>
+<a name="186"><q-n>     186  </q-n></a>    <q-w>reg</q-w>  [31:0] reg_addr;             <q-m>// Registered HADDRS</q-m>
+<a name="187"><q-n>     187  </q-n></a>    <q-w>reg</q-w>  [31:0] reg_auser;
+<a name="188"><q-n>     188  </q-n></a>    <q-w>reg</q-w>         reg_write;            <q-m>// Registered HWRITES</q-m>
+<a name="189"><q-n>     189  </q-n></a>    <q-w>reg</q-w>   [2:0] reg_size;             <q-m>// Registered HSIZES</q-m>
+<a name="190"><q-n>     190  </q-n></a>    <q-w>reg</q-w>   [2:0] reg_burst;            <q-m>// Registered HBURSTS</q-m>
+<a name="191"><q-n>     191  </q-n></a>    <q-w>reg</q-w>   [3:0] reg_prot;             <q-m>// Registered HPROTS</q-m>
+<a name="192"><q-n>     192  </q-n></a>    <q-w>reg</q-w>   [3:0] reg_master;           <q-m>// Registerd HMASTERS</q-m>
+<a name="193"><q-n>     193  </q-n></a>    <q-w>reg</q-w>         reg_mastlock;         <q-m>// Registered HMASTLOCKS</q-m>
+<a name="194"><q-n>     194  </q-n></a>    <q-w>reg</q-w>   [1:0] transb;               <q-m>// HTRANS output used for burst information</q-m>
+<a name="195"><q-n>     195  </q-n></a>    <q-w>reg</q-w>   [1:0] trans_int;            <q-m>// HTRANS output</q-m>
+<a name="196"><q-n>     196  </q-n></a>    <q-w>reg</q-w>   [2:0] burst_int;            <q-m>// HBURST output</q-m>
+<a name="197"><q-n>     197  </q-n></a>    <q-w>reg</q-w>   [3:0] offset_addr;          <q-m>// Address offset for boundary logic</q-m>
+<a name="198"><q-n>     198  </q-n></a>    <q-w>reg</q-w>   [3:0] check_addr;           <q-m>// Address check for wrapped bursts</q-m>
+<a name="199"><q-n>     199  </q-n></a>    <q-w>reg</q-w>         burst_override;       <q-m>// Registered burst_override_next</q-m>
+<a name="200"><q-n>     200  </q-n></a>    <q-w>wire</q-w>        burst_override_next;  <q-m>// Indicates burst has been over-ridden</q-m>
+<a name="201"><q-n>     201  </q-n></a>    <q-w>reg</q-w>         bound;                <q-m>// Registered version of bound_next</q-m>
+<a name="202"><q-n>     202  </q-n></a>    <q-w>wire</q-w>        bound_next;           <q-m>// Indicates boundary wrapping</q-m>
+<a name="203"><q-n>     203  </q-n></a>    <q-w>wire</q-w>        bound_en;             <q-m>// Clock-enable for bound register</q-m>
+<a name="204"><q-n>     204  </q-n></a>
+<a name="205"><q-n>     205  </q-n></a>
+<a name="206"><q-n>     206  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="207"><q-n>     207  </q-n></a><q-m>// Beginning of main code</q-m>
+<a name="208"><q-n>     208  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="209"><q-n>     209  </q-n></a>
+<a name="210"><q-n>     210  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="211"><q-n>     211  </q-n></a><q-m>// Holding Registers</q-m>
+<a name="212"><q-n>     212  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="213"><q-n>     213  </q-n></a><q-m>// Each input port has a holding register associated with it and a mux to</q-m>
+<a name="214"><q-n>     214  </q-n></a><q-m>//  select between the register and the direct input path. The control of</q-m>
+<a name="215"><q-n>     215  </q-n></a><q-m>//  the mux is done simply by selecting the holding register when it is loaded</q-m>
+<a name="216"><q-n>     216  </q-n></a><q-m>//  with a pending transfer, otherwise the straight through path is used.</q-m>
+<a name="217"><q-n>     217  </q-n></a>
+<a name="218"><q-n>     218  </q-n></a>  <q-w>always</q-w> @ (<q-a>negedge</q-w> HRESETn <q-t>or</q-w> <q-a>posedge</q-w> HCLK)
+<a name="219"><q-n>     219  </q-n></a>    <q-w>begin</q-w> : p_holding_reg_seq1
+<a name="220"><q-n>     220  </q-n></a>      <q-w>if</q-w> (~HRESETn)
+<a name="221"><q-n>     221  </q-n></a>        <q-w>begin</q-w>
+<a name="222"><q-n>     222  </q-n></a>          reg_trans    &lt;= 2'b00;
+<a name="223"><q-n>     223  </q-n></a>          reg_addr     &lt;= {32{1'b0}};
+<a name="224"><q-n>     224  </q-n></a>          reg_auser    &lt;= {32{1'b0}};
+<a name="225"><q-n>     225  </q-n></a>          reg_write    &lt;= 1'b0 ;
+<a name="226"><q-n>     226  </q-n></a>          reg_size     &lt;= 3'b000;
+<a name="227"><q-n>     227  </q-n></a>          reg_burst    &lt;= 3'b000;
+<a name="228"><q-n>     228  </q-n></a>          reg_prot     &lt;= {4{1'b0}};
+<a name="229"><q-n>     229  </q-n></a>          reg_master   &lt;= 4'b0000;
+<a name="230"><q-n>     230  </q-n></a>          reg_mastlock &lt;= 1'b0 ;
+<a name="231"><q-n>     231  </q-n></a>        <q-w>end</q-w>
+<a name="232"><q-n>     232  </q-n></a>      <q-w>else</q-w>
+<a name="233"><q-n>     233  </q-n></a>        <q-w>if</q-w> (load_reg)
+<a name="234"><q-n>     234  </q-n></a>          <q-w>begin</q-w>
+<a name="235"><q-n>     235  </q-n></a>            reg_trans    &lt;= HTRANSS;
+<a name="236"><q-n>     236  </q-n></a>            reg_addr     &lt;= HADDRS;
+<a name="237"><q-n>     237  </q-n></a>            reg_auser    &lt;= HAUSERS;
+<a name="238"><q-n>     238  </q-n></a>            reg_write    &lt;= HWRITES;
+<a name="239"><q-n>     239  </q-n></a>            reg_size     &lt;= HSIZES;
+<a name="240"><q-n>     240  </q-n></a>            reg_burst    &lt;= HBURSTS;
+<a name="241"><q-n>     241  </q-n></a>            reg_prot     &lt;= HPROTS;
+<a name="242"><q-n>     242  </q-n></a>            reg_master   &lt;= HMASTERS;
+<a name="243"><q-n>     243  </q-n></a>            reg_mastlock &lt;= HMASTLOCKS;
+<a name="244"><q-n>     244  </q-n></a>          <q-w>end</q-w>
+<a name="245"><q-n>     245  </q-n></a>    <q-w>end</q-w>
+<a name="246"><q-n>     246  </q-n></a>
+<a name="247"><q-n>     247  </q-n></a>  <q-m>// addr_valid indicates the address phase of an active (non-BUSY/IDLE)</q-m>
+<a name="248"><q-n>     248  </q-n></a>  <q-m>// transfer to this slave port</q-m>
+<a name="249"><q-n>     249  </q-n></a>  <q-w>assign</q-w> addr_valid = ( HSELS &amp; HTRANSS[1] );
+<a name="250"><q-n>     250  </q-n></a>
+<a name="251"><q-n>     251  </q-n></a>  <q-m>// The holding register is loaded whenever there is a transfer on the input</q-m>
+<a name="252"><q-n>     252  </q-n></a>  <q-m>// port which is validated by active HREADYS</q-m>
+<a name="253"><q-n>     253  </q-n></a>  <q-w>assign</q-w> load_reg = ( addr_valid &amp; HREADYS );
+<a name="254"><q-n>     254  </q-n></a>
+<a name="255"><q-n>     255  </q-n></a>  <q-m>// data_valid register</q-m>
+<a name="256"><q-n>     256  </q-n></a>  <q-m>// addr_valid indicates the data phase of an active (non-BUSY/IDLE)</q-m>
+<a name="257"><q-n>     257  </q-n></a>  <q-m>// transfer to this slave port. A valid response (HREADY, HRESP) must be</q-m>
+<a name="258"><q-n>     258  </q-n></a>  <q-m>// generated</q-m>
+<a name="259"><q-n>     259  </q-n></a>  <q-w>always</q-w> @ (<q-a>negedge</q-w> HRESETn <q-t>or</q-w> <q-a>posedge</q-w> HCLK)
+<a name="260"><q-n>     260  </q-n></a>    <q-w>begin</q-w> : p_data_valid
+<a name="261"><q-n>     261  </q-n></a>      <q-w>if</q-w> (~HRESETn)
+<a name="262"><q-n>     262  </q-n></a>        data_valid &lt;= 1'b0;
+<a name="263"><q-n>     263  </q-n></a>      <q-w>else</q-w>
+<a name="264"><q-n>     264  </q-n></a>       <q-w>if</q-w> (HREADYS)
+<a name="265"><q-n>     265  </q-n></a>        data_valid  &lt;= addr_valid;
+<a name="266"><q-n>     266  </q-n></a>    <q-w>end</q-w>
+<a name="267"><q-n>     267  </q-n></a>
+<a name="268"><q-n>     268  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="269"><q-n>     269  </q-n></a><q-m>// Generate HeldTran</q-m>
+<a name="270"><q-n>     270  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="271"><q-n>     271  </q-n></a><q-m>// The HeldTran signal is used to indicate when there is an active transfer</q-m>
+<a name="272"><q-n>     272  </q-n></a><q-m>// being presented to the output stage, either passing straight through or from</q-m>
+<a name="273"><q-n>     273  </q-n></a><q-m>// the holding register.</q-m>
+<a name="274"><q-n>     274  </q-n></a>
+<a name="275"><q-n>     275  </q-n></a>  <q-m>// pend_tran indicates that an active transfer presented to this</q-m>
+<a name="276"><q-n>     276  </q-n></a>  <q-m>// slave cannot complete immediately.  It is always set after the</q-m>
+<a name="277"><q-n>     277  </q-n></a>  <q-m>// load_reg signal has been active. When set, it is cleared when the</q-m>
+<a name="278"><q-n>     278  </q-n></a>  <q-m>// transfer is being driven onto the selected slave (as indicated by</q-m>
+<a name="279"><q-n>     279  </q-n></a>  <q-m>// active_ip being high) and HREADY from the selected slave is high.</q-m>
+<a name="280"><q-n>     280  </q-n></a>  <q-w>assign</q-w> pend_tran = (load_reg &amp; (~active_ip)) ? 1'b1 :
+<a name="281"><q-n>     281  </q-n></a>                    (active_ip &amp; readyout_ip) ? 1'b0 : pend_tran_reg;
+<a name="282"><q-n>     282  </q-n></a>
+<a name="283"><q-n>     283  </q-n></a>  <q-m>// pend_tran_reg indicates that an active transfer was accepted by the input</q-m>
+<a name="284"><q-n>     284  </q-n></a>  <q-m>// stage,but not by the output stage, and so the holding registers should be</q-m>
+<a name="285"><q-n>     285  </q-n></a>  <q-m>// used</q-m>
+<a name="286"><q-n>     286  </q-n></a>  <q-w>always</q-w> @ (<q-a>negedge</q-w> HRESETn <q-t>or</q-w> <q-a>posedge</q-w> HCLK)
+<a name="287"><q-n>     287  </q-n></a>    <q-w>begin</q-w> : p_pend_tran_reg
+<a name="288"><q-n>     288  </q-n></a>      <q-w>if</q-w> (~HRESETn)
+<a name="289"><q-n>     289  </q-n></a>        pend_tran_reg &lt;= 1'b0;
+<a name="290"><q-n>     290  </q-n></a>      <q-w>else</q-w>
+<a name="291"><q-n>     291  </q-n></a>        pend_tran_reg &lt;= pend_tran;
+<a name="292"><q-n>     292  </q-n></a>    <q-w>end</q-w>
+<a name="293"><q-n>     293  </q-n></a>
+<a name="294"><q-n>     294  </q-n></a>  <q-m>// held_tran_ip indicates an active transfer, and is held whilst that transfer is</q-m>
+<a name="295"><q-n>     295  </q-n></a>  <q-m>// in the holding registers.  It passes to the output stage where it acts as</q-m>
+<a name="296"><q-n>     296  </q-n></a>  <q-m>// a request line to the arbitration scheme</q-m>
+<a name="297"><q-n>     297  </q-n></a>  <q-w>assign</q-w>  held_tran_ip  = (load_reg | pend_tran_reg);
+<a name="298"><q-n>     298  </q-n></a>
+<a name="299"><q-n>     299  </q-n></a>  <q-m>// The output from this stage is selected from the holding register when</q-m>
+<a name="300"><q-n>     300  </q-n></a>  <q-m>//  there is a held transfer. Otherwise the direct path is used.</q-m>
+<a name="301"><q-n>     301  </q-n></a>
+<a name="302"><q-n>     302  </q-n></a>  <q-w>always</q-w> @ ( pend_tran_reg <q-t>or</q-w> HSELS <q-t>or</q-w> HTRANSS <q-t>or</q-w> HADDRS <q-t>or</q-w> HWRITES <q-t>or</q-w>
+<a name="303"><q-n>     303  </q-n></a>             HSIZES <q-t>or</q-w> HBURSTS <q-t>or</q-w> HPROTS <q-t>or</q-w> HMASTERS <q-t>or</q-w> HMASTLOCKS <q-t>or</q-w>
+<a name="304"><q-n>     304  </q-n></a>             HAUSERS <q-t>or</q-w> reg_auser <q-t>or</q-w>
+<a name="305"><q-n>     305  </q-n></a>             reg_addr <q-t>or</q-w> reg_write <q-t>or</q-w> reg_size <q-t>or</q-w> reg_burst <q-t>or</q-w> reg_prot <q-t>or</q-w>
+<a name="306"><q-n>     306  </q-n></a>             reg_master <q-t>or</q-w> reg_mastlock
+<a name="307"><q-n>     307  </q-n></a>           )
+<a name="308"><q-n>     308  </q-n></a>    <q-w>begin</q-w> : p_mux_comb
+<a name="309"><q-n>     309  </q-n></a>      <q-w>if</q-w> (~pend_tran_reg)
+<a name="310"><q-n>     310  </q-n></a>        <q-w>begin</q-w>
+<a name="311"><q-n>     311  </q-n></a>          sel_ip      = HSELS;
+<a name="312"><q-n>     312  </q-n></a>          trans_int   = HTRANSS;
+<a name="313"><q-n>     313  </q-n></a>          addr_ip     = HADDRS;
+<a name="314"><q-n>     314  </q-n></a>          auser_ip    = HAUSERS;
+<a name="315"><q-n>     315  </q-n></a>          write_ip    = HWRITES;
+<a name="316"><q-n>     316  </q-n></a>          size_ip     = HSIZES;
+<a name="317"><q-n>     317  </q-n></a>          burst_int   = HBURSTS;
+<a name="318"><q-n>     318  </q-n></a>          prot_ip     = HPROTS;
+<a name="319"><q-n>     319  </q-n></a>          master_ip   = HMASTERS;
+<a name="320"><q-n>     320  </q-n></a>          mastlock_ip = HMASTLOCKS;
+<a name="321"><q-n>     321  </q-n></a>        <q-w>end</q-w>
+<a name="322"><q-n>     322  </q-n></a>      <q-w>else</q-w>
+<a name="323"><q-n>     323  </q-n></a>        <q-w>begin</q-w>
+<a name="324"><q-n>     324  </q-n></a>          sel_ip      = 1'b1;
+<a name="325"><q-n>     325  </q-n></a>          trans_int   = `TRN_NONSEQ;
+<a name="326"><q-n>     326  </q-n></a>          addr_ip     = reg_addr;
+<a name="327"><q-n>     327  </q-n></a>          auser_ip    = reg_auser;
+<a name="328"><q-n>     328  </q-n></a>          write_ip    = reg_write;
+<a name="329"><q-n>     329  </q-n></a>          size_ip     = reg_size;
+<a name="330"><q-n>     330  </q-n></a>          burst_int   = reg_burst;
+<a name="331"><q-n>     331  </q-n></a>          prot_ip     = reg_prot;
+<a name="332"><q-n>     332  </q-n></a>          master_ip   = reg_master;
+<a name="333"><q-n>     333  </q-n></a>          mastlock_ip = reg_mastlock;
+<a name="334"><q-n>     334  </q-n></a>        <q-w>end</q-w>
+<a name="335"><q-n>     335  </q-n></a>    <q-w>end</q-w>
+<a name="336"><q-n>     336  </q-n></a>
+<a name="337"><q-n>     337  </q-n></a>  <q-m>// The transb output is used to select the correct Burst value when completing</q-m>
+<a name="338"><q-n>     338  </q-n></a>  <q-m>// an interrupted defined-lenght burst.</q-m>
+<a name="339"><q-n>     339  </q-n></a>
+<a name="340"><q-n>     340  </q-n></a>  <q-w>always</q-w> @ (pend_tran_reg <q-t>or</q-w> HTRANSS <q-t>or</q-w> reg_trans)
+<a name="341"><q-n>     341  </q-n></a>    <q-w>begin</q-w> : p_transb_comb
+<a name="342"><q-n>     342  </q-n></a>      <q-w>if</q-w> (~pend_tran_reg)
+<a name="343"><q-n>     343  </q-n></a>        transb = HTRANSS;
+<a name="344"><q-n>     344  </q-n></a>      <q-w>else</q-w>
+<a name="345"><q-n>     345  </q-n></a>        transb = reg_trans;
+<a name="346"><q-n>     346  </q-n></a>    <q-w>end</q-w> <q-m>// block: p_transb_comb</q-m>
+<a name="347"><q-n>     347  </q-n></a>
+<a name="348"><q-n>     348  </q-n></a>
+<a name="349"><q-n>     349  </q-n></a>  <q-m>// Convert SEQ-&gt;NONSEQ and BUSY-&gt;IDLE when an address boundary is crossed</q-m>
+<a name="350"><q-n>     350  </q-n></a>  <q-m>// whilst the burst type is being over-ridden, i.e. when completing an</q-m>
+<a name="351"><q-n>     351  </q-n></a>  <q-m>// interrupted wrapping burst.</q-m>
+<a name="352"><q-n>     352  </q-n></a>  <q-w>assign</q-w> trans_ip = (burst_override &amp; bound) ? {trans_int[1], 1'b0}
+<a name="353"><q-n>     353  </q-n></a>               : trans_int;
+<a name="354"><q-n>     354  </q-n></a>
+<a name="355"><q-n>     355  </q-n></a>  <q-w>assign</q-w> burst_ip = (burst_override &amp; (transb != `TRN_NONSEQ)) ? `BUR_INCR
+<a name="356"><q-n>     356  </q-n></a>               : burst_int;
+<a name="357"><q-n>     357  </q-n></a>
+<a name="358"><q-n>     358  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="359"><q-n>     359  </q-n></a><q-m>// HREADYOUT Generation</q-m>
+<a name="360"><q-n>     360  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="361"><q-n>     361  </q-n></a><q-m>// There are three possible sources for the HREADYOUT signal.</q-m>
+<a name="362"><q-n>     362  </q-n></a><q-m>//  - It is driven LOW when there is a held transfer.</q-m>
+<a name="363"><q-n>     363  </q-n></a><q-m>//  - It is driven HIGH when not Selected or for Idle/Busy transfers.</q-m>
+<a name="364"><q-n>     364  </q-n></a><q-m>//  - At all other times it is driven from the appropriate shared</q-m>
+<a name="365"><q-n>     365  </q-n></a><q-m>//    slave.</q-m>
+<a name="366"><q-n>     366  </q-n></a>
+<a name="367"><q-n>     367  </q-n></a>  <q-w>always</q-w> @ (data_valid <q-t>or</q-w> pend_tran_reg <q-t>or</q-w> readyout_ip <q-t>or</q-w> resp_ip)
+<a name="368"><q-n>     368  </q-n></a>    <q-w>begin</q-w> : p_ready_comb
+<a name="369"><q-n>     369  </q-n></a>      <q-w>if</q-w> (~data_valid)
+<a name="370"><q-n>     370  </q-n></a>        <q-w>begin</q-w>
+<a name="371"><q-n>     371  </q-n></a>          HREADYOUTS = 1'b1;
+<a name="372"><q-n>     372  </q-n></a>          HRESPS     = `RSP_OKAY;
+<a name="373"><q-n>     373  </q-n></a>        <q-w>end</q-w>
+<a name="374"><q-n>     374  </q-n></a>      <q-w>else</q-w> <q-w>if</q-w> (pend_tran_reg)
+<a name="375"><q-n>     375  </q-n></a>        <q-w>begin</q-w>
+<a name="376"><q-n>     376  </q-n></a>          HREADYOUTS = 1'b0;
+<a name="377"><q-n>     377  </q-n></a>          HRESPS     = `RSP_OKAY;
+<a name="378"><q-n>     378  </q-n></a>        <q-w>end</q-w>
+<a name="379"><q-n>     379  </q-n></a>      <q-w>else</q-w>
+<a name="380"><q-n>     380  </q-n></a>        <q-w>begin</q-w>
+<a name="381"><q-n>     381  </q-n></a>          HREADYOUTS = readyout_ip;
+<a name="382"><q-n>     382  </q-n></a>          HRESPS     = resp_ip;
+<a name="383"><q-n>     383  </q-n></a>        <q-w>end</q-w>
+<a name="384"><q-n>     384  </q-n></a>    <q-w>end</q-w> <q-m>// block: p_ready_comb</q-m>
+<a name="385"><q-n>     385  </q-n></a>
+<a name="386"><q-n>     386  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="387"><q-n>     387  </q-n></a><q-m>// Early Burst Termination</q-m>
+<a name="388"><q-n>     388  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="389"><q-n>     389  </q-n></a><q-m>// There are times when the output stage will switch to another input port</q-m>
+<a name="390"><q-n>     390  </q-n></a><q-m>//  without allowing the current burst to complete. In these cases the HTRANS</q-m>
+<a name="391"><q-n>     391  </q-n></a><q-m>//  and HBURST signals need to be overriden to ensure that the transfers</q-m>
+<a name="392"><q-n>     392  </q-n></a><q-m>//  reaching the output port meet the AHB specification.</q-m>
+<a name="393"><q-n>     393  </q-n></a>
+<a name="394"><q-n>     394  </q-n></a>  <q-w>assign</q-w> burst_override_next  = ( (HTRANSS == `TRN_NONSEQ) |
+<a name="395"><q-n>     395  </q-n></a>                                (HTRANSS == `TRN_IDLE) ) ? 1'b0
+<a name="396"><q-n>     396  </q-n></a>                              : ( (HTRANSS ==`TRN_SEQ) &amp;
+<a name="397"><q-n>     397  </q-n></a>                                   load_reg &amp;
+<a name="398"><q-n>     398  </q-n></a>                                   (~active_ip) ) ? 1'b1
+<a name="399"><q-n>     399  </q-n></a>                                  : burst_override;
+<a name="400"><q-n>     400  </q-n></a>
+<a name="401"><q-n>     401  </q-n></a>  <q-m>// burst_override register</q-m>
+<a name="402"><q-n>     402  </q-n></a>  <q-w>always</q-w> @ (<q-a>negedge</q-w> HRESETn <q-t>or</q-w> <q-a>posedge</q-w> HCLK)
+<a name="403"><q-n>     403  </q-n></a>    <q-w>begin</q-w> : p_burst_overrideseq
+<a name="404"><q-n>     404  </q-n></a>      <q-w>if</q-w> (~HRESETn)
+<a name="405"><q-n>     405  </q-n></a>        burst_override &lt;= 1'b0;
+<a name="406"><q-n>     406  </q-n></a>      <q-w>else</q-w>
+<a name="407"><q-n>     407  </q-n></a>        <q-w>if</q-w> (HREADYS)
+<a name="408"><q-n>     408  </q-n></a>          burst_override &lt;= burst_override_next;
+<a name="409"><q-n>     409  </q-n></a>    <q-w>end</q-w> <q-m>// block: p_burst_overrideseq</q-m>
+<a name="410"><q-n>     410  </q-n></a>
+<a name="411"><q-n>     411  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="412"><q-n>     412  </q-n></a><q-m>// Boundary Checking Logic</q-m>
+<a name="413"><q-n>     413  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="414"><q-n>     414  </q-n></a>  <q-m>// offset_addr</q-m>
+<a name="415"><q-n>     415  </q-n></a>  <q-w>always</q-w> @ (HADDRS <q-t>or</q-w> HSIZES)
+<a name="416"><q-n>     416  </q-n></a>    <q-w>begin</q-w> : p_offset_addr_comb
+<a name="417"><q-n>     417  </q-n></a>      <q-w>case</q-w> (HSIZES)
+<a name="418"><q-n>     418  </q-n></a>        3'b000 : offset_addr = HADDRS[3:0];
+<a name="419"><q-n>     419  </q-n></a>        3'b001 : offset_addr = HADDRS[4:1];
+<a name="420"><q-n>     420  </q-n></a>        3'b010 : offset_addr = HADDRS[5:2];
+<a name="421"><q-n>     421  </q-n></a>        3'b011 : offset_addr = HADDRS[6:3];
+<a name="422"><q-n>     422  </q-n></a>
+<a name="423"><q-n>     423  </q-n></a>        3'b100, 3'b101, 3'b110, 3'b111 :
+<a name="424"><q-n>     424  </q-n></a>          offset_addr = HADDRS[3:0];      <q-m>// Sizes &gt;= 128-bits are not supported</q-m>
+<a name="425"><q-n>     425  </q-n></a>
+<a name="426"><q-n>     426  </q-n></a>        <q-w>default</q-w> : offset_addr = 4'bxxxx;
+<a name="427"><q-n>     427  </q-n></a>      <q-w>endcase</q-w>
+<a name="428"><q-n>     428  </q-n></a>    <q-w>end</q-w>
+<a name="429"><q-n>     429  </q-n></a>
+<a name="430"><q-n>     430  </q-n></a>  <q-m>// check_addr</q-m>
+<a name="431"><q-n>     431  </q-n></a>  <q-w>always</q-w> @ (offset_addr <q-t>or</q-w> HBURSTS)
+<a name="432"><q-n>     432  </q-n></a>    <q-w>begin</q-w> : p_check_addr_comb
+<a name="433"><q-n>     433  </q-n></a>      <q-w>case</q-w> (HBURSTS)
+<a name="434"><q-n>     434  </q-n></a>        `BUR_WRAP4 : <q-w>begin</q-w>
+<a name="435"><q-n>     435  </q-n></a>          check_addr[1:0] = offset_addr[1:0];
+<a name="436"><q-n>     436  </q-n></a>          check_addr[3:2] = 2'b11;
+<a name="437"><q-n>     437  </q-n></a>        <q-w>end</q-w>
+<a name="438"><q-n>     438  </q-n></a>
+<a name="439"><q-n>     439  </q-n></a>        `BUR_WRAP8 : <q-w>begin</q-w>
+<a name="440"><q-n>     440  </q-n></a>          check_addr[2:0] = offset_addr[2:0];
+<a name="441"><q-n>     441  </q-n></a>          check_addr[3]   = 1'b1;
+<a name="442"><q-n>     442  </q-n></a>        <q-w>end</q-w>
+<a name="443"><q-n>     443  </q-n></a>
+<a name="444"><q-n>     444  </q-n></a>        `BUR_WRAP16 :
+<a name="445"><q-n>     445  </q-n></a>          check_addr[3:0] = offset_addr[3:0];
+<a name="446"><q-n>     446  </q-n></a>
+<a name="447"><q-n>     447  </q-n></a>        `BUR_SINGLE, `BUR_INCR, `BUR_INCR4, `BUR_INCR8, `BUR_INCR16 :
+<a name="448"><q-n>     448  </q-n></a>          check_addr[3:0] = 4'b0000;
+<a name="449"><q-n>     449  </q-n></a>
+<a name="450"><q-n>     450  </q-n></a>        <q-w>default</q-w> : check_addr[3:0] = 4'bxxxx;
+<a name="451"><q-n>     451  </q-n></a>      <q-w>endcase</q-w>
+<a name="452"><q-n>     452  </q-n></a>    <q-w>end</q-w>
+<a name="453"><q-n>     453  </q-n></a>
+<a name="454"><q-n>     454  </q-n></a>  <q-w>assign</q-w> bound_next = ( check_addr == 4'b1111 );
+<a name="455"><q-n>     455  </q-n></a>
+<a name="456"><q-n>     456  </q-n></a>  <q-w>assign</q-w> bound_en = ( HTRANSS[1] &amp; HREADYS );
+<a name="457"><q-n>     457  </q-n></a>
+<a name="458"><q-n>     458  </q-n></a>  <q-m>// bound register</q-m>
+<a name="459"><q-n>     459  </q-n></a>  <q-w>always</q-w> @ (<q-a>negedge</q-w> HRESETn <q-t>or</q-w> <q-a>posedge</q-w> HCLK)
+<a name="460"><q-n>     460  </q-n></a>    <q-w>begin</q-w> : p_bound_seq
+<a name="461"><q-n>     461  </q-n></a>      <q-w>if</q-w> (~HRESETn)
+<a name="462"><q-n>     462  </q-n></a>        bound &lt;= 1'b0;
+<a name="463"><q-n>     463  </q-n></a>      <q-w>else</q-w>
+<a name="464"><q-n>     464  </q-n></a>        <q-w>if</q-w> (bound_en)
+<a name="465"><q-n>     465  </q-n></a>          bound &lt;= bound_next;
+<a name="466"><q-n>     466  </q-n></a>    <q-w>end</q-w>
+<a name="467"><q-n>     467  </q-n></a>
+<a name="468"><q-n>     468  </q-n></a>
+<a name="469"><q-n>     469  </q-n></a><q-w>endmodule</q-w>
+<a name="470"><q-n>     470  </q-n></a>
+<a name="471"><q-n>     471  </q-n></a><q-m>// --================================= End ===================================--</q-m>
+</pre>
+</tt>
+
+  
+</body>
+</html>

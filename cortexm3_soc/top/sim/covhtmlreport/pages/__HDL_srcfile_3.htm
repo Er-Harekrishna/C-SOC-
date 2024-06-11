@@ -1,0 +1,77 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>// Company        : SCALEDGE </q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>// Engineer       : SIDDHARTH </q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>// Create Date    : 10-10-202i3</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>// File Name   	  : uart_seq_iem.sv</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>// Class Name 	  : uart_seq_item</q-m>
+<a name="7"><q-n>     7  </q-n></a><q-m>// Project Name	  : UART_UVC </q-m>
+<a name="8"><q-n>     8  </q-n></a><q-m>// Description	  : </q-m>
+<a name="9"><q-n>     9  </q-n></a><q-m>//////////////////////////////////////////////////////////////////////////</q-m>
+<a name="10"><q-n>     10  </q-n></a>
+<a name="11"><q-n>     11  </q-n></a><q-m>//--------------------------------------------------------------------------</q-m>
+<a name="12"><q-n>     12  </q-n></a><q-m>// class  : uart_seq_item </q-m>
+<a name="13"><q-n>     13  </q-n></a><q-m>//--------------------------------------------------------------------------</q-m>
+<a name="14"><q-n>     14  </q-n></a>
+<a name="15"><q-n>     15  </q-n></a><q-w>class</q-w> uart_seq_item <q-w>extends</q-w> uvm_sequence_item;
+<a name="16"><q-n>     16  </q-n></a>
+<a name="17"><q-n>     17  </q-n></a>
+<a name="18"><q-n>     18  </q-n></a>     <q-m>// tx and rx_shifter is collect data from monitor and transmited in scoreboard</q-m>
+<a name="19"><q-n>     19  </q-n></a>   <q-w>rand</q-w> <q-w>bit</q-w> [`THR_SIZE-1:0] parity_data;
+<a name="20"><q-n>     20  </q-n></a>   <q-w>bit</q-w> START,STOP,PARITY_ERROR;
+<a name="21"><q-n>     21  </q-n></a>   <q-w>bit</q-w> TX_START,TX_STOP,RX_START,RX_STOP;
+<a name="22"><q-n>     22  </q-n></a>   write_read  kind_e;
+<a name="23"><q-n>     23  </q-n></a>   <q-w>bit</q-w> wr;
+<a name="24"><q-n>     24  </q-n></a>   <q-w>static</q-w> <q-w>bit</q-w> tx_shift;
+<a name="25"><q-n>     25  </q-n></a>   <q-w>bit</q-w> rx_shift;
+<a name="26"><q-n>     26  </q-n></a>   <q-w>static</q-w> <q-w>bit</q-w> tx_valid;
+<a name="27"><q-n>     27  </q-n></a>   <q-w>bit</q-w> [`THR_SIZE-1:0] tx_shifter;
+<a name="28"><q-n>     28  </q-n></a>   <q-w>rand</q-w> <q-w>bit</q-w> [`THR_SIZE-1:0] tx_fifo;
+<a name="29"><q-n>     29  </q-n></a>   <q-w>bit</q-w> [`RBR_SIZE-1:0] rx_shifter;
+<a name="30"><q-n>     30  </q-n></a>   <q-w>bit</q-w> tx_gated_clk;
+<a name="31"><q-n>     31  </q-n></a>   <q-w>bit</q-w> rx_gated_clk;
+<a name="32"><q-n>     32  </q-n></a>   state RX_STATE;
+<a name="33"><q-n>     33  </q-n></a>   <q-w>static</q-w> state TX_STATE;
+<a name="34"><q-n>     34  </q-n></a>   <q-w>bit</q-w> CTS,RTS;
+<a name="35"><q-n>     35  </q-n></a>   <q-w>static</q-w> <q-w>bit</q-w> [`NO_OF_WR_TRANS-1:0]seq_count;  
+<a name="36"><q-n>     36  </q-n></a>`uvm_object_utils_begin(uart_seq_item)
+<a name="37"><q-n>     37  </q-n></a>  `uvm_field_enum(write_read,kind_e,UVM_ALL_ON)
+<a name="38"><q-n>     38  </q-n></a>  `uvm_field_enum(state,TX_STATE,UVM_ALL_ON)
+<a name="39"><q-n>     39  </q-n></a>  `uvm_field_enum(state,RX_STATE,UVM_ALL_ON)
+<a name="40"><q-n>     40  </q-n></a>  `uvm_field_int(tx_shifter,UVM_ALL_ON|UVM_DEC)
+<a name="41"><q-n>     41  </q-n></a>  `uvm_field_int(tx_fifo,UVM_ALL_ON|UVM_DEC)
+<a name="42"><q-n>     42  </q-n></a>  `uvm_field_int(tx_fifo,UVM_ALL_ON|UVM_BIN)
+<a name="43"><q-n>     43  </q-n></a>  `uvm_field_int(parity_data,UVM_ALL_ON|UVM_DEC)
+<a name="44"><q-n>     44  </q-n></a>  `uvm_field_int(rx_shifter,UVM_ALL_ON|UVM_BIN)
+<a name="45"><q-n>     45  </q-n></a>  `uvm_field_int(rx_shifter,UVM_ALL_ON|UVM_DEC)
+<a name="46"><q-n>     46  </q-n></a>  `uvm_field_int(TX_START,UVM_ALL_ON|UVM_DEC)
+<a name="47"><q-n>     47  </q-n></a>  `uvm_field_int(TX_STOP,UVM_ALL_ON|UVM_DEC)
+<a name="48"><q-n>     48  </q-n></a>  `uvm_field_int(RX_START,UVM_ALL_ON|UVM_DEC)
+<a name="49"><q-n>     49  </q-n></a>  `uvm_field_int(tx_shift,UVM_ALL_ON|UVM_DEC)
+<a name="50"><q-n>     50  </q-n></a>  `uvm_field_int(rx_shift,UVM_ALL_ON|UVM_DEC)
+<a name="51"><q-n>     51  </q-n></a>  `uvm_field_int(tx_valid,UVM_ALL_ON|UVM_DEC)
+<a name="52"><q-n>     52  </q-n></a>  `uvm_field_int(tx_gated_clk,UVM_ALL_ON|UVM_DEC)
+<a name="53"><q-n>     53  </q-n></a>  `uvm_field_int(rx_gated_clk,UVM_ALL_ON|UVM_DEC)
+<a name="54"><q-n>     54  </q-n></a>`uvm_object_utils_end
+<a name="55"><q-n>     55  </q-n></a>
+<a name="56"><q-n>     56  </q-n></a>    <q-w>constraint</q-w> parity { parity_data == tx_fifo;}
+<a name="57"><q-n>     57  </q-n></a>
+<a name="58"><q-n>     58  </q-n></a>  <q-w>function</q-w> <q-w>new</q-w>(<q-w>string</q-w> name = <q-l>"uart_config"</q-l>);
+<a name="59"><q-n>     59  </q-n></a>    <q-w>super</q-w>.<q-w>new</q-w>(name);
+<a name="60"><q-n>     60  </q-n></a>  <q-w>endfunction</q-w> <q-m>//new </q-m>
+<a name="61"><q-n>     61  </q-n></a>  <q-w>endclass</q-w>:uart_seq_item
+</pre>
+</tt>
+
+  
+</body>
+</html>

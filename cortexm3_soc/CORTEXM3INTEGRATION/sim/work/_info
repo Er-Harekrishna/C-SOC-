@@ -1,0 +1,32 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/avimi/Desktop/downloads/asic_design/xilinx/cortexm3_soc/CORTEXM3INTEGRATION/sim
+vCORTEXM3INTEGRATIONDS
+!s110 1573238416
+!i10b 1
+!s100 BU8dL2>gPFJ;n4E?FMQ2@2
+IRdRD^_RXaYlBK`^66^D6[1
+VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1573232977
+8../rtl/CORTEXM3INTEGRATIONDS.v
+F../rtl/CORTEXM3INTEGRATIONDS.v
+L0 30
+OP;L;10.4a;61
+r1
+!s85 0
+31
+!s108 1573238415.000000
+!s107 ../rtl/CORTEXM3INTEGRATIONDS.v|
+!s90 ../rtl/CORTEXM3INTEGRATIONDS.v|
+!s101 -O0
+!i113 1
+o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0
+n@c@o@r@t@e@x@m3@i@n@t@e@g@r@a@t@i@o@n@d@s

@@ -1,0 +1,139 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////////////////////////////////////////</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>//</q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>//  NAME      :- Pradip Prajapati</q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>//  FILE_NAME :- ahb_environment.sv</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>//</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////////////////////////////////////////</q-m>
+<a name="7"><q-n>     7  </q-n></a>
+<a name="8"><q-n>     8  </q-n></a>`ifndef AHB_ENVIRONMENT
+<a name="9"><q-n>     9  </q-n></a>`<q-a>define</q-w> AHB_ENVIRONMENT
+<a name="10"><q-n>     10  </q-n></a>
+<a name="11"><q-n>     11  </q-n></a><q-m>/**</q-m>
+<a name="12"><q-n>     12  </q-n></a><q-m> * Abstract:</q-m>
+<a name="13"><q-n>     13  </q-n></a><q-m> * ahb_env is used to provide an environment where uvc and scoreboard</q-m>
+<a name="14"><q-n>     14  </q-n></a><q-m> * and coverage are contained also the configuration is obtained from test is</q-m>
+<a name="15"><q-n>     15  </q-n></a><q-m> * used to set the configuration for each UVC.</q-m>
+<a name="16"><q-n>     16  </q-n></a><q-m> *</q-m>
+<a name="17"><q-n>     17  </q-n></a><q-m> */</q-m>
+<a name="18"><q-n>     18  </q-n></a>
+<a name="19"><q-n>     19  </q-n></a><q-w>class</q-w> ahb_env <q-w>extends</q-w> uvm_env;
+<a name="20"><q-n>     20  </q-n></a>
+<a name="21"><q-n>     21  </q-n></a>  <q-m>/** configurable class instance */</q-m>
+<a name="22"><q-n>     22  </q-n></a>  ahb_env_config env_cfg;
+<a name="23"><q-n>     23  </q-n></a>
+<a name="24"><q-n>     24  </q-n></a>  <q-m>/** factory registration */</q-m>
+<a name="25"><q-n>     25  </q-n></a>  `uvm_component_utils(ahb_env)
+<a name="26"><q-n>     26  </q-n></a>
+<a name="27"><q-n>     27  </q-n></a>  <q-m>/** lower component handles */</q-m>
+<a name="28"><q-n>     28  </q-n></a>  ahb_uvc           ahb_uvc_h[];
+<a name="29"><q-n>     29  </q-n></a>
+<a name="30"><q-n>     30  </q-n></a>  <q-m>/** scoreboard handle */</q-m>
+<a name="31"><q-n>     31  </q-n></a>  ahb_sb            ahb_sb_h;
+<a name="32"><q-n>     32  </q-n></a>
+<a name="33"><q-n>     33  </q-n></a>  sram_monitor      sram_mon_h;
+<a name="34"><q-n>     34  </q-n></a>
+<a name="35"><q-n>     35  </q-n></a>  <q-m>/** class constructor */</q-m>
+<a name="36"><q-n>     36  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>new</q-w>(<q-w>string</q-w> name=<q-l>"ahb_env"</q-l>,uvm_component parent=<q-w>null</q-w>);
+<a name="37"><q-n>     37  </q-n></a>
+<a name="38"><q-n>     38  </q-n></a>  <q-m>/** build phase */</q-m>
+<a name="39"><q-n>     39  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> build_phase(uvm_phase phase);
+<a name="40"><q-n>     40  </q-n></a>
+<a name="41"><q-n>     41  </q-n></a>  <q-m>/** connect phase */</q-m>
+<a name="42"><q-n>     42  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> connect_phase(uvm_phase phase);
+<a name="43"><q-n>     43  </q-n></a>
+<a name="44"><q-n>     44  </q-n></a><q-w>endclass</q-w> : ahb_env
+<a name="45"><q-n>     45  </q-n></a>
+<a name="46"><q-n>     46  </q-n></a><q-m>//*****************************************************************************</q-m>
+<a name="47"><q-n>     47  </q-n></a><q-m>//methods</q-m>
+<a name="48"><q-n>     48  </q-n></a><q-m>//*****************************************************************************</q-m>
+<a name="49"><q-n>     49  </q-n></a>
+<a name="50"><q-n>     50  </q-n></a><q-m>/** class constructor */</q-m>
+<a name="51"><q-n>     51  </q-n></a><q-w>function</q-w> ahb_env::<q-w>new</q-w>(<q-w>string</q-w> name=<q-l>"ahb_env"</q-l>,uvm_component parent=<q-w>null</q-w>);
+<a name="52"><q-n>     52  </q-n></a>  <q-w>super</q-w>.<q-w>new</q-w>(name,parent);
+<a name="53"><q-n>     53  </q-n></a><q-w>endfunction</q-w> : <q-w>new</q-w>
+<a name="54"><q-n>     54  </q-n></a>
+<a name="55"><q-n>     55  </q-n></a><q-m>/** build_phase - create the uvc, scoreboard and coverage collector classes */</q-m>
+<a name="56"><q-n>     56  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_env::build_phase(uvm_phase phase);
+<a name="57"><q-n>     57  </q-n></a>
+<a name="58"><q-n>     58  </q-n></a>  <q-m>/** configurations from test */</q-m>
+<a name="59"><q-n>     59  </q-n></a>  <q-w>if</q-w>(!uvm_config_db #(ahb_env_config)::get(<q-w>this</q-w>,<q-l>""</q-l>,<q-l>"env_cfg"</q-l>,env_cfg))
+<a name="60"><q-n>     60  </q-n></a>    `uvm_fatal(get_full_name(),<q-l>"Not Able To Get Environment Configurations!!!"</q-l>)
+<a name="61"><q-n>     61  </q-n></a>
+<a name="62"><q-n>     62  </q-n></a>  <q-m>/** create the lower components (UVC) */</q-m>
+<a name="63"><q-n>     63  </q-n></a>  ahb_uvc_h = <q-w>new</q-w>[env_cfg.no_of_uvc];
+<a name="64"><q-n>     64  </q-n></a>
+<a name="65"><q-n>     65  </q-n></a>  <q-w>foreach</q-w>(ahb_uvc_h[i])
+<a name="66"><q-n>     66  </q-n></a>  ahb_uvc_h[i] = ahb_uvc::type_id::create($sformatf(<q-l>"ahb_uvc_h[%0d]"</q-l>,i),<q-w>this</q-w>);
+<a name="67"><q-n>     67  </q-n></a> 
+<a name="68"><q-n>     68  </q-n></a>  <q-m>/** create scoreboard class */</q-m>
+<a name="69"><q-n>     69  </q-n></a>  <q-w>if</q-w>(env_cfg.has_scoreboard) ahb_sb_h = ahb_sb::type_id::create(<q-l>"ahb_sb_h"</q-l>,<q-w>this</q-w>);
+<a name="70"><q-n>     70  </q-n></a>
+<a name="71"><q-n>     71  </q-n></a>  sram_mon_h = sram_monitor::type_id::create(<q-l>"sram_mon_h"</q-l>,<q-w>this</q-w>);
+<a name="72"><q-n>     72  </q-n></a>
+<a name="73"><q-n>     73  </q-n></a>  <q-m>/** set the uvc configuration */</q-m>
+<a name="74"><q-n>     74  </q-n></a>  <q-w>foreach</q-w>(env_cfg.uvc_cfg[i])
+<a name="75"><q-n>     75  </q-n></a>  uvm_config_db #(ahb_uvc_config)::set(<q-w>this</q-w>,$sformatf(<q-l>"*ahb_uvc_h[%0d]*"</q-l>,i),<q-l>"uvc_cfg"</q-l>,
+<a name="76"><q-n>     76  </q-n></a>                                       env_cfg.uvc_cfg[i]);
+<a name="77"><q-n>     77  </q-n></a>
+<a name="78"><q-n>     78  </q-n></a><q-w>endfunction</q-w> : build_phase
+<a name="79"><q-n>     79  </q-n></a>
+<a name="80"><q-n>     80  </q-n></a><q-m>/** connect phase - connection of the master monitor with the scoreboard</q-m>
+<a name="81"><q-n>     81  </q-n></a><q-m> *  and coverage collector class.</q-m>
+<a name="82"><q-n>     82  </q-n></a><q-m> */</q-m>
+<a name="83"><q-n>     83  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_env::connect_phase(uvm_phase phase);
+<a name="84"><q-n>     84  </q-n></a>
+<a name="85"><q-n>     85  </q-n></a>  <q-m>/** connection of agents with the scoreboard */</q-m>
+<a name="86"><q-n>     86  </q-n></a>  <q-w>if</q-w>(env_cfg.has_scoreboard) <q-w>begin</q-w>
+<a name="87"><q-n>     87  </q-n></a>      
+<a name="88"><q-n>     88  </q-n></a>    <q-m>//M0	  </q-m>
+<a name="89"><q-n>     89  </q-n></a>    ahb_uvc_h[0].mas_agent_h[0].mas_mon_h.mas_ap_mon.connect(ahb_sb_h.mas_ai_sb_m0);
+<a name="90"><q-n>     90  </q-n></a>    
+<a name="91"><q-n>     91  </q-n></a>    ahb_uvc_h[0].slv_agent_h[0].slv_mon_h.slv_mon_sb.connect(ahb_sb_h.slv_ai_sb_s0);
+<a name="92"><q-n>     92  </q-n></a>    ahb_uvc_h[0].slv_agent_h[1].slv_mon_h.slv_mon_sb.connect(ahb_sb_h.slv_ai_sb_s1);
+<a name="93"><q-n>     93  </q-n></a>    ahb_uvc_h[0].slv_agent_h[3].slv_mon_h.slv_mon_sb.connect(ahb_sb_h.slv_ai_sb_s4);
+<a name="94"><q-n>     94  </q-n></a>    ahb_uvc_h[0].slv_agent_h[4].slv_mon_h.slv_mon_sb.connect(ahb_sb_h.slv_ai_sb_s5);
+<a name="95"><q-n>     95  </q-n></a> 
+<a name="96"><q-n>     96  </q-n></a>    <q-m>//M1</q-m>
+<a name="97"><q-n>     97  </q-n></a>    ahb_uvc_h[0].mas_agent_h[1].mas_mon_h.mas_ap_mon.connect(ahb_sb_h.mas_ai_sb_m1);
+<a name="98"><q-n>     98  </q-n></a>    
+<a name="99"><q-n>     99  </q-n></a>    ahb_uvc_h[0].slv_agent_h[0].slv_mon_h.slv_mon_sb.connect(ahb_sb_h.slv_ai_sb_s0);
+<a name="100"><q-n>     100  </q-n></a>    ahb_uvc_h[0].slv_agent_h[1].slv_mon_h.slv_mon_sb.connect(ahb_sb_h.slv_ai_sb_s1);
+<a name="101"><q-n>     101  </q-n></a>    ahb_uvc_h[0].slv_agent_h[3].slv_mon_h.slv_mon_sb.connect(ahb_sb_h.slv_ai_sb_s4);
+<a name="102"><q-n>     102  </q-n></a>    ahb_uvc_h[0].slv_agent_h[4].slv_mon_h.slv_mon_sb.connect(ahb_sb_h.slv_ai_sb_s5);
+<a name="103"><q-n>     103  </q-n></a>    
+<a name="104"><q-n>     104  </q-n></a>    <q-m>//M3</q-m>
+<a name="105"><q-n>     105  </q-n></a>    ahb_uvc_h[0].mas_agent_h[3].mas_mon_h.mas_ap_mon.connect(ahb_sb_h.mas_ai_sb_m3);
+<a name="106"><q-n>     106  </q-n></a>    
+<a name="107"><q-n>     107  </q-n></a>    ahb_uvc_h[0].slv_agent_h[2].slv_mon_h.slv_mon_sb.connect(ahb_sb_h.slv_ai_sb_s3);
+<a name="108"><q-n>     108  </q-n></a>    ahb_uvc_h[0].slv_agent_h[4].slv_mon_h.slv_mon_sb.connect(ahb_sb_h.slv_ai_sb_s5);
+<a name="109"><q-n>     109  </q-n></a>
+<a name="110"><q-n>     110  </q-n></a>    <q-m>//M2</q-m>
+<a name="111"><q-n>     111  </q-n></a>    ahb_uvc_h[0].mas_agent_h[2].mas_mon_h.mas_ap_mon.connect(ahb_sb_h.mas_ai_sb_m2);
+<a name="112"><q-n>     112  </q-n></a>    
+<a name="113"><q-n>     113  </q-n></a>    ahb_uvc_h[0].slv_agent_h[2].slv_mon_h.slv_mon_sb.connect(ahb_sb_h.slv_ai_sb_s3);
+<a name="114"><q-n>     114  </q-n></a>    ahb_uvc_h[0].slv_agent_h[3].slv_mon_h.slv_mon_sb.connect(ahb_sb_h.slv_ai_sb_s4);
+<a name="115"><q-n>     115  </q-n></a>
+<a name="116"><q-n>     116  </q-n></a>    ahb_uvc_h[0].mas_agent_h[4].mas_mon_h.mas_ap_mon.connect(ahb_sb_h.ahb_sram_ai_sb);
+<a name="117"><q-n>     117  </q-n></a>    sram_mon_h.item_collected_port.connect(ahb_sb_h.sram_ai_sb);
+<a name="118"><q-n>     118  </q-n></a>
+<a name="119"><q-n>     119  </q-n></a>  <q-w>end</q-w>
+<a name="120"><q-n>     120  </q-n></a>
+<a name="121"><q-n>     121  </q-n></a><q-w>endfunction</q-w> : connect_phase
+<a name="122"><q-n>     122  </q-n></a>
+<a name="123"><q-n>     123  </q-n></a>`<q-a>endif</q-w> <q-m>//AHB_ENVIRONMENT</q-m>
+</pre>
+</tt>
+
+  
+</body>
+</html>

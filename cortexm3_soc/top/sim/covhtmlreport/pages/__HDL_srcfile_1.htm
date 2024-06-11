@@ -1,0 +1,98 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>// Company        : SCALEDGE </q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>// Engineer       : SIDDHARTH </q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>// Create Date    : 10-10-2023</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>// File Name   	  : uart_interface.sv</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>// Class Name 	  : uart_interface</q-m>
+<a name="7"><q-n>     7  </q-n></a><q-m>// Project Name	  : UART_UVC </q-m>
+<a name="8"><q-n>     8  </q-n></a><q-m>// Description	  : </q-m>
+<a name="9"><q-n>     9  </q-n></a><q-m>//////////////////////////////////////////////////////////////////////////</q-m>
+<a name="10"><q-n>     10  </q-n></a>
+<a name="11"><q-n>     11  </q-n></a><q-m>/*</q-m>
+<a name="12"><q-n>     12  </q-n></a><q-m>interface uart_interface(input logic clk,rstn);</q-m>
+<a name="13"><q-n>     13  </q-n></a><q-m></q-m>
+<a name="14"><q-n>     14  </q-n></a><q-m></q-m>
+<a name="15"><q-n>     15  </q-n></a><q-m>    logic txd;    // Transmit Data</q-m>
+<a name="16"><q-n>     16  </q-n></a><q-m>    logic rxd;    // Receive Data</q-m>
+<a name="17"><q-n>     17  </q-n></a><q-m>    logic take_data; // for debugging purpose </q-m>
+<a name="18"><q-n>     18  </q-n></a><q-m>    int count;  // calculate the number of clock cycle for assertions</q-m>
+<a name="19"><q-n>     19  </q-n></a><q-m>     // for state machine assertion</q-m>
+<a name="20"><q-n>     20  </q-n></a><q-m>     // for state machine assertion</q-m>
+<a name="21"><q-n>     21  </q-n></a><q-m></q-m>
+<a name="22"><q-n>     22  </q-n></a><q-m> // driveing clocking block  </q-m>
+<a name="23"><q-n>     23  </q-n></a><q-m>  clocking uart_drv_cb@(posedge clk);</q-m>
+<a name="24"><q-n>     24  </q-n></a><q-m>      default input #1 output #1;       </q-m>
+<a name="25"><q-n>     25  </q-n></a><q-m>      output txd;</q-m>
+<a name="26"><q-n>     26  </q-n></a><q-m>  endclocking</q-m>
+<a name="27"><q-n>     27  </q-n></a><q-m>   </q-m>
+<a name="28"><q-n>     28  </q-n></a><q-m>  // monitor clocking block</q-m>
+<a name="29"><q-n>     29  </q-n></a><q-m>  clocking uart_mon_cb@(posedge clk);</q-m>
+<a name="30"><q-n>     30  </q-n></a><q-m>      default input #1 output #1;</q-m>
+<a name="31"><q-n>     31  </q-n></a><q-m>      input  rxd;</q-m>
+<a name="32"><q-n>     32  </q-n></a><q-m>  endclocking</q-m>
+<a name="33"><q-n>     33  </q-n></a><q-m></q-m>
+<a name="34"><q-n>     34  </q-n></a><q-m> </q-m>
+<a name="35"><q-n>     35  </q-n></a><q-m>endinterface</q-m>
+<a name="36"><q-n>     36  </q-n></a><q-m>*/</q-m>
+<a name="37"><q-n>     37  </q-n></a><q-w>interface</q-w> uart_interface(<q-w>input</q-w> <q-w>logic</q-w> clk,rstn);
+<a name="38"><q-n>     38  </q-n></a>
+<a name="39"><q-n>     39  </q-n></a>
+<a name="40"><q-n>     40  </q-n></a>    <q-w>logic</q-w> txd;    <q-m>// Transmit Data</q-m>
+<a name="41"><q-n>     41  </q-n></a>    <q-w>logic</q-w> rxd;    <q-m>// Receive Data</q-m>
+<a name="42"><q-n>     42  </q-n></a>    <q-w>logic</q-w> take_data; <q-m>// for debugging purpose</q-m>
+<a name="43"><q-n>     43  </q-n></a>    <q-w>int</q-w> count; <q-m>// for assertion</q-m>
+<a name="44"><q-n>     44  </q-n></a>    <q-w>int</q-w> tx_count,rx_count;
+<a name="45"><q-n>     45  </q-n></a>    <q-w>logic</q-w> tx_shift; 
+<a name="46"><q-n>     46  </q-n></a>    <q-w>logic</q-w> rx_shift;
+<a name="47"><q-n>     47  </q-n></a>
+<a name="48"><q-n>     48  </q-n></a>    <q-w>int</q-w> tx_frame_count;
+<a name="49"><q-n>     49  </q-n></a>    <q-w>logic</q-w> [`THR_SIZE-1:0] rx_shifter = 'b1;
+<a name="50"><q-n>     50  </q-n></a>    <q-w>logic</q-w> [`THR_SIZE-1:0] tx_shifter = 'b1;
+<a name="51"><q-n>     51  </q-n></a>    <q-w>logic</q-w> [`THR_SIZE:0]tx_parity;
+<a name="52"><q-n>     52  </q-n></a>    <q-w>logic</q-w> tx_valid;
+<a name="53"><q-n>     53  </q-n></a>
+<a name="54"><q-n>     54  </q-n></a>    <q-m>// state machine for rx and tx which will change acording configuration</q-m>
+<a name="55"><q-n>     55  </q-n></a>    state RX_STATE;
+<a name="56"><q-n>     56  </q-n></a>    state TX_STATE;
+<a name="57"><q-n>     57  </q-n></a>    
+<a name="58"><q-n>     58  </q-n></a>    <q-m>// baudrate enable and disable pins</q-m>
+<a name="59"><q-n>     59  </q-n></a>    <q-w>logic</q-w> tx_gated_clk;
+<a name="60"><q-n>     60  </q-n></a>    <q-w>logic</q-w> rx_gated_clk;
+<a name="61"><q-n>     61  </q-n></a>
+<a name="62"><q-n>     62  </q-n></a>
+<a name="63"><q-n>     63  </q-n></a>  <q-m>// driveing clocking block  </q-m>
+<a name="64"><q-n>     64  </q-n></a>  <q-w>clocking</q-w> uart_drv_cb@(<q-a>posedge</q-w> clk);
+<a name="65"><q-n>     65  </q-n></a>  <q-w>default</q-w> <q-w>input</q-w> #1 <q-w>output</q-w> #1;   
+<a name="66"><q-n>     66  </q-n></a>      <q-w>input</q-w> clk;
+<a name="67"><q-n>     67  </q-n></a>      <q-w>output</q-w> txd;
+<a name="68"><q-n>     68  </q-n></a>      <q-w>output</q-w> tx_gated_clk;
+<a name="69"><q-n>     69  </q-n></a>      <q-w>output</q-w> rx_gated_clk;
+<a name="70"><q-n>     70  </q-n></a>  <q-w>endclocking</q-w>
+<a name="71"><q-n>     71  </q-n></a>   
+<a name="72"><q-n>     72  </q-n></a>  <q-m>// monitor clocking block</q-m>
+<a name="73"><q-n>     73  </q-n></a>  <q-w>clocking</q-w> uart_mon_cb@(<q-a>posedge</q-w> clk);
+<a name="74"><q-n>     74  </q-n></a>  <q-w>default</q-w> <q-w>input</q-w> #1 <q-w>output</q-w> #1;   
+<a name="75"><q-n>     75  </q-n></a>      <q-w>input</q-w>  txd;
+<a name="76"><q-n>     76  </q-n></a>      <q-w>input</q-w>  rstn;
+<a name="77"><q-n>     77  </q-n></a>      <q-w>input</q-w>  rxd;
+<a name="78"><q-n>     78  </q-n></a>
+<a name="79"><q-n>     79  </q-n></a>  <q-w>endclocking</q-w>
+<a name="80"><q-n>     80  </q-n></a>
+<a name="81"><q-n>     81  </q-n></a><q-w>endinterface</q-w>
+<a name="82"><q-n>     82  </q-n></a>
+</pre>
+</tt>
+
+  
+</body>
+</html>

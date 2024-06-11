@@ -1,0 +1,182 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>//-----------------------------------------------------------------------------</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>// The confidential and proprietary information contained in this file may</q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>// only be used by a person authorised under and to the extent permitted</q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>// by a subsisting licensing agreement from ARM Limited.</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>//</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>//            (C) COPYRIGHT 2001-2013-2019 ARM Limited.</q-m>
+<a name="7"><q-n>     7  </q-n></a><q-m>//                ALL RIGHTS RESERVED</q-m>
+<a name="8"><q-n>     8  </q-n></a><q-m>//</q-m>
+<a name="9"><q-n>     9  </q-n></a><q-m>// This entire notice must be reproduced on all copies of this file</q-m>
+<a name="10"><q-n>     10  </q-n></a><q-m>// and copies of this file may only be made by a person if such person is</q-m>
+<a name="11"><q-n>     11  </q-n></a><q-m>// permitted to do so under the terms of a subsisting license agreement</q-m>
+<a name="12"><q-n>     12  </q-n></a><q-m>// from ARM Limited.</q-m>
+<a name="13"><q-n>     13  </q-n></a><q-m>//</q-m>
+<a name="14"><q-n>     14  </q-n></a><q-m>//      SVN Information</q-m>
+<a name="15"><q-n>     15  </q-n></a><q-m>//</q-m>
+<a name="16"><q-n>     16  </q-n></a><q-m>//      Checked In          : $Date: 2012-10-15 18:01:36 +0100 (Mon, 15 Oct 2012) $</q-m>
+<a name="17"><q-n>     17  </q-n></a><q-m>//</q-m>
+<a name="18"><q-n>     18  </q-n></a><q-m>//      Revision            : $Revision: 225465 $</q-m>
+<a name="19"><q-n>     19  </q-n></a><q-m>//</q-m>
+<a name="20"><q-n>     20  </q-n></a><q-m>//      Release Information : Cortex-M System Design Kit-r1p0-01rel0</q-m>
+<a name="21"><q-n>     21  </q-n></a><q-m>//</q-m>
+<a name="22"><q-n>     22  </q-n></a><q-m>//-----------------------------------------------------------------------------</q-m>
+<a name="23"><q-n>     23  </q-n></a><q-m>//</q-m>
+<a name="24"><q-n>     24  </q-n></a><q-m>//------------------------------------------------------------------------------</q-m>
+<a name="25"><q-n>     25  </q-n></a><q-m>//  Abstract            : The Output Arbitration is used to determine which</q-m>
+<a name="26"><q-n>     26  </q-n></a><q-m>//                        of the input stages will be given access to the</q-m>
+<a name="27"><q-n>     27  </q-n></a><q-m>//                        shared slave.</q-m>
+<a name="28"><q-n>     28  </q-n></a><q-m>//</q-m>
+<a name="29"><q-n>     29  </q-n></a><q-m>//  Notes               : The bus matrix has sparse connectivity.</q-m>
+<a name="30"><q-n>     30  </q-n></a><q-m>//</q-m>
+<a name="31"><q-n>     31  </q-n></a><q-m>//-----------------------------------------------------------------------------</q-m>
+<a name="32"><q-n>     32  </q-n></a>
+<a name="33"><q-n>     33  </q-n></a>`<q-a>timescale</q-w> 1<q-v>ns</q-w>/1<q-v>ps</q-w>
+<a name="34"><q-n>     34  </q-n></a>
+<a name="35"><q-n>     35  </q-n></a><q-w>module</q-w> cmsdk_MyArbiterNameM3 (
+<a name="36"><q-n>     36  </q-n></a>
+<a name="37"><q-n>     37  </q-n></a>    <q-m>// Common AHB signals</q-m>
+<a name="38"><q-n>     38  </q-n></a>    HCLK ,
+<a name="39"><q-n>     39  </q-n></a>    HRESETn,
+<a name="40"><q-n>     40  </q-n></a>
+<a name="41"><q-n>     41  </q-n></a>    <q-m>// Input port request signals</q-m>
+<a name="42"><q-n>     42  </q-n></a>    req_port2,
+<a name="43"><q-n>     43  </q-n></a>    req_port4,
+<a name="44"><q-n>     44  </q-n></a>
+<a name="45"><q-n>     45  </q-n></a>    HREADYM,
+<a name="46"><q-n>     46  </q-n></a>    HSELM,
+<a name="47"><q-n>     47  </q-n></a>    HTRANSM,
+<a name="48"><q-n>     48  </q-n></a>    HBURSTM,
+<a name="49"><q-n>     49  </q-n></a>    HMASTLOCKM,
+<a name="50"><q-n>     50  </q-n></a>
+<a name="51"><q-n>     51  </q-n></a>    <q-m>// Arbiter outputs</q-m>
+<a name="52"><q-n>     52  </q-n></a>    addr_in_port,
+<a name="53"><q-n>     53  </q-n></a>    no_port
+<a name="54"><q-n>     54  </q-n></a>
+<a name="55"><q-n>     55  </q-n></a>    );
+<a name="56"><q-n>     56  </q-n></a>
+<a name="57"><q-n>     57  </q-n></a>
+<a name="58"><q-n>     58  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="59"><q-n>     59  </q-n></a><q-m>// Input and Output declarations</q-m>
+<a name="60"><q-n>     60  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="61"><q-n>     61  </q-n></a>
+<a name="62"><q-n>     62  </q-n></a>    <q-m>// Common AHB signals</q-m>
+<a name="63"><q-n>     63  </q-n></a>    <q-w>input</q-w>        HCLK;         <q-m>// AHB system clock</q-m>
+<a name="64"><q-n>     64  </q-n></a>    <q-w>input</q-w>        HRESETn;      <q-m>// AHB system reset</q-m>
+<a name="65"><q-n>     65  </q-n></a>
+<a name="66"><q-n>     66  </q-n></a>    <q-w>input</q-w>        req_port2;     <q-m>// Port 2 request signal</q-m>
+<a name="67"><q-n>     67  </q-n></a>    <q-w>input</q-w>        req_port4;     <q-m>// Port 4 request signal</q-m>
+<a name="68"><q-n>     68  </q-n></a>
+<a name="69"><q-n>     69  </q-n></a>    <q-w>input</q-w>        HREADYM;      <q-m>// Transfer done</q-m>
+<a name="70"><q-n>     70  </q-n></a>    <q-w>input</q-w>        HSELM;        <q-m>// Slave select line</q-m>
+<a name="71"><q-n>     71  </q-n></a>    <q-w>input</q-w>  [1:0] HTRANSM;      <q-m>// Transfer type</q-m>
+<a name="72"><q-n>     72  </q-n></a>    <q-w>input</q-w>  [2:0] HBURSTM;      <q-m>// Burst type</q-m>
+<a name="73"><q-n>     73  </q-n></a>    <q-w>input</q-w>        HMASTLOCKM;   <q-m>// Locked transfer</q-m>
+<a name="74"><q-n>     74  </q-n></a>
+<a name="75"><q-n>     75  </q-n></a>    <q-w>output</q-w> [2:0] addr_in_port;   <q-m>// Port address input</q-m>
+<a name="76"><q-n>     76  </q-n></a>    <q-w>output</q-w>       no_port;       <q-m>// No port selected signal</q-m>
+<a name="77"><q-n>     77  </q-n></a>
+<a name="78"><q-n>     78  </q-n></a>
+<a name="79"><q-n>     79  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="80"><q-n>     80  </q-n></a><q-m>// Wire declarations</q-m>
+<a name="81"><q-n>     81  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="82"><q-n>     82  </q-n></a>    <q-w>wire</q-w>       HCLK;           <q-m>// AHB system clock</q-m>
+<a name="83"><q-n>     83  </q-n></a>    <q-w>wire</q-w>       HRESETn;        <q-m>// AHB system reset</q-m>
+<a name="84"><q-n>     84  </q-n></a>    <q-w>wire</q-w>       req_port2;       <q-m>// Port 2 request signal</q-m>
+<a name="85"><q-n>     85  </q-n></a>    <q-w>wire</q-w>       req_port4;       <q-m>// Port 4 request signal</q-m>
+<a name="86"><q-n>     86  </q-n></a>    <q-w>wire</q-w>       HREADYM;        <q-m>// Transfer done</q-m>
+<a name="87"><q-n>     87  </q-n></a>    <q-w>wire</q-w>       HSELM;          <q-m>// Slave select line</q-m>
+<a name="88"><q-n>     88  </q-n></a>    <q-w>wire</q-w> [1:0] HTRANSM;        <q-m>// Transfer type</q-m>
+<a name="89"><q-n>     89  </q-n></a>    <q-w>wire</q-w>       HMASTLOCKM;     <q-m>// Locked transfer</q-m>
+<a name="90"><q-n>     90  </q-n></a>    <q-w>wire</q-w> [2:0] addr_in_port;     <q-m>// Port address input</q-m>
+<a name="91"><q-n>     91  </q-n></a>    <q-w>reg</q-w>        no_port;         <q-m>// No port selected signal</q-m>
+<a name="92"><q-n>     92  </q-n></a>
+<a name="93"><q-n>     93  </q-n></a>
+<a name="94"><q-n>     94  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="95"><q-n>     95  </q-n></a><q-m>// Signal declarations</q-m>
+<a name="96"><q-n>     96  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="97"><q-n>     97  </q-n></a>    <q-w>reg</q-w>  [2:0] addr_in_port_next; <q-m>// D-input of addr_in_port</q-m>
+<a name="98"><q-n>     98  </q-n></a>    <q-w>reg</q-w>  [2:0] iaddr_in_port;    <q-m>// Internal version of addr_in_port</q-m>
+<a name="99"><q-n>     99  </q-n></a>    <q-w>reg</q-w>        no_port_next;     <q-m>// D-input of no_port</q-m>
+<a name="100"><q-n>     100  </q-n></a>
+<a name="101"><q-n>     101  </q-n></a>
+<a name="102"><q-n>     102  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="103"><q-n>     103  </q-n></a><q-m>// Beginning of main code</q-m>
+<a name="104"><q-n>     104  </q-n></a><q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="105"><q-n>     105  </q-n></a><q-m>//------------------------------------------------------------------------------</q-m>
+<a name="106"><q-n>     106  </q-n></a><q-m>// Port Selection</q-m>
+<a name="107"><q-n>     107  </q-n></a><q-m>//------------------------------------------------------------------------------</q-m>
+<a name="108"><q-n>     108  </q-n></a><q-m>// The Output Arbitration function looks at all the requests to use the</q-m>
+<a name="109"><q-n>     109  </q-n></a><q-m>//  output port and determines which is the highest priority request. This</q-m>
+<a name="110"><q-n>     110  </q-n></a><q-m>//  version of the arbitration logic uses a fixed priority scheme where input</q-m>
+<a name="111"><q-n>     111  </q-n></a><q-m>//  port 0 is the highest priority, input port 1 is the second highest</q-m>
+<a name="112"><q-n>     112  </q-n></a><q-m>//  priority, etc.</q-m>
+<a name="113"><q-n>     113  </q-n></a><q-m>// If none of the input ports are requesting then the current port will</q-m>
+<a name="114"><q-n>     114  </q-n></a><q-m>//  remain active if it is performing IDLE transfers to the selected slave. If</q-m>
+<a name="115"><q-n>     115  </q-n></a><q-m>//  this is not the case then the no_port signal will be asserted which</q-m>
+<a name="116"><q-n>     116  </q-n></a><q-m>//  indicates that no input port should be selected.</q-m>
+<a name="117"><q-n>     117  </q-n></a>
+<a name="118"><q-n>     118  </q-n></a>  <q-w>always</q-w> @ (
+<a name="119"><q-n>     119  </q-n></a>             req_port2 <q-t>or</q-w>
+<a name="120"><q-n>     120  </q-n></a>             req_port4 <q-t>or</q-w>
+<a name="121"><q-n>     121  </q-n></a>             HSELM <q-t>or</q-w> HTRANSM <q-t>or</q-w> HMASTLOCKM <q-t>or</q-w> iaddr_in_port
+<a name="122"><q-n>     122  </q-n></a>           )
+<a name="123"><q-n>     123  </q-n></a>
+<a name="124"><q-n>     124  </q-n></a>  <q-w>begin</q-w> : p_sel_port_comb
+<a name="125"><q-n>     125  </q-n></a>    <q-m>// Default values are used for addr_in_port_next and no_port_next</q-m>
+<a name="126"><q-n>     126  </q-n></a>    no_port_next     = 1'b0;
+<a name="127"><q-n>     127  </q-n></a>    addr_in_port_next = iaddr_in_port;
+<a name="128"><q-n>     128  </q-n></a>
+<a name="129"><q-n>     129  </q-n></a>    <q-w>if</q-w> (HMASTLOCKM)
+<a name="130"><q-n>     130  </q-n></a>      addr_in_port_next = iaddr_in_port;
+<a name="131"><q-n>     131  </q-n></a>    <q-w>else</q-w> <q-w>if</q-w> ( req_port2 | ( (iaddr_in_port == 3'b010) &amp; HSELM &amp;
+<a name="132"><q-n>     132  </q-n></a>                            (HTRANSM != 2'b00) ) )
+<a name="133"><q-n>     133  </q-n></a>      addr_in_port_next = 3'b010;
+<a name="134"><q-n>     134  </q-n></a>    <q-w>else</q-w> <q-w>if</q-w> ( req_port4 | ( (iaddr_in_port == 3'b100) &amp; HSELM &amp;
+<a name="135"><q-n>     135  </q-n></a>                            (HTRANSM != 2'b00) ) )
+<a name="136"><q-n>     136  </q-n></a>      addr_in_port_next = 3'b100;
+<a name="137"><q-n>     137  </q-n></a>    <q-w>else</q-w> <q-w>if</q-w> (HSELM)
+<a name="138"><q-n>     138  </q-n></a>      addr_in_port_next = iaddr_in_port;
+<a name="139"><q-n>     139  </q-n></a>    <q-w>else</q-w>
+<a name="140"><q-n>     140  </q-n></a>      no_port_next = 1'b1;
+<a name="141"><q-n>     141  </q-n></a>  <q-w>end</q-w> <q-m>// block: p_sel_port_comb</q-m>
+<a name="142"><q-n>     142  </q-n></a>
+<a name="143"><q-n>     143  </q-n></a>
+<a name="144"><q-n>     144  </q-n></a>  <q-m>// Sequential process</q-m>
+<a name="145"><q-n>     145  </q-n></a>  <q-w>always</q-w> @ (<q-a>negedge</q-w> HRESETn <q-t>or</q-w> <q-a>posedge</q-w> HCLK)
+<a name="146"><q-n>     146  </q-n></a>  <q-w>begin</q-w> : p_addr_in_port_reg
+<a name="147"><q-n>     147  </q-n></a>    <q-w>if</q-w> (~HRESETn)
+<a name="148"><q-n>     148  </q-n></a>      <q-w>begin</q-w>
+<a name="149"><q-n>     149  </q-n></a>        no_port      &lt;= 1'b1;
+<a name="150"><q-n>     150  </q-n></a>        iaddr_in_port &lt;= {3{1'b0}};
+<a name="151"><q-n>     151  </q-n></a>      <q-w>end</q-w>
+<a name="152"><q-n>     152  </q-n></a>    <q-w>else</q-w>
+<a name="153"><q-n>     153  </q-n></a>      <q-w>if</q-w> (HREADYM)
+<a name="154"><q-n>     154  </q-n></a>        <q-w>begin</q-w>
+<a name="155"><q-n>     155  </q-n></a>          no_port      &lt;= no_port_next;
+<a name="156"><q-n>     156  </q-n></a>          iaddr_in_port &lt;= addr_in_port_next;
+<a name="157"><q-n>     157  </q-n></a>        <q-w>end</q-w>
+<a name="158"><q-n>     158  </q-n></a>  <q-w>end</q-w> <q-m>// block: p_addr_in_port_reg</q-m>
+<a name="159"><q-n>     159  </q-n></a>
+<a name="160"><q-n>     160  </q-n></a>  <q-m>// Drive output with internal version</q-m>
+<a name="161"><q-n>     161  </q-n></a>  <q-w>assign</q-w> addr_in_port = iaddr_in_port;
+<a name="162"><q-n>     162  </q-n></a>
+<a name="163"><q-n>     163  </q-n></a>
+<a name="164"><q-n>     164  </q-n></a><q-w>endmodule</q-w>
+<a name="165"><q-n>     165  </q-n></a>
+<a name="166"><q-n>     166  </q-n></a><q-m>// --================================= End ===================================--</q-m>
+</pre>
+</tt>
+
+  
+</body>
+</html>

@@ -1,0 +1,17 @@
+QuestaSim-64 vcover 10.4e Coverage Utility 2016.04 Apr  9 2016
+Start time: 18:00:58 on May 13,2024
+vcover merge merge.ucdb Test_01.ucdb Test_03.ucdb Test_04.ucdb Test_05.ucdb Test_06.ucdb Test_07.ucdb Test_08.ucdb Test_09.ucdb Test_11.ucdb Test_12.ucdb 
+Merging file Test_01.ucdb
+Merging file Test_03.ucdb
+Merging file Test_04.ucdb
+Merging file Test_05.ucdb
+Merging file Test_06.ucdb
+Merging file Test_07.ucdb
+Merging file Test_08.ucdb
+Merging file Test_09.ucdb
+Merging file Test_11.ucdb
+Merging file Test_12.ucdb
+Writing merged result to merge.ucdb
+
+End time: 18:01:07 on May 13,2024, Elapsed time: 0:00:09
+Errors: 0, Warnings: 0

@@ -1,0 +1,117 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/Jaydeep Solanki/Desktop/b2b uvc/SIM
+Yuart_interface
+Z0 DXx6 sv_std 3 std 0 22 WmjPaeP=7F5?QFXzJ>D[Q2
+Z1 DXx6 mtiUvm 7 uvm_pkg 0 22 02@e1POGTiN=><];7MkU?0
+Z2 DXx4 work 16 uart_top_sv_unit 0 22 eCJan_8fTPSKi1mzAQQDN2
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
+31
+!i10b 1
+!s100 ]9`?5a;VP?6Xk<T8FG9e_2
+I_7E5_=eGMOl1TD;h<1_>?0
+Z4 !s105 uart_top_sv_unit
+S1
+Z5 dC:/Users/Jaydeep Solanki/Desktop/New folder b2b tx ok/SIM
+w1701714654
+8../UART_UVC/TB/uart_interface.sv
+Z6 F../UART_UVC/TB/uart_interface.sv
+L0 37
+Z7 OL;L;10.4e;61
+Z8 !s108 1704201597.000000
+Z9 !s107 ../UART_UVC/TEST/uart_tx_rx_write_read_with_cmd_test.sv|../UART_UVC/TEST/apb_uart_rx_read_with_cmd_test.sv|../UART_UVC/TEST/uart_base_test.sv|../UART_UVC/SEQS/uart_slave_read_seqs.sv|../UART_UVC/SEQS/uart_slave_write_seqs.sv|../UART_UVC/SEQS/uart_reg_config_seqs.sv|../UART_UVC/ENV/uvc_env_top.sv|../UART_UVC/ENV/uart_uvc_env.sv|../UART_UVC/ENV/uart_scoreboard.sv|../UART_UVC/UART_RX_AGENT/uart_rx_agent.sv|../UART_UVC/UART_TX_AGENT/uart_tx_agent.sv|../UART_UVC/UART_TX_AGENT/uart_driver.sv|../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv|../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv|../UART_UVC/SRC/uart_agent_config.sv|../UART_UVC/UART_TX_AGENT/uart_sequencer.sv|../UART_UVC/SRC/uart_seq_item.sv|../UART_UVC/ENV/apb_env_config.sv|../UART_UVC/SRC/uart_reg_config.sv|../UART_UVC/TB/uart_interface.sv|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_deprecated_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_reg_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_callback_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_sequence_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/tlm1/uvm_tlm_imps.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_tlm_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_printer_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_object_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_phase_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_message_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_version_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/uvm_macros.svh|../UART_UVC/ENV/apb_defines.sv|../UART_UVC/TB/uart_top.sv|
+Z10 !s90 -reportprogress|300|../UART_UVC/TB/uart_top.sv|+incdir+../UART_UVC/TB|+incdir+../UART_UVC/ENV|+incdir+../UART_UVC/TEST|+incdir+../UART_UVC/UART_TX_AGENT|+incdir+../UART_UVC/UART_RX_AGENT|+incdir+../UART_UVC/SEQS|+incdir+../UART_UVC/SRC|+define+THR_SIZE=8|+define+PWDATA_WIDTH=8|+UVM_OBJECTION_TRACE|
+!i113 0
+Z11 o+UVM_OBJECTION_TRACE -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z12 !s92 +incdir+../UART_UVC/TB +incdir+../UART_UVC/ENV +incdir+../UART_UVC/TEST +incdir+../UART_UVC/UART_TX_AGENT +incdir+../UART_UVC/UART_RX_AGENT +incdir+../UART_UVC/SEQS +incdir+../UART_UVC/SRC +define+THR_SIZE=8 +define+PWDATA_WIDTH=8 +UVM_OBJECTION_TRACE -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+vuart_top
+R0
+R1
+R2
+R3
+r1
+!s85 0
+31
+!i10b 1
+!s100 ?Imb4S^11L3gSR2J1[Ion0
+Izj@Nb9H>63XoGeU[7CF=d2
+R4
+S1
+R5
+w1701345518
+Z13 8../UART_UVC/TB/uart_top.sv
+Z14 F../UART_UVC/TB/uart_top.sv
+L0 86
+R7
+R8
+R9
+R10
+!i113 0
+R11
+R12
+Xuart_top_sv_unit
+R0
+R1
+VeCJan_8fTPSKi1mzAQQDN2
+r1
+!s85 0
+31
+!i10b 1
+!s100 lZj?DA<=So0zz20JRA?R^0
+IeCJan_8fTPSKi1mzAQQDN2
+!i103 1
+S1
+R5
+w1702549299
+R13
+R14
+F../UART_UVC/ENV/apb_defines.sv
+FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/uvm_macros.svh
+FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_version_defines.svh
+FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_message_defines.svh
+FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_phase_defines.svh
+FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_object_defines.svh
+FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_printer_defines.svh
+FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_tlm_defines.svh
+FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/tlm1/uvm_tlm_imps.svh
+FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_sequence_defines.svh
+FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_callback_defines.svh
+FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_reg_defines.svh
+FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_deprecated_defines.svh
+R6
+F../UART_UVC/SRC/uart_reg_config.sv
+F../UART_UVC/ENV/apb_env_config.sv
+F../UART_UVC/SRC/uart_seq_item.sv
+F../UART_UVC/UART_TX_AGENT/uart_sequencer.sv
+F../UART_UVC/SRC/uart_agent_config.sv
+F../UART_UVC/UART_TX_AGENT/uart_tx_monitor.sv
+F../UART_UVC/UART_RX_AGENT/uart_rx_monitor.sv
+F../UART_UVC/UART_TX_AGENT/uart_driver.sv
+F../UART_UVC/UART_TX_AGENT/uart_tx_agent.sv
+F../UART_UVC/UART_RX_AGENT/uart_rx_agent.sv
+F../UART_UVC/ENV/uart_scoreboard.sv
+F../UART_UVC/ENV/uart_uvc_env.sv
+F../UART_UVC/ENV/uvc_env_top.sv
+F../UART_UVC/SEQS/uart_reg_config_seqs.sv
+F../UART_UVC/SEQS/uart_slave_write_seqs.sv
+F../UART_UVC/SEQS/uart_slave_read_seqs.sv
+F../UART_UVC/TEST/uart_base_test.sv
+F../UART_UVC/TEST/apb_uart_rx_read_with_cmd_test.sv
+F../UART_UVC/TEST/uart_tx_rx_write_read_with_cmd_test.sv
+L0 16
+R7
+R8
+R9
+R10
+!i113 0
+R11
+R12

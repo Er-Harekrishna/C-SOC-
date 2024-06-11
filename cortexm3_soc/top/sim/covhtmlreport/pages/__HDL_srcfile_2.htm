@@ -1,0 +1,110 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>// Company        : SCALEDGE </q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>// Engineer       : SIDDHARTH </q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>// Create Date    : 10-10-2023</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>// File Name   	  : uart_reg_config.sv</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>// Class Name 	  : uart_reg_config</q-m>
+<a name="7"><q-n>     7  </q-n></a><q-m>// Project Name	  : UART_UVC </q-m>
+<a name="8"><q-n>     8  </q-n></a><q-m>// Description	  : </q-m>
+<a name="9"><q-n>     9  </q-n></a><q-m>//////////////////////////////////////////////////////////////////////////</q-m>
+<a name="10"><q-n>     10  </q-n></a>
+<a name="11"><q-n>     11  </q-n></a><q-m>//--------------------------------------------------------------------------</q-m>
+<a name="12"><q-n>     12  </q-n></a><q-m>// class  : uart_reg_config</q-m>
+<a name="13"><q-n>     13  </q-n></a><q-m>//--------------------------------------------------------------------------</q-m>
+<a name="14"><q-n>     14  </q-n></a>
+<a name="15"><q-n>     15  </q-n></a>
+<a name="16"><q-n>     16  </q-n></a><q-w>class</q-w> uart_reg_config  <q-w>extends</q-w> uvm_object;
+<a name="17"><q-n>     17  </q-n></a>    
+<a name="18"><q-n>     18  </q-n></a>    <q-m>//factory register</q-m>
+<a name="19"><q-n>     19  </q-n></a>    `uvm_object_utils(uart_reg_config);
+<a name="20"><q-n>     20  </q-n></a>    <q-w>static</q-w>   write_read                 rw;
+<a name="21"><q-n>     21  </q-n></a>    <q-m>//stop bit   1 = 2 stop bit and if this bit is 0 = 1 stop bit</q-m>
+<a name="22"><q-n>     22  </q-n></a> <q-w>static</q-w>   stop_bit                tx_stop_bit,rx_stop_bit;
+<a name="23"><q-n>     23  </q-n></a>
+<a name="24"><q-n>     24  </q-n></a> <q-w>static</q-w>   start_bit               tx_start_bit,rx_start_bit;
+<a name="25"><q-n>     25  </q-n></a>
+<a name="26"><q-n>     26  </q-n></a> <q-w>static</q-w>   shifting                tx_data_shift,rx_data_shift;
+<a name="27"><q-n>     27  </q-n></a>   <q-m>//word length select   00 = 5 bit  01 = 6 bit 10 = 7 bit 11 = 8 bit </q-m>
+<a name="28"><q-n>     28  </q-n></a> <q-w>static</q-w>   word_length             tx_word_length,rx_word_length;
+<a name="29"><q-n>     29  </q-n></a>
+<a name="30"><q-n>     30  </q-n></a>   <q-m>//parity bit disable this bit is 1 = parity on and 0 =  off    </q-m>
+<a name="31"><q-n>     31  </q-n></a> <q-w>static</q-w>   parity                  tx_parity,rx_parity;
+<a name="32"><q-n>     32  </q-n></a>    
+<a name="33"><q-n>     33  </q-n></a>    <q-m>//EVEN OR ODD PAITY if this bit is 1 = even parity and 0 means odd </q-m>
+<a name="34"><q-n>     34  </q-n></a>   <q-m>//but this applicable only if parity is enable a stick parity is off when LCR's</q-m>
+<a name="35"><q-n>     35  </q-n></a>   <q-m>//5th bit low and it's    on when it 5th bit 1 but this is true only when parity bit is enable which is LCR's 3rd bit</q-m>
+<a name="36"><q-n>     36  </q-n></a> <q-w>static</q-w>   parity_types            tx_parity_types,rx_parity_types;
+<a name="37"><q-n>     37  </q-n></a>
+<a name="38"><q-n>     38  </q-n></a>   <q-m>//DLAB Disable so we can Acess RBR THR IER if this bit is 1 means DLL we have which is important is baud rate</q-m>
+<a name="39"><q-n>     39  </q-n></a> <q-w>static</q-w>   dlab_bit                tx_dlab,rx_dlab;
+<a name="40"><q-n>     40  </q-n></a>
+<a name="41"><q-n>     41  </q-n></a>  <q-m>//LSR 0th bit 0 menas reciever buffer is empty and this bit is 1 means that reciever buffer is full this request to please read  </q-m>
+<a name="42"><q-n>     42  </q-n></a> <q-w>static</q-w>   rbr_buffer              is_data_ready;
+<a name="43"><q-n>     43  </q-n></a>
+<a name="44"><q-n>     44  </q-n></a>  <q-m>// it check  transmiton holding register is empty or not if yes then </q-m>
+<a name="45"><q-n>     45  </q-n></a>  <q-m>// intrupt will be generated and that will be given by making LSR's 6th bit 1 and IER's appropiate bit enable</q-m>
+<a name="46"><q-n>     46  </q-n></a>  <q-m>// Monitoring purpose please set according whenever it need</q-m>
+<a name="47"><q-n>     47  </q-n></a> <q-w>static</q-w>   thr_buffer              is_thr_buffer_full;
+<a name="48"><q-n>     48  </q-n></a>
+<a name="49"><q-n>     49  </q-n></a>   <q-m>// 0 over run is never detected if this bit is 1 than over run error can occure</q-m>
+<a name="50"><q-n>     50  </q-n></a>   <q-m>// when rx buffer is full still data not read and it is override from shift register</q-m>
+<a name="51"><q-n>     51  </q-n></a> <q-w>static</q-w>   is_over_run_error       is_tx_over_run_error,is_rx_over_run_error;
+<a name="52"><q-n>     52  </q-n></a>
+<a name="53"><q-n>     53  </q-n></a>    <q-m>// if this bit is 1 than and if parity calculation if error occure than this will generate intrupt if IER respective bit 1 if. </q-m>
+<a name="54"><q-n>     54  </q-n></a> <q-w>static</q-w>   is_parity_error         is_tx_parity_error,is_rx_parity_error;
+<a name="55"><q-n>     55  </q-n></a> <q-w>static</q-w>   is_break_error          is_tx_break_error , is_rx_break_error;
+<a name="56"><q-n>     56  </q-n></a> <q-w>static</q-w>   is_framing_error        is_tx_framing_error , is_rx_framing_error;
+<a name="57"><q-n>     57  </q-n></a> <q-w>static</q-w>   rx_tx_data_available    is_rx_tx_data_available;
+<a name="58"><q-n>     58  </q-n></a> <q-w>static</q-w>   any_error               is_any_error;
+<a name="59"><q-n>     59  </q-n></a>
+<a name="60"><q-n>     60  </q-n></a>    <q-m>//if this bit is 1 only if when RBR reg is FULL. after that intrupt has to be generate that will indicate system to read data.</q-m>
+<a name="61"><q-n>     61  </q-n></a>    <q-m>//if this bit is not set than intrupt will not be generate</q-m>
+<a name="62"><q-n>     62  </q-n></a> <q-w>static</q-w>   intrupt_for_rbr         is_intrupt_for_rbr;
+<a name="63"><q-n>     63  </q-n></a>  
+<a name="64"><q-n>     64  </q-n></a>    <q-m>//if this bit is 1 than  if thr reg is empty than intrupt generate that will indicate system</q-m>
+<a name="65"><q-n>     65  </q-n></a>    <q-m>//to fill next data. if this bit is not set than intrupt will not be generate</q-m>
+<a name="66"><q-n>     66  </q-n></a> <q-w>static</q-w>   intrupt_for_thr         is_intrupt_for_thr;
+<a name="67"><q-n>     67  </q-n></a> 
+<a name="68"><q-n>     68  </q-n></a>    <q-m>// ELSI bit of ier it will enable or disble lsr's error intrupts //LSR error like parity,framing,break. if this error is </q-m>
+<a name="69"><q-n>     69  </q-n></a>    <q-m>// generated. then error intrupt will be only generated when this elsi bit   set </q-m>
+<a name="70"><q-n>     70  </q-n></a> <q-w>static</q-w> lsr_error_intrupt       tx_lsr_error_intrupt , rx_lsr_error_intrupt;
+<a name="71"><q-n>     71  </q-n></a> <q-w>static</q-w> fifo_mode               tx_fifo_mode_enable,rx_fifo_mode_enable;
+<a name="72"><q-n>     72  </q-n></a> <q-w>static</q-w> <q-w>bit</q-w>[7:0] TX_DLL,TX_DLM,RX_DLL,RX_DLM;
+<a name="73"><q-n>     73  </q-n></a>    
+<a name="74"><q-n>     74  </q-n></a>    <q-m>//dynamic arry if for looping. </q-m>
+<a name="75"><q-n>     75  </q-n></a>   <q-w>static</q-w> <q-w>int</q-w> tx_char_len[];
+<a name="76"><q-n>     76  </q-n></a>   <q-w>static</q-w> <q-w>int</q-w> rx_char_len[];
+<a name="77"><q-n>     77  </q-n></a>   <q-w>static</q-w> <q-w>int</q-w> tx_start_len[];
+<a name="78"><q-n>     78  </q-n></a>   <q-w>static</q-w> <q-w>int</q-w> rx_start_len[];
+<a name="79"><q-n>     79  </q-n></a>   <q-w>static</q-w> <q-w>int</q-w> tx_stop_len[];
+<a name="80"><q-n>     80  </q-n></a>   <q-w>static</q-w> <q-w>int</q-w> rx_stop_len[];
+<a name="81"><q-n>     81  </q-n></a>   <q-w>static</q-w> <q-w>int</q-w> tx_total_bit;
+<a name="82"><q-n>     82  </q-n></a>   <q-w>static</q-w> <q-w>int</q-w> rx_total_bit;
+<a name="83"><q-n>     83  </q-n></a> 
+<a name="84"><q-n>     84  </q-n></a>  <q-w>function</q-w> <q-w>new</q-w>(<q-w>string</q-w> str = <q-l>"uart_reg_config"</q-l>);
+<a name="85"><q-n>     85  </q-n></a>        <q-w>super</q-w>.<q-w>new</q-w>(str);
+<a name="86"><q-n>     86  </q-n></a>    <q-w>endfunction</q-w>
+<a name="87"><q-n>     87  </q-n></a>
+<a name="88"><q-n>     88  </q-n></a>   `SPRINT
+<a name="89"><q-n>     89  </q-n></a>
+<a name="90"><q-n>     90  </q-n></a><q-w>endclass</q-w>
+<a name="91"><q-n>     91  </q-n></a>
+<a name="92"><q-n>     92  </q-n></a>
+<a name="93"><q-n>     93  </q-n></a>
+<a name="94"><q-n>     94  </q-n></a>
+</pre>
+</tt>
+
+  
+</body>
+</html>

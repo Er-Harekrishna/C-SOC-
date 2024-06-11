@@ -1,0 +1,31 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/avimi/Desktop/downloads/asic_design/xilinx/cortexm3_soc/top/rtl
+vcortexm3_soc
+!s110 1573316010
+!i10b 1
+!s100 CSYjS_Il1bfDVeK=ToD9L1
+I2R3SN1Ph6=5[>`[E2^J190
+VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1573316005
+8cortexm3_soc.v
+Fcortexm3_soc.v
+L0 2
+OP;L;10.4a;61
+r1
+!s85 0
+31
+!s108 1573316010.000000
+!s107 cortexm3_soc.v|
+!s90 cortexm3_soc.v|
+!s101 -O0
+!i113 1
+o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0

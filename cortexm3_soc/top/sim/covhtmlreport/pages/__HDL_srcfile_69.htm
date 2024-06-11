@@ -1,0 +1,1051 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a>`<q-a>timescale</q-w> 1<q-v>ns</q-w>/1<q-v>ps</q-w>
+<a name="2"><q-n>     2  </q-n></a>
+<a name="3"><q-n>     3  </q-n></a><q-w>module</q-w> cortexm3_soc (HCLK, HRESETn, RX_i_AU, TX_o_AU);
+<a name="4"><q-n>     4  </q-n></a>  
+<a name="5"><q-n>     5  </q-n></a>  <q-w>parameter</q-w> RAM_AW = 12;
+<a name="6"><q-n>     6  </q-n></a>  
+<a name="7"><q-n>     7  </q-n></a>  <q-w>input</q-w>  HCLK;
+<a name="8"><q-n>     8  </q-n></a>  <q-w>input</q-w>  HRESETn;
+<a name="9"><q-n>     9  </q-n></a>  <q-w>input</q-w>  RX_i_AU;
+<a name="10"><q-n>     10  </q-n></a>  <q-w>output</q-w> TX_o_AU;
+<a name="11"><q-n>     11  </q-n></a>
+<a name="12"><q-n>     12  </q-n></a>
+<a name="13"><q-n>     13  </q-n></a>  <q-m>//signals for component CORTEXM3INTEGRATION</q-m>
+<a name="14"><q-n>     14  </q-n></a>  <q-w>reg</q-w>          ISOLATEn;           
+<a name="15"><q-n>     15  </q-n></a>  <q-w>reg</q-w>          RETAINn;            
+<a name="16"><q-n>     16  </q-n></a>  <q-w>reg</q-w>          nTRST;              
+<a name="17"><q-n>     17  </q-n></a>  <q-w>reg</q-w>          SWDITMS;            
+<a name="18"><q-n>     18  </q-n></a>  <q-w>reg</q-w>          SWCLKTCK;           
+<a name="19"><q-n>     19  </q-n></a>  <q-w>reg</q-w>          TDI;                
+<a name="20"><q-n>     20  </q-n></a>  <q-w>reg</q-w>          CDBGPWRUPACK;       
+<a name="21"><q-n>     21  </q-n></a>  <q-m>//reg          PORESETn;           </q-m>
+<a name="22"><q-n>     22  </q-n></a>  <q-m>//reg          SYSRESETn;          </q-m>
+<a name="23"><q-n>     23  </q-n></a>  <q-w>reg</q-w>          RSTBYPASS;          
+<a name="24"><q-n>     24  </q-n></a>  <q-w>reg</q-w>          CGBYPASS;           
+<a name="25"><q-n>     25  </q-n></a>  <q-m>//reg          FCLK;               </q-m>
+<a name="26"><q-n>     26  </q-n></a>  <q-w>reg</q-w>          TRACECLKIN;         
+<a name="27"><q-n>     27  </q-n></a>  <q-w>reg</q-w>          STCLK;              
+<a name="28"><q-n>     28  </q-n></a>  <q-w>reg</q-w>  [25:0]  STCALIB;            
+<a name="29"><q-n>     29  </q-n></a>  <q-w>reg</q-w>  [31:0]  AUXFAULT;           
+<a name="30"><q-n>     30  </q-n></a>  <q-w>reg</q-w>          BIGEND;             
+<a name="31"><q-n>     31  </q-n></a>  <q-w>reg</q-w>  [239:0] INTISR;             
+<a name="32"><q-n>     32  </q-n></a>  <q-w>reg</q-w>          INTNMI;             
+<a name="33"><q-n>     33  </q-n></a>  <q-w>wire</q-w>         HREADYI;            
+<a name="34"><q-n>     34  </q-n></a>  <q-w>wire</q-w> [31:0]  HRDATAI;            
+<a name="35"><q-n>     35  </q-n></a>  <q-w>wire</q-w> [1:0]   HRESPI;             
+<a name="36"><q-n>     36  </q-n></a>  <q-w>reg</q-w>          IFLUSH;             
+<a name="37"><q-n>     37  </q-n></a>  <q-w>wire</q-w>         HREADYD;            
+<a name="38"><q-n>     38  </q-n></a>  <q-w>wire</q-w> [31:0]  HRDATAD;            
+<a name="39"><q-n>     39  </q-n></a>  <q-w>wire</q-w> [1:0]   HRESPD;             
+<a name="40"><q-n>     40  </q-n></a>  <q-w>reg</q-w>          EXRESPD;            
+<a name="41"><q-n>     41  </q-n></a>  <q-w>wire</q-w>         HREADYS;            
+<a name="42"><q-n>     42  </q-n></a>  <q-w>wire</q-w> [31:0]  HRDATAS;            
+<a name="43"><q-n>     43  </q-n></a>  <q-w>wire</q-w> [1:0]   HRESPS;             
+<a name="44"><q-n>     44  </q-n></a>  <q-w>reg</q-w>          EXRESPS;            
+<a name="45"><q-n>     45  </q-n></a>  <q-w>reg</q-w>          RXEV;               
+<a name="46"><q-n>     46  </q-n></a>  <q-w>reg</q-w>          SLEEPHOLDREQn;      
+<a name="47"><q-n>     47  </q-n></a>  <q-w>reg</q-w>          EDBGRQ;             
+<a name="48"><q-n>     48  </q-n></a>  <q-w>reg</q-w>          DBGRESTART;         
+<a name="49"><q-n>     49  </q-n></a>  <q-w>reg</q-w>          FIXMASTERTYPE;      
+<a name="50"><q-n>     50  </q-n></a>  <q-w>reg</q-w>          WICENREQ;           
+<a name="51"><q-n>     51  </q-n></a>  <q-w>reg</q-w>  [47:0]  TSVALUEB;           
+<a name="52"><q-n>     52  </q-n></a>  <q-w>reg</q-w>          SE;                 
+<a name="53"><q-n>     53  </q-n></a>  <q-w>reg</q-w>          MPUDISABLE;         
+<a name="54"><q-n>     54  </q-n></a>  <q-w>reg</q-w>          DBGEN;              
+<a name="55"><q-n>     55  </q-n></a>  <q-w>reg</q-w>          NIDEN;              
+<a name="56"><q-n>     56  </q-n></a>  <q-w>reg</q-w>          DNOTITRANS;         
+<a name="57"><q-n>     57  </q-n></a>  <q-w>wire</q-w>         TDO;                
+<a name="58"><q-n>     58  </q-n></a>  <q-w>wire</q-w>         nTDOEN;             
+<a name="59"><q-n>     59  </q-n></a>  <q-w>wire</q-w>         CDBGPWRUPREQ;       
+<a name="60"><q-n>     60  </q-n></a>  <q-w>wire</q-w>         SWDO;               
+<a name="61"><q-n>     61  </q-n></a>  <q-w>wire</q-w>         SWDOEN;             
+<a name="62"><q-n>     62  </q-n></a>  <q-w>wire</q-w>         JTAGNSW;            
+<a name="63"><q-n>     63  </q-n></a>  <q-w>wire</q-w>         SWV;                
+<a name="64"><q-n>     64  </q-n></a>  <q-w>wire</q-w>         TRACECLK;           
+<a name="65"><q-n>     65  </q-n></a>  <q-w>wire</q-w> [3:0]   TRACEDATA;          
+<a name="66"><q-n>     66  </q-n></a>  <q-w>wire</q-w> [31:0]  HTMDHADDR;          
+<a name="67"><q-n>     67  </q-n></a>  <q-w>wire</q-w> [1:0]   HTMDHTRANS;         
+<a name="68"><q-n>     68  </q-n></a>  <q-w>wire</q-w> [2:0]   HTMDHSIZE;          
+<a name="69"><q-n>     69  </q-n></a>  <q-w>wire</q-w> [2:0]   HTMDHBURST;         
+<a name="70"><q-n>     70  </q-n></a>  <q-w>wire</q-w> [3:0]   HTMDHPROT;          
+<a name="71"><q-n>     71  </q-n></a>  <q-w>wire</q-w> [31:0]  HTMDHWDATA;         
+<a name="72"><q-n>     72  </q-n></a>  <q-w>wire</q-w>         HTMDHWRITE;         
+<a name="73"><q-n>     73  </q-n></a>  <q-w>wire</q-w> [31:0]  HTMDHRDATA;         
+<a name="74"><q-n>     74  </q-n></a>  <q-w>wire</q-w>         HTMDHREADY;         
+<a name="75"><q-n>     75  </q-n></a>  <q-w>wire</q-w> [1:0]   HTMDHRESP;          
+<a name="76"><q-n>     76  </q-n></a>  <q-w>wire</q-w> [1:0]   HTRANSI;            
+<a name="77"><q-n>     77  </q-n></a>  <q-w>wire</q-w> [2:0]   HSIZEI;             
+<a name="78"><q-n>     78  </q-n></a>  <q-w>wire</q-w> [31:0]  HADDRI;             
+<a name="79"><q-n>     79  </q-n></a>  <q-w>wire</q-w> [2:0]   HBURSTI;            
+<a name="80"><q-n>     80  </q-n></a>  <q-w>wire</q-w> [3:0]   HPROTI;             
+<a name="81"><q-n>     81  </q-n></a>  <q-w>wire</q-w> [1:0]   MEMATTRI;           
+<a name="82"><q-n>     82  </q-n></a>  <q-w>wire</q-w> [1:0]   HMASTERD;           
+<a name="83"><q-n>     83  </q-n></a>  <q-w>wire</q-w> [1:0]   HTRANSD;            
+<a name="84"><q-n>     84  </q-n></a>  <q-w>wire</q-w> [2:0]   HSIZED;             
+<a name="85"><q-n>     85  </q-n></a>  <q-w>wire</q-w> [31:0]  HADDRD;             
+<a name="86"><q-n>     86  </q-n></a>  <q-w>wire</q-w> [2:0]   HBURSTD;            
+<a name="87"><q-n>     87  </q-n></a>  <q-w>wire</q-w> [3:0]   HPROTD;             
+<a name="88"><q-n>     88  </q-n></a>  <q-w>wire</q-w> [1:0]   MEMATTRD;           
+<a name="89"><q-n>     89  </q-n></a>  <q-w>wire</q-w>         EXREQD;             
+<a name="90"><q-n>     90  </q-n></a>  <q-w>wire</q-w>         HWRITED;            
+<a name="91"><q-n>     91  </q-n></a>  <q-w>wire</q-w> [31:0]  HWDATAD;            
+<a name="92"><q-n>     92  </q-n></a>  <q-w>wire</q-w> [1:0]   HMASTERS;           
+<a name="93"><q-n>     93  </q-n></a>  <q-w>wire</q-w> [1:0]   HTRANSS;            
+<a name="94"><q-n>     94  </q-n></a>  <q-w>wire</q-w>         HWRITES;            
+<a name="95"><q-n>     95  </q-n></a>  <q-w>wire</q-w> [2:0]   HSIZES;             
+<a name="96"><q-n>     96  </q-n></a>  <q-w>wire</q-w>         HMASTLOCKS;         
+<a name="97"><q-n>     97  </q-n></a>  <q-w>wire</q-w> [31:0]  HADDRS;             
+<a name="98"><q-n>     98  </q-n></a>  <q-w>wire</q-w> [31:0]  HWDATAS;            
+<a name="99"><q-n>     99  </q-n></a>  <q-w>wire</q-w> [2:0]   HBURSTS;            
+<a name="100"><q-n>     100  </q-n></a>  <q-w>wire</q-w> [3:0]   HPROTS;             
+<a name="101"><q-n>     101  </q-n></a>  <q-w>wire</q-w> [1:0]   MEMATTRS;           
+<a name="102"><q-n>     102  </q-n></a>  <q-w>wire</q-w>         EXREQS;             
+<a name="103"><q-n>     103  </q-n></a>  <q-w>wire</q-w> [3:0]   BRCHSTAT;           
+<a name="104"><q-n>     104  </q-n></a>  <q-w>wire</q-w>         HALTED;             
+<a name="105"><q-n>     105  </q-n></a>  <q-w>wire</q-w>         DBGRESTARTED;       
+<a name="106"><q-n>     106  </q-n></a>  <q-w>wire</q-w>         LOCKUP;             
+<a name="107"><q-n>     107  </q-n></a>  <q-w>wire</q-w>         SLEEPING;           
+<a name="108"><q-n>     108  </q-n></a>  <q-w>wire</q-w>         SLEEPDEEP;          
+<a name="109"><q-n>     109  </q-n></a>  <q-w>wire</q-w>         SLEEPHOLDACKn;      
+<a name="110"><q-n>     110  </q-n></a>  <q-w>wire</q-w> [8:0]   ETMINTNUM;          
+<a name="111"><q-n>     111  </q-n></a>  <q-w>wire</q-w> [2:0]   ETMINTSTAT;         
+<a name="112"><q-n>     112  </q-n></a>  <q-w>wire</q-w>         TRCENA;             
+<a name="113"><q-n>     113  </q-n></a>  <q-w>wire</q-w> [7:0]   CURRPRI;            
+<a name="114"><q-n>     114  </q-n></a>  <q-w>wire</q-w>         SYSRESETREQ;        
+<a name="115"><q-n>     115  </q-n></a>  <q-w>wire</q-w>         TXEV;               
+<a name="116"><q-n>     116  </q-n></a>  <q-w>wire</q-w>         GATEHCLK;           
+<a name="117"><q-n>     117  </q-n></a>  <q-w>wire</q-w>         WICENACK;           
+<a name="118"><q-n>     118  </q-n></a>  <q-w>wire</q-w>         WAKEUP;             
+<a name="119"><q-n>     119  </q-n></a>
+<a name="120"><q-n>     120  </q-n></a>  <q-m>//signals for component cm3_matrix_lite </q-m>
+<a name="121"><q-n>     121  </q-n></a>  <q-w>reg</q-w>  [3:0]   REMAP;
+<a name="122"><q-n>     122  </q-n></a>  <q-w>wire</q-w> [31:0]  HADDRS0;
+<a name="123"><q-n>     123  </q-n></a>  <q-w>wire</q-w> [1:0]   HTRANSS0;
+<a name="124"><q-n>     124  </q-n></a>  <q-w>wire</q-w>         HWRITES0;
+<a name="125"><q-n>     125  </q-n></a>  <q-w>wire</q-w> [2:0]   HSIZES0;
+<a name="126"><q-n>     126  </q-n></a>  <q-w>wire</q-w> [2:0]   HBURSTS0;
+<a name="127"><q-n>     127  </q-n></a>  <q-w>wire</q-w> [3:0]   HPROTS0;
+<a name="128"><q-n>     128  </q-n></a>  <q-w>wire</q-w> [31:0]  HWDATAS0;
+<a name="129"><q-n>     129  </q-n></a>  <q-w>wire</q-w>         HMASTLOCKS0;
+<a name="130"><q-n>     130  </q-n></a>  <q-w>wire</q-w> [31:0]  HAUSERS0;
+<a name="131"><q-n>     131  </q-n></a>  <q-w>wire</q-w> [31:0]  HWUSERS0;
+<a name="132"><q-n>     132  </q-n></a>  <q-w>wire</q-w> [31:0]  HADDRS1;
+<a name="133"><q-n>     133  </q-n></a>  <q-w>wire</q-w> [1:0]   HTRANSS1;
+<a name="134"><q-n>     134  </q-n></a>  <q-w>wire</q-w>         HWRITES1;
+<a name="135"><q-n>     135  </q-n></a>  <q-w>wire</q-w> [2:0]   HSIZES1;
+<a name="136"><q-n>     136  </q-n></a>  <q-w>wire</q-w> [2:0]   HBURSTS1;
+<a name="137"><q-n>     137  </q-n></a>  <q-w>wire</q-w> [3:0]   HPROTS1;
+<a name="138"><q-n>     138  </q-n></a>  <q-w>wire</q-w> [31:0]  HWDATAS1;
+<a name="139"><q-n>     139  </q-n></a>  <q-w>wire</q-w>         HMASTLOCKS1;
+<a name="140"><q-n>     140  </q-n></a>  <q-w>wire</q-w> [31:0]  HAUSERS1;
+<a name="141"><q-n>     141  </q-n></a>  <q-w>wire</q-w> [31:0]  HWUSERS1;
+<a name="142"><q-n>     142  </q-n></a>  <q-w>wire</q-w> [31:0]  HADDRS3;
+<a name="143"><q-n>     143  </q-n></a>  <q-w>wire</q-w> [1:0]   HTRANSS3;
+<a name="144"><q-n>     144  </q-n></a>  <q-w>wire</q-w>         HWRITES3;
+<a name="145"><q-n>     145  </q-n></a>  <q-w>wire</q-w> [2:0]   HSIZES3;
+<a name="146"><q-n>     146  </q-n></a>  <q-w>wire</q-w> [2:0]   HBURSTS3;
+<a name="147"><q-n>     147  </q-n></a>  <q-w>wire</q-w> [3:0]   HPROTS3;
+<a name="148"><q-n>     148  </q-n></a>  <q-w>wire</q-w> [31:0]  HWDATAS3;
+<a name="149"><q-n>     149  </q-n></a>  <q-w>wire</q-w>         HMASTLOCKS3;
+<a name="150"><q-n>     150  </q-n></a>  <q-w>wire</q-w> [31:0]  HAUSERS3;
+<a name="151"><q-n>     151  </q-n></a>  <q-w>wire</q-w> [31:0]  HWUSERS3;
+<a name="152"><q-n>     152  </q-n></a>  <q-w>reg</q-w>  [31:0]  HADDRS4;
+<a name="153"><q-n>     153  </q-n></a>  <q-w>reg</q-w>  [1:0]   HTRANSS4;
+<a name="154"><q-n>     154  </q-n></a>  <q-w>reg</q-w>          HWRITES4;
+<a name="155"><q-n>     155  </q-n></a>  <q-w>reg</q-w>  [2:0]   HSIZES4;
+<a name="156"><q-n>     156  </q-n></a>  <q-w>reg</q-w>  [2:0]   HBURSTS4;
+<a name="157"><q-n>     157  </q-n></a>  <q-w>reg</q-w>  [3:0]   HPROTS4;
+<a name="158"><q-n>     158  </q-n></a>  <q-w>reg</q-w>  [31:0]  HWDATAS4;
+<a name="159"><q-n>     159  </q-n></a>  <q-w>reg</q-w>          HMASTLOCKS4;
+<a name="160"><q-n>     160  </q-n></a>  <q-w>reg</q-w>  [31:0]  HAUSERS4;
+<a name="161"><q-n>     161  </q-n></a>  <q-w>reg</q-w>  [31:0]  HWUSERS4;
+<a name="162"><q-n>     162  </q-n></a>  <q-w>reg</q-w>  [31:0]  HADDRS5;
+<a name="163"><q-n>     163  </q-n></a>  <q-w>reg</q-w>  [1:0]   HTRANSS5;
+<a name="164"><q-n>     164  </q-n></a>  <q-w>reg</q-w>          HWRITES5;
+<a name="165"><q-n>     165  </q-n></a>  <q-w>reg</q-w>  [2:0]   HSIZES5;
+<a name="166"><q-n>     166  </q-n></a>  <q-w>reg</q-w>  [2:0]   HBURSTS5;
+<a name="167"><q-n>     167  </q-n></a>  <q-w>reg</q-w>  [3:0]   HPROTS5;
+<a name="168"><q-n>     168  </q-n></a>  <q-w>reg</q-w>  [31:0]  HWDATAS5;
+<a name="169"><q-n>     169  </q-n></a>  <q-w>reg</q-w>          HMASTLOCKS5;
+<a name="170"><q-n>     170  </q-n></a>  <q-w>reg</q-w>  [31:0]  HAUSERS5;
+<a name="171"><q-n>     171  </q-n></a>  <q-w>reg</q-w>  [31:0]  HWUSERS5;
+<a name="172"><q-n>     172  </q-n></a>  <q-w>wire</q-w> [31:0]  HRDATAM0;
+<a name="173"><q-n>     173  </q-n></a>  <q-w>wire</q-w>         HREADYOUTM0;
+<a name="174"><q-n>     174  </q-n></a>  <q-w>wire</q-w>         HRESPM0;
+<a name="175"><q-n>     175  </q-n></a>  <q-w>reg</q-w>  [31:0]  HRUSERM0;
+<a name="176"><q-n>     176  </q-n></a>  <q-w>reg</q-w>  [31:0]  HRDATAM1;
+<a name="177"><q-n>     177  </q-n></a>  <q-w>reg</q-w>          HREADYOUTM1;
+<a name="178"><q-n>     178  </q-n></a>  <q-w>reg</q-w>          HRESPM1;
+<a name="179"><q-n>     179  </q-n></a>  <q-w>reg</q-w>  [31:0]  HRUSERM1;
+<a name="180"><q-n>     180  </q-n></a>
+<a name="181"><q-n>     181  </q-n></a>  <q-m>//TODO:Change</q-m>
+<a name="182"><q-n>     182  </q-n></a>  <q-w>reg</q-w>  [31:0]  HRDATAM2;
+<a name="183"><q-n>     183  </q-n></a>  <q-w>reg</q-w>          HREADYOUTM2;
+<a name="184"><q-n>     184  </q-n></a>  <q-w>reg</q-w>          HRESPM2;
+<a name="185"><q-n>     185  </q-n></a>  <q-m>//</q-m>
+<a name="186"><q-n>     186  </q-n></a>
+<a name="187"><q-n>     187  </q-n></a>  <q-w>reg</q-w>  [31:0]  HRUSERM2;
+<a name="188"><q-n>     188  </q-n></a>  <q-w>wire</q-w> [31:0]  HRDATAM3;
+<a name="189"><q-n>     189  </q-n></a>  <q-w>wire</q-w>         HREADYOUTM3;
+<a name="190"><q-n>     190  </q-n></a>  <q-w>wire</q-w>         HRESPM3;
+<a name="191"><q-n>     191  </q-n></a>  <q-w>reg</q-w>  [31:0]  HRUSERM3;
+<a name="192"><q-n>     192  </q-n></a>  <q-w>reg</q-w>          SCANENABLE;
+<a name="193"><q-n>     193  </q-n></a>  <q-w>reg</q-w>          SCANINHCLK;
+<a name="194"><q-n>     194  </q-n></a>  <q-w>wire</q-w>         HSELM0;
+<a name="195"><q-n>     195  </q-n></a>  <q-w>wire</q-w> [31:0]  HADDRM0;
+<a name="196"><q-n>     196  </q-n></a>  <q-w>wire</q-w> [1:0]   HTRANSM0;
+<a name="197"><q-n>     197  </q-n></a>  <q-w>wire</q-w>         HWRITEM0;
+<a name="198"><q-n>     198  </q-n></a>  <q-w>wire</q-w> [2:0]   HSIZEM0;
+<a name="199"><q-n>     199  </q-n></a>  <q-w>wire</q-w> [2:0]   HBURSTM0;
+<a name="200"><q-n>     200  </q-n></a>  <q-w>wire</q-w> [3:0]   HPROTM0;
+<a name="201"><q-n>     201  </q-n></a>  <q-w>wire</q-w> [31:0]  HWDATAM0;
+<a name="202"><q-n>     202  </q-n></a>  <q-w>wire</q-w>         HMASTLOCKM0;
+<a name="203"><q-n>     203  </q-n></a>  <q-w>wire</q-w>         HREADYMUXM0;
+<a name="204"><q-n>     204  </q-n></a>  <q-w>wire</q-w> [31:0]  HAUSERM0;
+<a name="205"><q-n>     205  </q-n></a>  <q-w>wire</q-w> [31:0]  HWUSERM0;
+<a name="206"><q-n>     206  </q-n></a>  <q-w>wire</q-w>         HSELM1;
+<a name="207"><q-n>     207  </q-n></a>  <q-w>wire</q-w> [31:0]  HADDRM1;
+<a name="208"><q-n>     208  </q-n></a>  <q-w>wire</q-w> [1:0]   HTRANSM1;
+<a name="209"><q-n>     209  </q-n></a>  <q-w>wire</q-w>         HWRITEM1;
+<a name="210"><q-n>     210  </q-n></a>  <q-w>wire</q-w> [2:0]   HSIZEM1;
+<a name="211"><q-n>     211  </q-n></a>  <q-w>wire</q-w> [2:0]   HBURSTM1;
+<a name="212"><q-n>     212  </q-n></a>  <q-w>wire</q-w> [3:0]   HPROTM1;
+<a name="213"><q-n>     213  </q-n></a>  <q-w>wire</q-w> [31:0]  HWDATAM1;
+<a name="214"><q-n>     214  </q-n></a>  <q-w>wire</q-w>         HMASTLOCKM1;
+<a name="215"><q-n>     215  </q-n></a>  <q-w>wire</q-w>         HREADYMUXM1;
+<a name="216"><q-n>     216  </q-n></a>  <q-w>wire</q-w> [31:0]  HAUSERM1;
+<a name="217"><q-n>     217  </q-n></a>  <q-w>wire</q-w> [31:0]  HWUSERM1;
+<a name="218"><q-n>     218  </q-n></a>  <q-w>wire</q-w>         HSELM2;
+<a name="219"><q-n>     219  </q-n></a>  <q-w>wire</q-w> [31:0]  HADDRM2;
+<a name="220"><q-n>     220  </q-n></a>  <q-w>wire</q-w> [1:0]   HTRANSM2;
+<a name="221"><q-n>     221  </q-n></a>  <q-w>wire</q-w>         HWRITEM2;
+<a name="222"><q-n>     222  </q-n></a>  <q-w>wire</q-w> [2:0]   HSIZEM2;
+<a name="223"><q-n>     223  </q-n></a>  <q-w>wire</q-w> [2:0]   HBURSTM2;
+<a name="224"><q-n>     224  </q-n></a>  <q-w>wire</q-w> [3:0]   HPROTM2;
+<a name="225"><q-n>     225  </q-n></a>  <q-w>wire</q-w> [31:0]  HWDATAM2;
+<a name="226"><q-n>     226  </q-n></a>  <q-w>wire</q-w>         HMASTLOCKM2;
+<a name="227"><q-n>     227  </q-n></a>  <q-w>wire</q-w>         HREADYMUXM2;
+<a name="228"><q-n>     228  </q-n></a>  <q-w>wire</q-w> [31:0]  HAUSERM2;
+<a name="229"><q-n>     229  </q-n></a>  <q-w>wire</q-w> [31:0]  HWUSERM2;
+<a name="230"><q-n>     230  </q-n></a>  <q-w>wire</q-w>         HSELM3;
+<a name="231"><q-n>     231  </q-n></a>  <q-w>wire</q-w> [31:0]  HADDRM3;
+<a name="232"><q-n>     232  </q-n></a>  <q-w>wire</q-w> [1:0]   HTRANSM3;
+<a name="233"><q-n>     233  </q-n></a>  <q-w>wire</q-w>         HWRITEM3;
+<a name="234"><q-n>     234  </q-n></a>  <q-w>wire</q-w> [2:0]   HSIZEM3;
+<a name="235"><q-n>     235  </q-n></a>  <q-w>wire</q-w> [2:0]   HBURSTM3;
+<a name="236"><q-n>     236  </q-n></a>  <q-w>wire</q-w> [3:0]   HPROTM3;
+<a name="237"><q-n>     237  </q-n></a>  <q-w>wire</q-w> [31:0]  HWDATAM3;
+<a name="238"><q-n>     238  </q-n></a>  <q-w>wire</q-w>         HMASTLOCKM3;
+<a name="239"><q-n>     239  </q-n></a>  <q-w>wire</q-w>         HREADYMUXM3;
+<a name="240"><q-n>     240  </q-n></a>  <q-w>wire</q-w> [31:0]  HAUSERM3;
+<a name="241"><q-n>     241  </q-n></a>  <q-w>wire</q-w> [31:0]  HWUSERM3;
+<a name="242"><q-n>     242  </q-n></a>  <q-w>wire</q-w> [31:0]  HRDATAS0;
+<a name="243"><q-n>     243  </q-n></a>  <q-w>wire</q-w>         HREADYS0;
+<a name="244"><q-n>     244  </q-n></a>  <q-w>wire</q-w>         HRESPS0;
+<a name="245"><q-n>     245  </q-n></a>  <q-w>wire</q-w> [31:0]  HRUSERS0;
+<a name="246"><q-n>     246  </q-n></a>  <q-w>wire</q-w> [31:0]  HRDATAS1;
+<a name="247"><q-n>     247  </q-n></a>  <q-w>wire</q-w>         HREADYS1;
+<a name="248"><q-n>     248  </q-n></a>  <q-w>wire</q-w>         HRESPS1;
+<a name="249"><q-n>     249  </q-n></a>  <q-w>wire</q-w> [31:0]  HRUSERS1;
+<a name="250"><q-n>     250  </q-n></a>  <q-w>wire</q-w> [31:0]  HRDATAS3;
+<a name="251"><q-n>     251  </q-n></a>  <q-w>wire</q-w>         HREADYS3;
+<a name="252"><q-n>     252  </q-n></a>  <q-w>wire</q-w>         HRESPS3;
+<a name="253"><q-n>     253  </q-n></a>  <q-w>wire</q-w> [31:0]  HRUSERS3;
+<a name="254"><q-n>     254  </q-n></a>  <q-w>wire</q-w> [31:0]  HRDATAS4;
+<a name="255"><q-n>     255  </q-n></a>  <q-w>wire</q-w>         HREADYS4;
+<a name="256"><q-n>     256  </q-n></a>  <q-w>wire</q-w>         HRESPS4;
+<a name="257"><q-n>     257  </q-n></a>  <q-w>wire</q-w> [31:0]  HRUSERS4;
+<a name="258"><q-n>     258  </q-n></a>  <q-w>wire</q-w> [31:0]  HRDATAS5;
+<a name="259"><q-n>     259  </q-n></a>  <q-w>wire</q-w>         HREADYS5;
+<a name="260"><q-n>     260  </q-n></a>  <q-w>wire</q-w>         HRESPS5;
+<a name="261"><q-n>     261  </q-n></a>  <q-w>wire</q-w> [31:0]  HRUSERS5;
+<a name="262"><q-n>     262  </q-n></a>  <q-w>wire</q-w>         SCANOUTHCLK;
+<a name="263"><q-n>     263  </q-n></a>
+<a name="264"><q-n>     264  </q-n></a>  <q-m>//signals for component cmsdk_ahb_to_sram A</q-m>
+<a name="265"><q-n>     265  </q-n></a>  <q-w>wire</q-w>              HCLK_SRAMA;
+<a name="266"><q-n>     266  </q-n></a>  <q-w>wire</q-w>              HRESETn_SRAMA;
+<a name="267"><q-n>     267  </q-n></a>  <q-w>wire</q-w>              HSEL_SRAMA;
+<a name="268"><q-n>     268  </q-n></a>  <q-w>wire</q-w>              HREADY_SRAMA;
+<a name="269"><q-n>     269  </q-n></a>  <q-w>wire</q-w> [1:0]        HTRANS_SRAMA;
+<a name="270"><q-n>     270  </q-n></a>  <q-w>wire</q-w> [2:0]        HSIZE_SRAMA;
+<a name="271"><q-n>     271  </q-n></a>  <q-w>wire</q-w>              HWRITE_SRAMA;
+<a name="272"><q-n>     272  </q-n></a>  <q-w>wire</q-w> [RAM_AW-1:0] HADDR_SRAMA;
+<a name="273"><q-n>     273  </q-n></a>  <q-w>wire</q-w> [31:0]       HWDATA_SRAMA;
+<a name="274"><q-n>     274  </q-n></a>  <q-w>wire</q-w> [31:0]       SRAMRDATA_SRAMA; <q-m>//was reg</q-m>
+<a name="275"><q-n>     275  </q-n></a>  <q-w>wire</q-w>              HREADYOUT_SRAMA;
+<a name="276"><q-n>     276  </q-n></a>  <q-w>wire</q-w>              HRESP_SRAMA;
+<a name="277"><q-n>     277  </q-n></a>  <q-w>wire</q-w> [31:0]       HRDATA_SRAMA;
+<a name="278"><q-n>     278  </q-n></a>  <q-w>wire</q-w> [RAM_AW-3:0] SRAMADDR_SRAMA;
+<a name="279"><q-n>     279  </q-n></a>  <q-w>wire</q-w> [3:0]        SRAMWEN_SRAMA;
+<a name="280"><q-n>     280  </q-n></a>  <q-w>wire</q-w> [31:0]       SRAMWDATA_SRAMA;
+<a name="281"><q-n>     281  </q-n></a>  <q-w>wire</q-w>              SRAMCS_SRAMA;
+<a name="282"><q-n>     282  </q-n></a>
+<a name="283"><q-n>     283  </q-n></a>  <q-m>//signals for SRAM A</q-m>
+<a name="284"><q-n>     284  </q-n></a>  <q-w>wire</q-w>              CLK_SRAMA;
+<a name="285"><q-n>     285  </q-n></a>  <q-w>wire</q-w> [RAM_AW-1:0] ADDR_SRAMA;
+<a name="286"><q-n>     286  </q-n></a>  <q-w>wire</q-w> [31:0]       WDATA_SRAMA;
+<a name="287"><q-n>     287  </q-n></a>  <q-w>wire</q-w> [3:0]        WREN_SRAMA;
+<a name="288"><q-n>     288  </q-n></a>  <q-w>wire</q-w>              CS_SRAMA;
+<a name="289"><q-n>     289  </q-n></a>  <q-w>wire</q-w> [31:0]       RDATA_SRAMA;
+<a name="290"><q-n>     290  </q-n></a>
+<a name="291"><q-n>     291  </q-n></a>  <q-m>//signals for component cmsdk_ahb_to_sram S</q-m>
+<a name="292"><q-n>     292  </q-n></a>  <q-w>wire</q-w>              HCLK_SRAMS;
+<a name="293"><q-n>     293  </q-n></a>  <q-w>wire</q-w>              HRESETn_SRAMS;
+<a name="294"><q-n>     294  </q-n></a>  <q-w>wire</q-w>              HSEL_SRAMS;
+<a name="295"><q-n>     295  </q-n></a>  <q-w>wire</q-w>              HREADY_SRAMS;
+<a name="296"><q-n>     296  </q-n></a>  <q-w>wire</q-w> [1:0]        HTRANS_SRAMS;
+<a name="297"><q-n>     297  </q-n></a>  <q-w>wire</q-w> [2:0]        HSIZE_SRAMS;
+<a name="298"><q-n>     298  </q-n></a>  <q-w>wire</q-w>              HWRITE_SRAMS;
+<a name="299"><q-n>     299  </q-n></a>  <q-w>wire</q-w> [RAM_AW-1:0] HADDR_SRAMS;
+<a name="300"><q-n>     300  </q-n></a>  <q-w>wire</q-w> [31:0]       HWDATA_SRAMS;
+<a name="301"><q-n>     301  </q-n></a>  <q-w>wire</q-w> [31:0]       SRAMRDATA_SRAMS; <q-m>//was reg</q-m>
+<a name="302"><q-n>     302  </q-n></a>  <q-w>wire</q-w>              HREADYOUT_SRAMS;
+<a name="303"><q-n>     303  </q-n></a>  <q-w>wire</q-w>              HRESP_SRAMS;
+<a name="304"><q-n>     304  </q-n></a>  <q-w>wire</q-w> [31:0]       HRDATA_SRAMS;
+<a name="305"><q-n>     305  </q-n></a>  <q-w>wire</q-w> [RAM_AW-3:0] SRAMADDR_SRAMS;
+<a name="306"><q-n>     306  </q-n></a>  <q-w>wire</q-w> [3:0]        SRAMWEN_SRAMS;
+<a name="307"><q-n>     307  </q-n></a>  <q-w>wire</q-w> [31:0]       SRAMWDATA_SRAMS;
+<a name="308"><q-n>     308  </q-n></a>  <q-w>wire</q-w>              SRAMCS_SRAMS;
+<a name="309"><q-n>     309  </q-n></a>
+<a name="310"><q-n>     310  </q-n></a>  <q-m>//signals for SRAM S</q-m>
+<a name="311"><q-n>     311  </q-n></a>  <q-w>wire</q-w>              CLK_SRAMS;
+<a name="312"><q-n>     312  </q-n></a>  <q-w>wire</q-w> [RAM_AW-1:0] ADDR_SRAMS;
+<a name="313"><q-n>     313  </q-n></a>  <q-w>wire</q-w> [31:0]       WDATA_SRAMS;
+<a name="314"><q-n>     314  </q-n></a>  <q-w>wire</q-w> [3:0]        WREN_SRAMS;
+<a name="315"><q-n>     315  </q-n></a>  <q-w>wire</q-w>              CS_SRAMS;
+<a name="316"><q-n>     316  </q-n></a>  <q-w>wire</q-w> [31:0]       RDATA_SRAMS;
+<a name="317"><q-n>     317  </q-n></a> 
+<a name="318"><q-n>     318  </q-n></a>  <q-m>//TODO:APB bridge</q-m>
+<a name="319"><q-n>     319  </q-n></a>  <q-m>// signal for bridge</q-m>
+<a name="320"><q-n>     320  </q-n></a>  <q-w>wire</q-w>        Hclk_b,Hrst_b;
+<a name="321"><q-n>     321  </q-n></a>  <q-w>wire</q-w>        Hwrite_b,Hreadyin_b;
+<a name="322"><q-n>     322  </q-n></a>  <q-w>wire</q-w> [31:0] Hwdata_b,Haddr_b,Prdata_b;
+<a name="323"><q-n>     323  </q-n></a>  <q-w>wire</q-w> [1:0]  Htrans_b;
+<a name="324"><q-n>     324  </q-n></a>  <q-w>wire</q-w>        Penable_b,Pwrite_b,Hreadyout_b;
+<a name="325"><q-n>     325  </q-n></a>  <q-w>wire</q-w> [1:0]  Hresp_b; 
+<a name="326"><q-n>     326  </q-n></a>  <q-w>wire</q-w> [2:0]  Pselx_b;
+<a name="327"><q-n>     327  </q-n></a>  <q-w>wire</q-w> [31:0] Paddr_b,Pwdata_b;
+<a name="328"><q-n>     328  </q-n></a>  <q-w>wire</q-w> [31:0] Hrdata_b;
+<a name="329"><q-n>     329  </q-n></a>  
+<a name="330"><q-n>     330  </q-n></a>  <q-m>//signals for UART</q-m>
+<a name="331"><q-n>     331  </q-n></a>  <q-w>wire</q-w>	 	PCLKU; 
+<a name="332"><q-n>     332  </q-n></a>  <q-w>wire</q-w> 		PRSTU; 
+<a name="333"><q-n>     333  </q-n></a>  <q-w>wire</q-w> [31:0] 	PADDRU; 
+<a name="334"><q-n>     334  </q-n></a>  <q-w>wire</q-w> [31:0]	PWDATAU; 
+<a name="335"><q-n>     335  </q-n></a>  <q-w>wire</q-w>	 	PWRITEU; 
+<a name="336"><q-n>     336  </q-n></a>  <q-w>wire</q-w> 		PSELXU; 
+<a name="337"><q-n>     337  </q-n></a>  <q-w>wire</q-w> 		PENABLEU; 
+<a name="338"><q-n>     338  </q-n></a>  <q-w>wire</q-w> [31:0]	PRDATAU; 
+<a name="339"><q-n>     339  </q-n></a>  <q-w>wire</q-w> 		PREADYU; 
+<a name="340"><q-n>     340  </q-n></a>  <q-m>//wire 		PSLVERRU; </q-m>
+<a name="341"><q-n>     341  </q-n></a>  
+<a name="342"><q-n>     342  </q-n></a>  <q-m>//Signal for I2C</q-m>
+<a name="343"><q-n>     343  </q-n></a>  <q-w>wire</q-w> 		PCLK_I2C;
+<a name="344"><q-n>     344  </q-n></a>  <q-w>wire</q-w> 		PRESETn_I2C;
+<a name="345"><q-n>     345  </q-n></a>  <q-w>wire</q-w> [31:0]	PADDR_I2C;
+<a name="346"><q-n>     346  </q-n></a>  <q-w>wire</q-w> [31:0]	PWDATA_I2C;
+<a name="347"><q-n>     347  </q-n></a>  <q-w>wire</q-w> 		PWRITE_I2C;
+<a name="348"><q-n>     348  </q-n></a>  <q-w>wire</q-w> 		PSELx_I2C;
+<a name="349"><q-n>     349  </q-n></a>  <q-w>wire</q-w> 		PENABLE_I2C;
+<a name="350"><q-n>     350  </q-n></a>  <q-w>wire</q-w> 		PREADY_I2C;
+<a name="351"><q-n>     351  </q-n></a>  <q-m>//wire 		PSLVERR_I2C;</q-m>
+<a name="352"><q-n>     352  </q-n></a>  <q-w>wire</q-w> [31:0]	PRDATA_I2C;
+<a name="353"><q-n>     353  </q-n></a>  
+<a name="354"><q-n>     354  </q-n></a>  <q-m>//signal for apb_memory.</q-m>
+<a name="355"><q-n>     355  </q-n></a>  <q-w>wire</q-w>	 	PCLK_M; 
+<a name="356"><q-n>     356  </q-n></a>  <q-w>wire</q-w> 		PRST_M; 
+<a name="357"><q-n>     357  </q-n></a>  <q-w>wire</q-w> [31:0] 	PADDR_M; 
+<a name="358"><q-n>     358  </q-n></a>  <q-w>wire</q-w> [31:0]	PWDATA_M; 
+<a name="359"><q-n>     359  </q-n></a>  <q-w>wire</q-w>	 	PWRITE_M; 
+<a name="360"><q-n>     360  </q-n></a>  <q-w>wire</q-w> 		PENABLE_M; <q-m>//same as valid</q-m>
+<a name="361"><q-n>     361  </q-n></a>  <q-w>wire</q-w> 		PSEL_M;
+<a name="362"><q-n>     362  </q-n></a>  <q-w>wire</q-w> 		PREADY_M;
+<a name="363"><q-n>     363  </q-n></a>  <q-w>wire</q-w> [31:0]	PRDATA_M; 
+<a name="364"><q-n>     364  </q-n></a>  <q-m>//wire 		PSLVERRU;</q-m>
+<a name="365"><q-n>     365  </q-n></a>
+<a name="366"><q-n>     366  </q-n></a>
+<a name="367"><q-n>     367  </q-n></a>  <q-w>initial</q-w> <q-w>begin</q-w>
+<a name="368"><q-n>     368  </q-n></a>    <q-m>//cmsdk_ahb_to_sram SRAM A</q-m>
+<a name="369"><q-n>     369  </q-n></a>    <q-m>//HCLK_SRAMA = 0;</q-m>
+<a name="370"><q-n>     370  </q-n></a>    <q-m>//HRESETn_SRAMA = 0;</q-m>
+<a name="371"><q-n>     371  </q-n></a>    <q-m>//HSEL_SRAMA = 0;</q-m>
+<a name="372"><q-n>     372  </q-n></a>    <q-m>//HREADY_SRAMA = 0;</q-m>
+<a name="373"><q-n>     373  </q-n></a>    <q-m>//HTRANS_SRAMA = 0;</q-m>
+<a name="374"><q-n>     374  </q-n></a>    <q-m>//HSIZE_SRAMA = 0;</q-m>
+<a name="375"><q-n>     375  </q-n></a>    <q-m>//HWRITE_SRAMA = 0;</q-m>
+<a name="376"><q-n>     376  </q-n></a>    <q-m>//HADDR_SRAMA = 0;</q-m>
+<a name="377"><q-n>     377  </q-n></a>    <q-m>//HWDATA_SRAMA = 0;</q-m>
+<a name="378"><q-n>     378  </q-n></a>    <q-m>//SRAMRDATA_SRAMA = 0;</q-m>
+<a name="379"><q-n>     379  </q-n></a>    
+<a name="380"><q-n>     380  </q-n></a>    <q-m>//cmsdk_fpga_sram SRAM A</q-m>
+<a name="381"><q-n>     381  </q-n></a>    <q-m>//CLK_SRAMA = 0;</q-m>
+<a name="382"><q-n>     382  </q-n></a>    <q-m>//ADDR_SRAMA = 0;</q-m>
+<a name="383"><q-n>     383  </q-n></a>    <q-m>//WDATA_SRAMA = 0;</q-m>
+<a name="384"><q-n>     384  </q-n></a>    <q-m>//WREN_SRAMA = 0;</q-m>
+<a name="385"><q-n>     385  </q-n></a>    <q-m>//CS_SRAMA = 0;</q-m>
+<a name="386"><q-n>     386  </q-n></a>    
+<a name="387"><q-n>     387  </q-n></a>    
+<a name="388"><q-n>     388  </q-n></a>    ISOLATEn = 1;
+<a name="389"><q-n>     389  </q-n></a>    RETAINn = 1;
+<a name="390"><q-n>     390  </q-n></a>    nTRST = 1'b1;
+<a name="391"><q-n>     391  </q-n></a>    SWDITMS = 0;
+<a name="392"><q-n>     392  </q-n></a>    SWCLKTCK = 0;
+<a name="393"><q-n>     393  </q-n></a>    TDI = 0;
+<a name="394"><q-n>     394  </q-n></a>    CDBGPWRUPACK = 0;
+<a name="395"><q-n>     395  </q-n></a>    <q-m>//PORESETn = 0;</q-m>
+<a name="396"><q-n>     396  </q-n></a>    <q-m>//SYSRESETn = 0;</q-m>
+<a name="397"><q-n>     397  </q-n></a>    RSTBYPASS = 0;
+<a name="398"><q-n>     398  </q-n></a>    CGBYPASS = 0;
+<a name="399"><q-n>     399  </q-n></a>    <q-m>//FCLK = 0;</q-m>
+<a name="400"><q-n>     400  </q-n></a>    TRACECLKIN = 0;
+<a name="401"><q-n>     401  </q-n></a>    STCLK = 0;
+<a name="402"><q-n>     402  </q-n></a>    STCALIB = 0;
+<a name="403"><q-n>     403  </q-n></a>    AUXFAULT = 0;
+<a name="404"><q-n>     404  </q-n></a>    BIGEND = 0;
+<a name="405"><q-n>     405  </q-n></a>    <q-m>//TODO:change comment</q-m>
+<a name="406"><q-n>     406  </q-n></a>    <q-m>//INTISR = 0;</q-m>
+<a name="407"><q-n>     407  </q-n></a>    <q-m>//</q-m>
+<a name="408"><q-n>     408  </q-n></a>    INTNMI = 0;
+<a name="409"><q-n>     409  </q-n></a>    <q-m>//HREADYI = 0;</q-m>
+<a name="410"><q-n>     410  </q-n></a>    <q-m>//HRDATAI = 0;</q-m>
+<a name="411"><q-n>     411  </q-n></a>    <q-m>//HRESPI = 0;</q-m>
+<a name="412"><q-n>     412  </q-n></a>    IFLUSH = 0;
+<a name="413"><q-n>     413  </q-n></a>    <q-m>//HREADYD = 0;</q-m>
+<a name="414"><q-n>     414  </q-n></a>    <q-m>//HRDATAD = 0;</q-m>
+<a name="415"><q-n>     415  </q-n></a>    <q-m>//HRESPD = 0;</q-m>
+<a name="416"><q-n>     416  </q-n></a>    EXRESPD = 0;
+<a name="417"><q-n>     417  </q-n></a>    <q-m>//HREADYS = 0;</q-m>
+<a name="418"><q-n>     418  </q-n></a>    <q-m>//HRDATAS = 0;</q-m>
+<a name="419"><q-n>     419  </q-n></a>    <q-m>//HRESPS = 0;</q-m>
+<a name="420"><q-n>     420  </q-n></a>    EXRESPS = 0;
+<a name="421"><q-n>     421  </q-n></a>    RXEV = 0;
+<a name="422"><q-n>     422  </q-n></a>    SLEEPHOLDREQn = 1;
+<a name="423"><q-n>     423  </q-n></a>    EDBGRQ = 0;
+<a name="424"><q-n>     424  </q-n></a>    DBGRESTART = 0;
+<a name="425"><q-n>     425  </q-n></a>    FIXMASTERTYPE = 0;
+<a name="426"><q-n>     426  </q-n></a>    WICENREQ = 0;
+<a name="427"><q-n>     427  </q-n></a>    TSVALUEB = 0;
+<a name="428"><q-n>     428  </q-n></a>    SE = 0;
+<a name="429"><q-n>     429  </q-n></a>    MPUDISABLE = 0;
+<a name="430"><q-n>     430  </q-n></a>    DBGEN = 0;
+<a name="431"><q-n>     431  </q-n></a>    NIDEN = 0;
+<a name="432"><q-n>     432  </q-n></a>    DNOTITRANS = 0;
+<a name="433"><q-n>     433  </q-n></a>    
+<a name="434"><q-n>     434  </q-n></a>    <q-m>//Bus Matrix input signal initialization.</q-m>
+<a name="435"><q-n>     435  </q-n></a>    REMAP = 0;
+<a name="436"><q-n>     436  </q-n></a>    <q-m>//HADDRS0 = 0;</q-m>
+<a name="437"><q-n>     437  </q-n></a>    <q-m>//HTRANSS0 = 0;</q-m>
+<a name="438"><q-n>     438  </q-n></a>    <q-m>//HWRITES0 = 0;</q-m>
+<a name="439"><q-n>     439  </q-n></a>    <q-m>//HSIZES0 = 0;</q-m>
+<a name="440"><q-n>     440  </q-n></a>    <q-m>//HBURSTS0 = 0;</q-m>
+<a name="441"><q-n>     441  </q-n></a>    <q-m>//HPROTS0 = 0;</q-m>
+<a name="442"><q-n>     442  </q-n></a>    <q-m>//HWDATAS0 = 0;</q-m>
+<a name="443"><q-n>     443  </q-n></a>    <q-m>//HMASTLOCKS0 = 0;</q-m>
+<a name="444"><q-n>     444  </q-n></a>    <q-m>//HAUSERS0 = 0;</q-m>
+<a name="445"><q-n>     445  </q-n></a>    <q-m>//HWUSERS0 = 0;</q-m>
+<a name="446"><q-n>     446  </q-n></a>    <q-m>//HADDRS1 = 0;</q-m>
+<a name="447"><q-n>     447  </q-n></a>    <q-m>//HTRANSS1 = 0;</q-m>
+<a name="448"><q-n>     448  </q-n></a>    <q-m>//HWRITES1 = 0;</q-m>
+<a name="449"><q-n>     449  </q-n></a>    <q-m>//HSIZES1 = 0;</q-m>
+<a name="450"><q-n>     450  </q-n></a>    <q-m>//HBURSTS1 = 0;</q-m>
+<a name="451"><q-n>     451  </q-n></a>    <q-m>//HPROTS1 = 0;</q-m>
+<a name="452"><q-n>     452  </q-n></a>    <q-m>//HWDATAS1 = 0;</q-m>
+<a name="453"><q-n>     453  </q-n></a>    <q-m>//HMASTLOCKS1 = 0;</q-m>
+<a name="454"><q-n>     454  </q-n></a>    <q-m>//HAUSERS1 = 0;</q-m>
+<a name="455"><q-n>     455  </q-n></a>    <q-m>//HWUSERS1 = 0;</q-m>
+<a name="456"><q-n>     456  </q-n></a>    <q-m>//HADDRS3 = 0;</q-m>
+<a name="457"><q-n>     457  </q-n></a>    <q-m>//HTRANSS3 = 0;</q-m>
+<a name="458"><q-n>     458  </q-n></a>    <q-m>//HWRITES3 = 0;</q-m>
+<a name="459"><q-n>     459  </q-n></a>    <q-m>//HSIZES3 = 0;</q-m>
+<a name="460"><q-n>     460  </q-n></a>    <q-m>//HBURSTS3 = 0;</q-m>
+<a name="461"><q-n>     461  </q-n></a>    <q-m>//HPROTS3 = 0;</q-m>
+<a name="462"><q-n>     462  </q-n></a>    <q-m>//HWDATAS3 = 0;</q-m>
+<a name="463"><q-n>     463  </q-n></a>    <q-m>//HMASTLOCKS3 = 0;</q-m>
+<a name="464"><q-n>     464  </q-n></a>    <q-m>//HAUSERS3 = 0;</q-m>
+<a name="465"><q-n>     465  </q-n></a>    <q-m>//HWUSERS3 = 0;</q-m>
+<a name="466"><q-n>     466  </q-n></a>    HADDRS4 = 0;
+<a name="467"><q-n>     467  </q-n></a>    HTRANSS4 = 0;
+<a name="468"><q-n>     468  </q-n></a>    HWRITES4 = 0;
+<a name="469"><q-n>     469  </q-n></a>    HSIZES4 = 0;
+<a name="470"><q-n>     470  </q-n></a>    HBURSTS4 = 0;
+<a name="471"><q-n>     471  </q-n></a>    HPROTS4 = 0;
+<a name="472"><q-n>     472  </q-n></a>    HWDATAS4 = 0;
+<a name="473"><q-n>     473  </q-n></a>    HMASTLOCKS4 = 0;
+<a name="474"><q-n>     474  </q-n></a>    HAUSERS4 = 0;
+<a name="475"><q-n>     475  </q-n></a>    HWUSERS4 = 0;
+<a name="476"><q-n>     476  </q-n></a>    HADDRS5 = 0;
+<a name="477"><q-n>     477  </q-n></a>    HTRANSS5 = 0;
+<a name="478"><q-n>     478  </q-n></a>    HWRITES5 = 0;
+<a name="479"><q-n>     479  </q-n></a>    HSIZES5 = 0;
+<a name="480"><q-n>     480  </q-n></a>    HBURSTS5 = 0;
+<a name="481"><q-n>     481  </q-n></a>    HPROTS5 = 0;
+<a name="482"><q-n>     482  </q-n></a>    HWDATAS5 = 0;
+<a name="483"><q-n>     483  </q-n></a>    HMASTLOCKS5 = 0;
+<a name="484"><q-n>     484  </q-n></a>    HAUSERS5 = 0;
+<a name="485"><q-n>     485  </q-n></a>    HWUSERS5 = 0;
+<a name="486"><q-n>     486  </q-n></a>    <q-m>//HRDATAM0 = 0;</q-m>
+<a name="487"><q-n>     487  </q-n></a>    <q-m>//HREADYOUTM0 = 0;</q-m>
+<a name="488"><q-n>     488  </q-n></a>    <q-m>//HRESPM0 = 0;</q-m>
+<a name="489"><q-n>     489  </q-n></a>    HRUSERM0 = 0;
+<a name="490"><q-n>     490  </q-n></a>    HRDATAM1 = 0;
+<a name="491"><q-n>     491  </q-n></a>    HREADYOUTM1 = 1;
+<a name="492"><q-n>     492  </q-n></a>    HRESPM1 = 0;
+<a name="493"><q-n>     493  </q-n></a>    HRUSERM1 = 0;
+<a name="494"><q-n>     494  </q-n></a>    <q-m>//TODO:change comment</q-m>
+<a name="495"><q-n>     495  </q-n></a>    <q-m>//HRDATAM2 = 0;</q-m>
+<a name="496"><q-n>     496  </q-n></a>    <q-m>//HREADYOUTM2 = 1;</q-m>
+<a name="497"><q-n>     497  </q-n></a>    <q-m>//HRESPM2 = 0;</q-m>
+<a name="498"><q-n>     498  </q-n></a>    <q-m>//</q-m>
+<a name="499"><q-n>     499  </q-n></a>    
+<a name="500"><q-n>     500  </q-n></a>    HRUSERM2 = 0;
+<a name="501"><q-n>     501  </q-n></a>    <q-m>//HRDATAM3 = 0;</q-m>
+<a name="502"><q-n>     502  </q-n></a>    <q-m>//HREADYOUTM3 = 1;</q-m>
+<a name="503"><q-n>     503  </q-n></a>    <q-m>//HRESPM3 = 0;</q-m>
+<a name="504"><q-n>     504  </q-n></a>    HRUSERM3 = 0;
+<a name="505"><q-n>     505  </q-n></a>    SCANENABLE = 0;
+<a name="506"><q-n>     506  </q-n></a>    SCANINHCLK = 0;
+<a name="507"><q-n>     507  </q-n></a>  <q-w>end</q-w>
+<a name="508"><q-n>     508  </q-n></a>
+<a name="509"><q-n>     509  </q-n></a>  <q-m>//assign map for FPGA SRAMA</q-m>
+<a name="510"><q-n>     510  </q-n></a>  <q-w>assign</q-w> CLK_SRAMA     = HCLK;
+<a name="511"><q-n>     511  </q-n></a>  <q-w>assign</q-w> ADDR_SRAMA    = SRAMADDR_SRAMA;
+<a name="512"><q-n>     512  </q-n></a>  <q-w>assign</q-w> WDATA_SRAMA   = SRAMWDATA_SRAMA;
+<a name="513"><q-n>     513  </q-n></a>  <q-w>assign</q-w> WREN_SRAMA    = SRAMWEN_SRAMA;
+<a name="514"><q-n>     514  </q-n></a>  <q-w>assign</q-w> CS_SRAMA      = SRAMCS_SRAMA;
+<a name="515"><q-n>     515  </q-n></a>  
+<a name="516"><q-n>     516  </q-n></a>  <q-m>//port map</q-m>
+<a name="517"><q-n>     517  </q-n></a>  cmsdk_fpga_sram #(.AW(RAM_AW)) cmsdk_fpga_sram_A (.CLK(CLK_SRAMA),
+<a name="518"><q-n>     518  </q-n></a>                                                    .ADDR(ADDR_SRAMA),
+<a name="519"><q-n>     519  </q-n></a>                                                    .WDATA(WDATA_SRAMA),
+<a name="520"><q-n>     520  </q-n></a>                                                    .WREN(WREN_SRAMA),
+<a name="521"><q-n>     521  </q-n></a>                                                    .CS(CS_SRAMA),
+<a name="522"><q-n>     522  </q-n></a>                                                    .RDATA(RDATA_SRAMA));
+<a name="523"><q-n>     523  </q-n></a>
+<a name="524"><q-n>     524  </q-n></a>  <q-m>//assign map for SRAMA</q-m>
+<a name="525"><q-n>     525  </q-n></a>  <q-w>assign</q-w> HCLK_SRAMA       = HCLK;
+<a name="526"><q-n>     526  </q-n></a>  <q-w>assign</q-w> HRESETn_SRAMA    = HRESETn;
+<a name="527"><q-n>     527  </q-n></a>  <q-w>assign</q-w> SRAMRDATA_SRAMA  = RDATA_SRAMA;
+<a name="528"><q-n>     528  </q-n></a>  <q-w>assign</q-w> HSEL_SRAMA       = HSELM0;
+<a name="529"><q-n>     529  </q-n></a>  <q-w>assign</q-w> HREADY_SRAMA     = HREADYMUXM0;
+<a name="530"><q-n>     530  </q-n></a>  <q-w>assign</q-w> HTRANS_SRAMA     = HTRANSM0;
+<a name="531"><q-n>     531  </q-n></a>  <q-w>assign</q-w> HSIZE_SRAMA      = HSIZEM0;
+<a name="532"><q-n>     532  </q-n></a>  <q-w>assign</q-w> HWRITE_SRAMA     = HWRITEM0;
+<a name="533"><q-n>     533  </q-n></a>  <q-w>assign</q-w> HADDR_SRAMA      = HADDRM0;
+<a name="534"><q-n>     534  </q-n></a>  <q-w>assign</q-w> HWDATA_SRAMA     = HWDATAM0;
+<a name="535"><q-n>     535  </q-n></a>  <q-m>//port map</q-m>
+<a name="536"><q-n>     536  </q-n></a>  cmsdk_ahb_to_sram #(.AW(RAM_AW)) cmsdk_ahb_to_sram_A (.HCLK(HCLK_SRAMA),
+<a name="537"><q-n>     537  </q-n></a>                                                        .HRESETn(HRESETn_SRAMA),
+<a name="538"><q-n>     538  </q-n></a>                                                        .HSEL(HSEL_SRAMA),
+<a name="539"><q-n>     539  </q-n></a>                                                        .HREADY(HREADY_SRAMA),
+<a name="540"><q-n>     540  </q-n></a>                                                        .HTRANS(HTRANS_SRAMA),
+<a name="541"><q-n>     541  </q-n></a>                                                        .HSIZE(HSIZE_SRAMA),
+<a name="542"><q-n>     542  </q-n></a>                                                        .HWRITE(HWRITE_SRAMA),
+<a name="543"><q-n>     543  </q-n></a>                                                        .HADDR(HADDR_SRAMA),
+<a name="544"><q-n>     544  </q-n></a>                                                        .HWDATA(HWDATA_SRAMA),
+<a name="545"><q-n>     545  </q-n></a>                                                        .HREADYOUT(HREADYOUT_SRAMA),
+<a name="546"><q-n>     546  </q-n></a>                                                        .HRESP(HRESP_SRAMA),
+<a name="547"><q-n>     547  </q-n></a>                                                        .HRDATA(HRDATA_SRAMA),
+<a name="548"><q-n>     548  </q-n></a>                                                        .SRAMRDATA(SRAMRDATA_SRAMA),
+<a name="549"><q-n>     549  </q-n></a>                                                        .SRAMADDR(SRAMADDR_SRAMA),
+<a name="550"><q-n>     550  </q-n></a>                                                        .SRAMWEN(SRAMWEN_SRAMA),
+<a name="551"><q-n>     551  </q-n></a>                                                        .SRAMWDATA(SRAMWDATA_SRAMA),
+<a name="552"><q-n>     552  </q-n></a>                                                        .SRAMCS(SRAMCS_SRAMA));
+<a name="553"><q-n>     553  </q-n></a>  
+<a name="554"><q-n>     554  </q-n></a>  <q-m>//assign map for FPGA SRAMS //system SRAM, where the processor stack will be</q-m>
+<a name="555"><q-n>     555  </q-n></a>  <q-w>assign</q-w> CLK_SRAMS     = HCLK;
+<a name="556"><q-n>     556  </q-n></a>  <q-w>assign</q-w> ADDR_SRAMS    = SRAMADDR_SRAMS;
+<a name="557"><q-n>     557  </q-n></a>  <q-w>assign</q-w> WDATA_SRAMS   = SRAMWDATA_SRAMS;
+<a name="558"><q-n>     558  </q-n></a>  <q-w>assign</q-w> WREN_SRAMS    = SRAMWEN_SRAMS;
+<a name="559"><q-n>     559  </q-n></a>  <q-w>assign</q-w> CS_SRAMS      = SRAMCS_SRAMS;
+<a name="560"><q-n>     560  </q-n></a>  
+<a name="561"><q-n>     561  </q-n></a>  <q-m>//port map</q-m>
+<a name="562"><q-n>     562  </q-n></a>  cmsdk_fpga_sram #(.AW(RAM_AW)) cmsdk_fpga_sram_S (
+<a name="563"><q-n>     563  </q-n></a>  .CLK(CLK_SRAMS),
+<a name="564"><q-n>     564  </q-n></a>  .ADDR(ADDR_SRAMS),
+<a name="565"><q-n>     565  </q-n></a>  .WDATA(WDATA_SRAMS),
+<a name="566"><q-n>     566  </q-n></a>  .WREN(WREN_SRAMS),
+<a name="567"><q-n>     567  </q-n></a>  .CS(CS_SRAMS),
+<a name="568"><q-n>     568  </q-n></a>  .RDATA(RDATA_SRAMS)
+<a name="569"><q-n>     569  </q-n></a>  );
+<a name="570"><q-n>     570  </q-n></a>  <q-m>//assign map for SRAMS</q-m>
+<a name="571"><q-n>     571  </q-n></a>  <q-w>assign</q-w> HCLK_SRAMS       = HCLK;
+<a name="572"><q-n>     572  </q-n></a>  <q-w>assign</q-w> HRESETn_SRAMS    = HRESETn;
+<a name="573"><q-n>     573  </q-n></a>  <q-w>assign</q-w> SRAMRDATA_SRAMS  = RDATA_SRAMS;
+<a name="574"><q-n>     574  </q-n></a>  <q-w>assign</q-w> HSEL_SRAMS       = HSELM3;
+<a name="575"><q-n>     575  </q-n></a>  <q-w>assign</q-w> HREADY_SRAMS     = HREADYMUXM3;
+<a name="576"><q-n>     576  </q-n></a>  <q-w>assign</q-w> HTRANS_SRAMS     = HTRANSM3;
+<a name="577"><q-n>     577  </q-n></a>  <q-w>assign</q-w> HSIZE_SRAMS      = HSIZEM3;
+<a name="578"><q-n>     578  </q-n></a>  <q-w>assign</q-w> HWRITE_SRAMS     = HWRITEM3;
+<a name="579"><q-n>     579  </q-n></a>  <q-w>assign</q-w> HADDR_SRAMS      = HADDRM3;
+<a name="580"><q-n>     580  </q-n></a>  <q-w>assign</q-w> HWDATA_SRAMS     = HWDATAM3;
+<a name="581"><q-n>     581  </q-n></a>  <q-m>//port map</q-m>
+<a name="582"><q-n>     582  </q-n></a>  cmsdk_ahb_to_sram #(.AW(RAM_AW)) cmsdk_ahb_to_sram_S (
+<a name="583"><q-n>     583  </q-n></a>  .HCLK(HCLK_SRAMS),
+<a name="584"><q-n>     584  </q-n></a>  .HRESETn(HRESETn_SRAMS),
+<a name="585"><q-n>     585  </q-n></a>  .HSEL(HSEL_SRAMS),
+<a name="586"><q-n>     586  </q-n></a>  .HREADY(HREADY_SRAMS),
+<a name="587"><q-n>     587  </q-n></a>  .HTRANS(HTRANS_SRAMS),
+<a name="588"><q-n>     588  </q-n></a>  .HSIZE(HSIZE_SRAMS),
+<a name="589"><q-n>     589  </q-n></a>  .HWRITE(HWRITE_SRAMS),
+<a name="590"><q-n>     590  </q-n></a>  .HADDR(HADDR_SRAMS),
+<a name="591"><q-n>     591  </q-n></a>  .HWDATA(HWDATA_SRAMS),
+<a name="592"><q-n>     592  </q-n></a>  .HREADYOUT(HREADYOUT_SRAMS),
+<a name="593"><q-n>     593  </q-n></a>  .HRESP(HRESP_SRAMS),
+<a name="594"><q-n>     594  </q-n></a>  .HRDATA(HRDATA_SRAMS),
+<a name="595"><q-n>     595  </q-n></a>  .SRAMRDATA(SRAMRDATA_SRAMS),
+<a name="596"><q-n>     596  </q-n></a>  .SRAMADDR(SRAMADDR_SRAMS),
+<a name="597"><q-n>     597  </q-n></a>  .SRAMWEN(SRAMWEN_SRAMS),
+<a name="598"><q-n>     598  </q-n></a>  .SRAMWDATA(SRAMWDATA_SRAMS),
+<a name="599"><q-n>     599  </q-n></a>  .SRAMCS(SRAMCS_SRAMS)
+<a name="600"><q-n>     600  </q-n></a>  );
+<a name="601"><q-n>     601  </q-n></a>  
+<a name="602"><q-n>     602  </q-n></a>    <q-m>//TODO: bidge map</q-m>
+<a name="603"><q-n>     603  </q-n></a>    <q-m>// Assign map for Bridge</q-m>
+<a name="604"><q-n>     604  </q-n></a>    <q-w>assign</q-w> Hclk_b = HCLK;
+<a name="605"><q-n>     605  </q-n></a>    <q-w>assign</q-w> Hrst_b = HRESETn;
+<a name="606"><q-n>     606  </q-n></a>    <q-w>assign</q-w> Hwrite_b = HWRITEM2;
+<a name="607"><q-n>     607  </q-n></a>    <q-w>assign</q-w> Hreadyin_b = HREADYMUXM2;
+<a name="608"><q-n>     608  </q-n></a>    <q-w>assign</q-w> Hwdata_b = HWDATAM2;
+<a name="609"><q-n>     609  </q-n></a>    <q-w>assign</q-w> Haddr_b = HADDRM2;
+<a name="610"><q-n>     610  </q-n></a>    <q-w>assign</q-w> Prdata_b = PRDATAU;
+<a name="611"><q-n>     611  </q-n></a>    <q-w>assign</q-w> Htrans_b = HTRANSM2;
+<a name="612"><q-n>     612  </q-n></a>    <q-m>//assign Pselx_b[0]= HSELM2;</q-m>
+<a name="613"><q-n>     613  </q-n></a>    <q-m>// Port map for bridge</q-m>
+<a name="614"><q-n>     614  </q-n></a>  
+<a name="615"><q-n>     615  </q-n></a>  ahb_to_apb  bridge_ip (
+<a name="616"><q-n>     616  </q-n></a>	.HCLK(Hclk_b),
+<a name="617"><q-n>     617  </q-n></a>	.HRESETn(Hrst_b),
+<a name="618"><q-n>     618  </q-n></a>	.HWRITE(Hwrite_b),
+<a name="619"><q-n>     619  </q-n></a>	.HREADYin(Hreadyin_b),
+<a name="620"><q-n>     620  </q-n></a>	.HWDATA(Hwdata_b),
+<a name="621"><q-n>     621  </q-n></a>	.HADDR(Haddr_b),
+<a name="622"><q-n>     622  </q-n></a>	.PRDATA(Prdata_b),
+<a name="623"><q-n>     623  </q-n></a>	.HTRANS(Htrans_b),
+<a name="624"><q-n>     624  </q-n></a>
+<a name="625"><q-n>     625  </q-n></a>	.PENABLE(Penable_b),
+<a name="626"><q-n>     626  </q-n></a>	.PWRITE(Pwrite_b),
+<a name="627"><q-n>     627  </q-n></a>	.HREADYout(Hreadyout_b),
+<a name="628"><q-n>     628  </q-n></a>	.HRESP(Hresp_b),
+<a name="629"><q-n>     629  </q-n></a>	.PSEL(Pselx_b),
+<a name="630"><q-n>     630  </q-n></a>	.PADDR(Paddr_b),
+<a name="631"><q-n>     631  </q-n></a>	.PWDATA(Pwdata_b),
+<a name="632"><q-n>     632  </q-n></a>	.HRDATA(Hrdata_b)
+<a name="633"><q-n>     633  </q-n></a>	);
+<a name="634"><q-n>     634  </q-n></a>
+<a name="635"><q-n>     635  </q-n></a>  <q-m>//TODO: for uart</q-m>
+<a name="636"><q-n>     636  </q-n></a>  <q-m>//assign map for UART</q-m>
+<a name="637"><q-n>     637  </q-n></a>  <q-w>assign</q-w> PCLKU	=HCLK;
+<a name="638"><q-n>     638  </q-n></a>  <q-w>assign</q-w> PRSTU	=HRESETn;
+<a name="639"><q-n>     639  </q-n></a>  <q-w>assign</q-w> PADDRU	=Paddr_b;
+<a name="640"><q-n>     640  </q-n></a>  <q-w>assign</q-w> PWDATAU	=Pwdata_b;
+<a name="641"><q-n>     641  </q-n></a>  <q-w>assign</q-w> PSELU	=Pselx_b[2];
+<a name="642"><q-n>     642  </q-n></a>  <q-w>assign</q-w> PENABLEU	=Penable_b;
+<a name="643"><q-n>     643  </q-n></a>  <q-w>assign</q-w> PWRITEU	=Pwrite_b;
+<a name="644"><q-n>     644  </q-n></a>  <q-w>wire</q-w> intisr_w;
+<a name="645"><q-n>     645  </q-n></a>  <q-w>assign</q-w> INTISR[0]=intisr_w;
+<a name="646"><q-n>     646  </q-n></a>  <q-m>//Port MAP for UART</q-m>
+<a name="647"><q-n>     647  </q-n></a>
+<a name="648"><q-n>     648  </q-n></a>	apb_uart_sv #(.APB_ADDR_WIDTH(12))uart_ip(
+<a name="649"><q-n>     649  </q-n></a>		.CLK(PCLKU),
+<a name="650"><q-n>     650  </q-n></a>		.RSTN(PRSTU),
+<a name="651"><q-n>     651  </q-n></a>		.PADDR(PADDRU),
+<a name="652"><q-n>     652  </q-n></a>		.PWDATA(PWDATAU),
+<a name="653"><q-n>     653  </q-n></a>		.PWRITE(PWRITEU),
+<a name="654"><q-n>     654  </q-n></a>		.PSEL(PSELU),
+<a name="655"><q-n>     655  </q-n></a>		.PENABLE(PENABLEU),
+<a name="656"><q-n>     656  </q-n></a>		.PRDATA(PRDATAU),
+<a name="657"><q-n>     657  </q-n></a>		.PREADY(PREADYU),
+<a name="658"><q-n>     658  </q-n></a>                .rx_i(RX_i_AU),
+<a name="659"><q-n>     659  </q-n></a>                .tx_o(TX_o_AU),
+<a name="660"><q-n>     660  </q-n></a>		.event_o(intisr_w)
+<a name="661"><q-n>     661  </q-n></a>);
+<a name="662"><q-n>     662  </q-n></a>
+<a name="663"><q-n>     663  </q-n></a>  <q-m>//assign map for I2C</q-m>
+<a name="664"><q-n>     664  </q-n></a>  
+<a name="665"><q-n>     665  </q-n></a>  <q-w>assign</q-w> PCLK_I2C		=HCLK;
+<a name="666"><q-n>     666  </q-n></a>  <q-w>assign</q-w> PRESETn_I2C	=HRESETn;
+<a name="667"><q-n>     667  </q-n></a>  <q-w>assign</q-w> PADDR_I2C	=Paddr_b;
+<a name="668"><q-n>     668  </q-n></a>  <q-w>assign</q-w> PWDATA_I2C	=Pwdata_b;
+<a name="669"><q-n>     669  </q-n></a>  <q-w>assign</q-w> PSELx_I2C	=Pselx_b[1];
+<a name="670"><q-n>     670  </q-n></a>  <q-w>assign</q-w> PENABLE_I2C	=Penable_b;
+<a name="671"><q-n>     671  </q-n></a>  <q-w>assign</q-w> PWRITE_I2C	=Pwrite_b;
+<a name="672"><q-n>     672  </q-n></a>  		
+<a name="673"><q-n>     673  </q-n></a>  <q-m>//Port Map for I2C</q-m>
+<a name="674"><q-n>     674  </q-n></a>
+<a name="675"><q-n>     675  </q-n></a>		i2c i2c_ip(.PCLK(PCLK_I2C),
+<a name="676"><q-n>     676  </q-n></a>			.PRESETn(PRESETn_I2C),
+<a name="677"><q-n>     677  </q-n></a>			.PADDR(PADDR_I2C),
+<a name="678"><q-n>     678  </q-n></a>			.PWDATA(PWDATA_I2C),
+<a name="679"><q-n>     679  </q-n></a>			.PWRITE(PWRITE_I2C),
+<a name="680"><q-n>     680  </q-n></a>			.PSELx(PSELx_I2C),
+<a name="681"><q-n>     681  </q-n></a>			.PENABLE(PENABLE_I2C),
+<a name="682"><q-n>     682  </q-n></a>			.PREADY(PREADY_I2C),
+<a name="683"><q-n>     683  </q-n></a>			.PRDATA(PRDATA_I2C)
+<a name="684"><q-n>     684  </q-n></a>	);
+<a name="685"><q-n>     685  </q-n></a>
+<a name="686"><q-n>     686  </q-n></a>  <q-m>//assign map for apb_memory.</q-m>
+<a name="687"><q-n>     687  </q-n></a>  
+<a name="688"><q-n>     688  </q-n></a>  <q-w>assign</q-w>	 	PCLK_M 	=HCLK; 
+<a name="689"><q-n>     689  </q-n></a>  <q-w>assign</q-w>		PRST_M	=~HRESETn; 
+<a name="690"><q-n>     690  </q-n></a>  <q-w>assign</q-w> 		PADDR_M	=Paddr_b; 
+<a name="691"><q-n>     691  </q-n></a>  <q-w>assign</q-w>		PWDATA_M=Pwdata_b; 
+<a name="692"><q-n>     692  </q-n></a>  <q-w>assign</q-w>	 	PWRITE_M=Pwrite_b; 
+<a name="693"><q-n>     693  </q-n></a>  <q-w>assign</q-w>		PENABLE_M=Penable_b; <q-m>//same as valid</q-m>
+<a name="694"><q-n>     694  </q-n></a>  <q-w>assign</q-w> 		PSEL_M	=Pselx_b[0];
+<a name="695"><q-n>     695  </q-n></a>  
+<a name="696"><q-n>     696  </q-n></a>  <q-m>//DUT INSTANTIATION FOR APB_MEMORY</q-m>
+<a name="697"><q-n>     697  </q-n></a>	apb_memory mem_ip(
+<a name="698"><q-n>     698  </q-n></a>		.clk_i(PCLK_M),
+<a name="699"><q-n>     699  </q-n></a>		.rst_i(PRST_M),
+<a name="700"><q-n>     700  </q-n></a>		.addr_i(PADDR_M),
+<a name="701"><q-n>     701  </q-n></a>		.wdata_i(PWDATA_M),
+<a name="702"><q-n>     702  </q-n></a>		.wr_rd_i(PWRITE_M),
+<a name="703"><q-n>     703  </q-n></a>		.sel_i(PSEL_M),
+<a name="704"><q-n>     704  </q-n></a>		.valid_i(PENABLE_M),
+<a name="705"><q-n>     705  </q-n></a>		.rdata_o(PRDATA_M),
+<a name="706"><q-n>     706  </q-n></a>		.ready_o(PREADY_M)
+<a name="707"><q-n>     707  </q-n></a>);
+<a name="708"><q-n>     708  </q-n></a>  <q-m>//ass</q-m>
+<a name="709"><q-n>     709  </q-n></a>  
+<a name="710"><q-n>     710  </q-n></a>  <q-m>//assign map for CM3</q-m>
+<a name="711"><q-n>     711  </q-n></a>  <q-w>assign</q-w> HREADYOUTM0 = HREADYOUT_SRAMA;
+<a name="712"><q-n>     712  </q-n></a>  <q-w>assign</q-w> HRDATAM0    = SRAMRDATA_SRAMA;
+<a name="713"><q-n>     713  </q-n></a>  <q-w>assign</q-w> HRESPM0     = HRESP_SRAMA;
+<a name="714"><q-n>     714  </q-n></a>  <q-w>assign</q-w> HREADYI     = HREADYS0;
+<a name="715"><q-n>     715  </q-n></a>  <q-w>assign</q-w> HRDATAI     = HRDATAS0;
+<a name="716"><q-n>     716  </q-n></a>  <q-w>assign</q-w> HRESPI      = HRESPS0;
+<a name="717"><q-n>     717  </q-n></a>  
+<a name="718"><q-n>     718  </q-n></a>  <q-w>assign</q-w> HREADYD     = HREADYS1;
+<a name="719"><q-n>     719  </q-n></a>  <q-w>assign</q-w> HRDATAD     = HRDATAS1;
+<a name="720"><q-n>     720  </q-n></a>  <q-w>assign</q-w> HRESPD      = HRESPS1;
+<a name="721"><q-n>     721  </q-n></a>  
+<a name="722"><q-n>     722  </q-n></a>  <q-w>assign</q-w> HREADYOUTM3 = HREADYOUT_SRAMS;
+<a name="723"><q-n>     723  </q-n></a>  <q-w>assign</q-w> HRDATAM3    = SRAMRDATA_SRAMS;
+<a name="724"><q-n>     724  </q-n></a>  <q-w>assign</q-w> HRESPM3     = HRESP_SRAMS;
+<a name="725"><q-n>     725  </q-n></a>  <q-w>assign</q-w> HREADYS     = HREADYS3; <q-m>//fixit, fixme S3 should bd S2</q-m>
+<a name="726"><q-n>     726  </q-n></a>  <q-w>assign</q-w> HRDATAS     = HRDATAS3;
+<a name="727"><q-n>     727  </q-n></a>  <q-w>assign</q-w> HRESPS      = HRESPS3;
+<a name="728"><q-n>     728  </q-n></a>  
+<a name="729"><q-n>     729  </q-n></a>  <q-m>//TODO:</q-m>
+<a name="730"><q-n>     730  </q-n></a>  <q-m>//M2</q-m>
+<a name="731"><q-n>     731  </q-n></a>  
+<a name="732"><q-n>     732  </q-n></a>  <q-w>assign</q-w> HREADYOUTM2 = Hreadyout_b;
+<a name="733"><q-n>     733  </q-n></a>  <q-w>assign</q-w> HRDATAM2    = Prdata_b;
+<a name="734"><q-n>     734  </q-n></a>  <q-w>assign</q-w> HRESPM2     = Hresp_b;
+<a name="735"><q-n>     735  </q-n></a>  <q-w>assign</q-w> HREADYS     = HREADYS3; <q-m>//fixit, fixme S3 should bd S2</q-m>
+<a name="736"><q-n>     736  </q-n></a>  <q-w>assign</q-w> HRDATAS     = HRDATAS3;
+<a name="737"><q-n>     737  </q-n></a>  <q-w>assign</q-w> HRESPS      = HRESPS3;
+<a name="738"><q-n>     738  </q-n></a>  <q-m>//</q-m>
+<a name="739"><q-n>     739  </q-n></a>  
+<a name="740"><q-n>     740  </q-n></a>  <q-m>//port map</q-m>
+<a name="741"><q-n>     741  </q-n></a>  CORTEXM3INTEGRATIONDS CORTEXM3INTEGRATIONDS_i0 (
+<a name="742"><q-n>     742  </q-n></a>  .ISOLATEn(ISOLATEn),
+<a name="743"><q-n>     743  </q-n></a>  .RETAINn(RETAINn),
+<a name="744"><q-n>     744  </q-n></a>  .nTRST(nTRST),
+<a name="745"><q-n>     745  </q-n></a>  .SWDITMS(SWDITMS),
+<a name="746"><q-n>     746  </q-n></a>  .SWCLKTCK(SWCLKTCK),
+<a name="747"><q-n>     747  </q-n></a>  .TDI(TDI),
+<a name="748"><q-n>     748  </q-n></a>  .CDBGPWRUPACK(CDBGPWRUPACK),
+<a name="749"><q-n>     749  </q-n></a>  .PORESETn(PORESETn),
+<a name="750"><q-n>     750  </q-n></a>  .SYSRESETn(SYSRESETn),
+<a name="751"><q-n>     751  </q-n></a>  .RSTBYPASS(RSTBYPASS),
+<a name="752"><q-n>     752  </q-n></a>  .CGBYPASS(CGBYPASS),
+<a name="753"><q-n>     753  </q-n></a>  .FCLK(FCLK),
+<a name="754"><q-n>     754  </q-n></a>  .HCLK(HCLK),
+<a name="755"><q-n>     755  </q-n></a>  .TRACECLKIN(TRACECLKIN),
+<a name="756"><q-n>     756  </q-n></a>  .STCLK(STCLK),
+<a name="757"><q-n>     757  </q-n></a>  .STCALIB(STCALIB),
+<a name="758"><q-n>     758  </q-n></a>  .AUXFAULT(AUXFAULT),
+<a name="759"><q-n>     759  </q-n></a>  .BIGEND(BIGEND),
+<a name="760"><q-n>     760  </q-n></a>  .INTISR(INTISR),
+<a name="761"><q-n>     761  </q-n></a>  .INTNMI(INTNMI),
+<a name="762"><q-n>     762  </q-n></a>  .HREADYI(HREADYI),
+<a name="763"><q-n>     763  </q-n></a>  .HRDATAI(HRDATAI),
+<a name="764"><q-n>     764  </q-n></a>  .HRESPI(HRESPI),
+<a name="765"><q-n>     765  </q-n></a>  .IFLUSH(IFLUSH),
+<a name="766"><q-n>     766  </q-n></a>  .HREADYD(HREADYD),
+<a name="767"><q-n>     767  </q-n></a>  .HRDATAD(HRDATAD),
+<a name="768"><q-n>     768  </q-n></a>  .HRESPD(HRESPD),
+<a name="769"><q-n>     769  </q-n></a>  .EXRESPD(EXRESPD),
+<a name="770"><q-n>     770  </q-n></a>  .HREADYS(HREADYS),
+<a name="771"><q-n>     771  </q-n></a>  .HRDATAS(HRDATAS),
+<a name="772"><q-n>     772  </q-n></a>  .HRESPS(HRESPS),
+<a name="773"><q-n>     773  </q-n></a>  .EXRESPS(EXRESPS),
+<a name="774"><q-n>     774  </q-n></a>  .RXEV(RXEV),
+<a name="775"><q-n>     775  </q-n></a>  .SLEEPHOLDREQn(SLEEPHOLDREQn),
+<a name="776"><q-n>     776  </q-n></a>  .EDBGRQ(EDBGRQ),
+<a name="777"><q-n>     777  </q-n></a>  .DBGRESTART(DBGRESTART),
+<a name="778"><q-n>     778  </q-n></a>  .FIXMASTERTYPE(FIXMASTERTYPE),
+<a name="779"><q-n>     779  </q-n></a>  .WICENREQ(WICENREQ),
+<a name="780"><q-n>     780  </q-n></a>  .TSVALUEB(TSVALUEB),
+<a name="781"><q-n>     781  </q-n></a>  .SE(SE),
+<a name="782"><q-n>     782  </q-n></a>  .MPUDISABLE(MPUDISABLE),
+<a name="783"><q-n>     783  </q-n></a>  .DBGEN(DBGEN),
+<a name="784"><q-n>     784  </q-n></a>  .NIDEN(NIDEN),
+<a name="785"><q-n>     785  </q-n></a>  .DNOTITRANS(DNOTITRANS),
+<a name="786"><q-n>     786  </q-n></a>  .TDO(TDO),
+<a name="787"><q-n>     787  </q-n></a>  .nTDOEN(nTDOEN),
+<a name="788"><q-n>     788  </q-n></a>  .CDBGPWRUPREQ(CDBGPWRUPREQ),
+<a name="789"><q-n>     789  </q-n></a>  .SWDO(SWDO),
+<a name="790"><q-n>     790  </q-n></a>  .SWDOEN(SWDOEN),
+<a name="791"><q-n>     791  </q-n></a>  .JTAGNSW(JTAGNSW),
+<a name="792"><q-n>     792  </q-n></a>  .SWV(SWV),
+<a name="793"><q-n>     793  </q-n></a>  .TRACECLK(TRACECLK),
+<a name="794"><q-n>     794  </q-n></a>  .TRACEDATA(TRACEDATA),
+<a name="795"><q-n>     795  </q-n></a>  .HTMDHADDR(HTMDHADDR),
+<a name="796"><q-n>     796  </q-n></a>  .HTMDHTRANS(HTMDHTRANS),
+<a name="797"><q-n>     797  </q-n></a>  .HTMDHSIZE(HTMDHSIZE),
+<a name="798"><q-n>     798  </q-n></a>  .HTMDHBURST(HTMDHBURST),
+<a name="799"><q-n>     799  </q-n></a>  .HTMDHPROT(HTMDHPROT),
+<a name="800"><q-n>     800  </q-n></a>  .HTMDHWDATA(HTMDHWDATA),
+<a name="801"><q-n>     801  </q-n></a>  .HTMDHWRITE(HTMDHWRITE),
+<a name="802"><q-n>     802  </q-n></a>  .HTMDHRDATA(HTMDHRDATA),
+<a name="803"><q-n>     803  </q-n></a>  .HTMDHREADY(HTMDHREADY),
+<a name="804"><q-n>     804  </q-n></a>  .HTMDHRESP(HTMDHRESP),
+<a name="805"><q-n>     805  </q-n></a>  .HTRANSI(HTRANSI),
+<a name="806"><q-n>     806  </q-n></a>  .HSIZEI(HSIZEI),
+<a name="807"><q-n>     807  </q-n></a>  .HADDRI(HADDRI),
+<a name="808"><q-n>     808  </q-n></a>  .HBURSTI(HBURSTI),
+<a name="809"><q-n>     809  </q-n></a>  .HPROTI(HPROTI),
+<a name="810"><q-n>     810  </q-n></a>  .MEMATTRI(MEMATTRI),
+<a name="811"><q-n>     811  </q-n></a>  .HMASTERD(HMASTERD),
+<a name="812"><q-n>     812  </q-n></a>  .HTRANSD(HTRANSD),
+<a name="813"><q-n>     813  </q-n></a>  .HSIZED(HSIZED),
+<a name="814"><q-n>     814  </q-n></a>  .HADDRD(HADDRD),
+<a name="815"><q-n>     815  </q-n></a>  .HBURSTD(HBURSTD),
+<a name="816"><q-n>     816  </q-n></a>  .HPROTD(HPROTD),
+<a name="817"><q-n>     817  </q-n></a>  .MEMATTRD(MEMATTRD),
+<a name="818"><q-n>     818  </q-n></a>  .EXREQD(EXREQD),
+<a name="819"><q-n>     819  </q-n></a>  .HWRITED(HWRITED),
+<a name="820"><q-n>     820  </q-n></a>  .HWDATAD(HWDATAD),
+<a name="821"><q-n>     821  </q-n></a>  .HMASTERS(HMASTERS),
+<a name="822"><q-n>     822  </q-n></a>  .HTRANSS(HTRANSS),
+<a name="823"><q-n>     823  </q-n></a>  .HWRITES(HWRITES),
+<a name="824"><q-n>     824  </q-n></a>  .HSIZES(HSIZES),
+<a name="825"><q-n>     825  </q-n></a>  .HMASTLOCKS(HMASTLOCKS),
+<a name="826"><q-n>     826  </q-n></a>  .HADDRS(HADDRS),
+<a name="827"><q-n>     827  </q-n></a>  .HWDATAS(HWDATAS),
+<a name="828"><q-n>     828  </q-n></a>  .HBURSTS(HBURSTS),
+<a name="829"><q-n>     829  </q-n></a>  .HPROTS(HPROTS),
+<a name="830"><q-n>     830  </q-n></a>  .MEMATTRS(MEMATTRS),
+<a name="831"><q-n>     831  </q-n></a>  .EXREQS(EXREQS),
+<a name="832"><q-n>     832  </q-n></a>  .BRCHSTAT(BRCHSTAT),
+<a name="833"><q-n>     833  </q-n></a>  .HALTED(HALTED),
+<a name="834"><q-n>     834  </q-n></a>  .DBGRESTARTED(DBGRESTARTED),
+<a name="835"><q-n>     835  </q-n></a>  .LOCKUP(LOCKUP),
+<a name="836"><q-n>     836  </q-n></a>  .SLEEPING(SLEEPING),
+<a name="837"><q-n>     837  </q-n></a>  .SLEEPDEEP(SLEEPDEEP),
+<a name="838"><q-n>     838  </q-n></a>  .SLEEPHOLDACKn(SLEEPHOLDACKn),
+<a name="839"><q-n>     839  </q-n></a>  .ETMINTNUM(ETMINTNUM),
+<a name="840"><q-n>     840  </q-n></a>  .ETMINTSTAT(ETMINTSTAT),
+<a name="841"><q-n>     841  </q-n></a>  .TRCENA(TRCENA),
+<a name="842"><q-n>     842  </q-n></a>  .CURRPRI(CURRPRI),
+<a name="843"><q-n>     843  </q-n></a>  .SYSRESETREQ(SYSRESETREQ),
+<a name="844"><q-n>     844  </q-n></a>  .TXEV(TXEV),
+<a name="845"><q-n>     845  </q-n></a>  .GATEHCLK(GATEHCLK),
+<a name="846"><q-n>     846  </q-n></a>  .WICENACK(WICENACK),
+<a name="847"><q-n>     847  </q-n></a>  .WAKEUP(WAKEUP)
+<a name="848"><q-n>     848  </q-n></a>  );
+<a name="849"><q-n>     849  </q-n></a>  
+<a name="850"><q-n>     850  </q-n></a>  <q-m>//port map</q-m>
+<a name="851"><q-n>     851  </q-n></a>  cm3_matrix_lite cm3_matrix_lite (
+<a name="852"><q-n>     852  </q-n></a>  .HCLK(HCLK),
+<a name="853"><q-n>     853  </q-n></a>  .HRESETn(HRESETn),
+<a name="854"><q-n>     854  </q-n></a>  .REMAP(REMAP),
+<a name="855"><q-n>     855  </q-n></a>  .HADDRS0(HADDRS0),
+<a name="856"><q-n>     856  </q-n></a>  .HTRANSS0(HTRANSS0),
+<a name="857"><q-n>     857  </q-n></a>  .HWRITES0(HWRITES0),
+<a name="858"><q-n>     858  </q-n></a>  .HSIZES0(HSIZES0),
+<a name="859"><q-n>     859  </q-n></a>  .HBURSTS0(HBURSTS0),
+<a name="860"><q-n>     860  </q-n></a>  .HPROTS0(HPROTS0),
+<a name="861"><q-n>     861  </q-n></a>  .HWDATAS0(HWDATAS0),
+<a name="862"><q-n>     862  </q-n></a>  .HMASTLOCKS0(HMASTLOCKS0),
+<a name="863"><q-n>     863  </q-n></a>  .HAUSERS0(HAUSERS0),
+<a name="864"><q-n>     864  </q-n></a>  .HWUSERS0(HWUSERS0),
+<a name="865"><q-n>     865  </q-n></a>  .HADDRS1(HADDRS1),
+<a name="866"><q-n>     866  </q-n></a>  .HTRANSS1(HTRANSS1),
+<a name="867"><q-n>     867  </q-n></a>  .HWRITES1(HWRITES1),
+<a name="868"><q-n>     868  </q-n></a>  .HSIZES1(HSIZES1),
+<a name="869"><q-n>     869  </q-n></a>  .HBURSTS1(HBURSTS1),
+<a name="870"><q-n>     870  </q-n></a>  .HPROTS1(HPROTS1),
+<a name="871"><q-n>     871  </q-n></a>  .HWDATAS1(HWDATAS1),
+<a name="872"><q-n>     872  </q-n></a>  .HMASTLOCKS1(HMASTLOCKS1),
+<a name="873"><q-n>     873  </q-n></a>  .HAUSERS1(HAUSERS1),
+<a name="874"><q-n>     874  </q-n></a>  .HWUSERS1(HWUSERS1),
+<a name="875"><q-n>     875  </q-n></a>  .HADDRS3(HADDRS3),
+<a name="876"><q-n>     876  </q-n></a>  .HTRANSS3(HTRANSS3),
+<a name="877"><q-n>     877  </q-n></a>  .HWRITES3(HWRITES3),
+<a name="878"><q-n>     878  </q-n></a>  .HSIZES3(HSIZES3),
+<a name="879"><q-n>     879  </q-n></a>  .HBURSTS3(HBURSTS3),
+<a name="880"><q-n>     880  </q-n></a>  .HPROTS3(HPROTS3),
+<a name="881"><q-n>     881  </q-n></a>  .HWDATAS3(HWDATAS3),
+<a name="882"><q-n>     882  </q-n></a>  .HMASTLOCKS3(HMASTLOCKS3),
+<a name="883"><q-n>     883  </q-n></a>  .HAUSERS3(HAUSERS3),
+<a name="884"><q-n>     884  </q-n></a>  .HWUSERS3(HWUSERS3),
+<a name="885"><q-n>     885  </q-n></a>  .HADDRS4(HADDRS4),
+<a name="886"><q-n>     886  </q-n></a>  .HTRANSS4(HTRANSS4),
+<a name="887"><q-n>     887  </q-n></a>  .HWRITES4(HWRITES4),
+<a name="888"><q-n>     888  </q-n></a>  .HSIZES4(HSIZES4),
+<a name="889"><q-n>     889  </q-n></a>  .HBURSTS4(HBURSTS4),
+<a name="890"><q-n>     890  </q-n></a>  .HPROTS4(HPROTS4),
+<a name="891"><q-n>     891  </q-n></a>  .HWDATAS4(HWDATAS4),
+<a name="892"><q-n>     892  </q-n></a>  .HMASTLOCKS4(HMASTLOCKS4),
+<a name="893"><q-n>     893  </q-n></a>  .HAUSERS4(HAUSERS4),
+<a name="894"><q-n>     894  </q-n></a>  .HWUSERS4(HWUSERS4),
+<a name="895"><q-n>     895  </q-n></a>  .HADDRS5(HADDRS5),
+<a name="896"><q-n>     896  </q-n></a>  .HTRANSS5(HTRANSS5),
+<a name="897"><q-n>     897  </q-n></a>  .HWRITES5(HWRITES5),
+<a name="898"><q-n>     898  </q-n></a>  .HSIZES5(HSIZES5),
+<a name="899"><q-n>     899  </q-n></a>  .HBURSTS5(HBURSTS5),
+<a name="900"><q-n>     900  </q-n></a>  .HPROTS5(HPROTS5),
+<a name="901"><q-n>     901  </q-n></a>  .HWDATAS5(HWDATAS5),
+<a name="902"><q-n>     902  </q-n></a>  .HMASTLOCKS5(HMASTLOCKS5),
+<a name="903"><q-n>     903  </q-n></a>  .HAUSERS5(HAUSERS5),
+<a name="904"><q-n>     904  </q-n></a>  .HWUSERS5(HWUSERS5),
+<a name="905"><q-n>     905  </q-n></a>  .HRDATAM0(HRDATAM0),
+<a name="906"><q-n>     906  </q-n></a>  .HREADYOUTM0(HREADYOUTM0),
+<a name="907"><q-n>     907  </q-n></a>  .HRESPM0(HRESPM0),
+<a name="908"><q-n>     908  </q-n></a>  .HRUSERM0(HRUSERM0),
+<a name="909"><q-n>     909  </q-n></a>  .HRDATAM1(HRDATAM1),
+<a name="910"><q-n>     910  </q-n></a>  .HREADYOUTM1(HREADYOUTM1),
+<a name="911"><q-n>     911  </q-n></a>  .HRESPM1(HRESPM1),
+<a name="912"><q-n>     912  </q-n></a>  .HRUSERM1(HRUSERM1),
+<a name="913"><q-n>     913  </q-n></a>  .HRDATAM2(HRDATAM2),
+<a name="914"><q-n>     914  </q-n></a>  .HREADYOUTM2(HREADYOUTM2),
+<a name="915"><q-n>     915  </q-n></a>  .HRESPM2(HRESPM2),
+<a name="916"><q-n>     916  </q-n></a>  .HRUSERM2(HRUSERM2),
+<a name="917"><q-n>     917  </q-n></a>  .HRDATAM3(HRDATAM3),
+<a name="918"><q-n>     918  </q-n></a>  .HREADYOUTM3(HREADYOUTM3),
+<a name="919"><q-n>     919  </q-n></a>  .HRESPM3(HRESPM3),
+<a name="920"><q-n>     920  </q-n></a>  .HRUSERM3(HRUSERM3),
+<a name="921"><q-n>     921  </q-n></a>  .SCANENABLE(SCANENABLE),
+<a name="922"><q-n>     922  </q-n></a>  .SCANINHCLK(SCANINHCLK),
+<a name="923"><q-n>     923  </q-n></a>  .HSELM0(HSELM0),
+<a name="924"><q-n>     924  </q-n></a>  .HADDRM0(HADDRM0),
+<a name="925"><q-n>     925  </q-n></a>  .HTRANSM0(HTRANSM0),
+<a name="926"><q-n>     926  </q-n></a>  .HWRITEM0(HWRITEM0),
+<a name="927"><q-n>     927  </q-n></a>  .HSIZEM0(HSIZEM0),
+<a name="928"><q-n>     928  </q-n></a>  .HBURSTM0(HBURSTM0),
+<a name="929"><q-n>     929  </q-n></a>  .HPROTM0(HPROTM0),
+<a name="930"><q-n>     930  </q-n></a>  .HWDATAM0(HWDATAM0),
+<a name="931"><q-n>     931  </q-n></a>  .HMASTLOCKM0(HMASTLOCKM0),
+<a name="932"><q-n>     932  </q-n></a>  .HREADYMUXM0(HREADYMUXM0),
+<a name="933"><q-n>     933  </q-n></a>  .HAUSERM0(HAUSERM0),
+<a name="934"><q-n>     934  </q-n></a>  .HWUSERM0(HWUSERM0),
+<a name="935"><q-n>     935  </q-n></a>  .HSELM1(HSELM1),
+<a name="936"><q-n>     936  </q-n></a>  .HADDRM1(HADDRM1),
+<a name="937"><q-n>     937  </q-n></a>  .HTRANSM1(HTRANSM1),
+<a name="938"><q-n>     938  </q-n></a>  .HWRITEM1(HWRITEM1),
+<a name="939"><q-n>     939  </q-n></a>  .HSIZEM1(HSIZEM1),
+<a name="940"><q-n>     940  </q-n></a>  .HBURSTM1(HBURSTM1),
+<a name="941"><q-n>     941  </q-n></a>  .HPROTM1(HPROTM1),
+<a name="942"><q-n>     942  </q-n></a>  .HWDATAM1(HWDATAM1),
+<a name="943"><q-n>     943  </q-n></a>  .HMASTLOCKM1(HMASTLOCKM1),
+<a name="944"><q-n>     944  </q-n></a>  .HREADYMUXM1(HREADYMUXM1),
+<a name="945"><q-n>     945  </q-n></a>  .HAUSERM1(HAUSERM1),
+<a name="946"><q-n>     946  </q-n></a>  .HWUSERM1(HWUSERM1),
+<a name="947"><q-n>     947  </q-n></a>  .HSELM2(HSELM2),
+<a name="948"><q-n>     948  </q-n></a>  .HADDRM2(HADDRM2),
+<a name="949"><q-n>     949  </q-n></a>  .HTRANSM2(HTRANSM2),
+<a name="950"><q-n>     950  </q-n></a>  .HWRITEM2(HWRITEM2),
+<a name="951"><q-n>     951  </q-n></a>  .HSIZEM2(HSIZEM2),
+<a name="952"><q-n>     952  </q-n></a>  .HBURSTM2(HBURSTM2),
+<a name="953"><q-n>     953  </q-n></a>  .HPROTM2(HPROTM2),
+<a name="954"><q-n>     954  </q-n></a>  .HWDATAM2(HWDATAM2),
+<a name="955"><q-n>     955  </q-n></a>  .HMASTLOCKM2(HMASTLOCKM2),
+<a name="956"><q-n>     956  </q-n></a>  .HREADYMUXM2(HREADYMUXM2),
+<a name="957"><q-n>     957  </q-n></a>  .HAUSERM2(HAUSERM2),
+<a name="958"><q-n>     958  </q-n></a>  .HWUSERM2(HWUSERM2),
+<a name="959"><q-n>     959  </q-n></a>  .HSELM3(HSELM3),
+<a name="960"><q-n>     960  </q-n></a>  .HADDRM3(HADDRM3),
+<a name="961"><q-n>     961  </q-n></a>  .HTRANSM3(HTRANSM3),
+<a name="962"><q-n>     962  </q-n></a>  .HWRITEM3(HWRITEM3),
+<a name="963"><q-n>     963  </q-n></a>  .HSIZEM3(HSIZEM3),
+<a name="964"><q-n>     964  </q-n></a>  .HBURSTM3(HBURSTM3),
+<a name="965"><q-n>     965  </q-n></a>  .HPROTM3(HPROTM3),
+<a name="966"><q-n>     966  </q-n></a>  .HWDATAM3(HWDATAM3),
+<a name="967"><q-n>     967  </q-n></a>  .HMASTLOCKM3(HMASTLOCKM3),
+<a name="968"><q-n>     968  </q-n></a>  .HREADYMUXM3(HREADYMUXM3),
+<a name="969"><q-n>     969  </q-n></a>  .HAUSERM3(HAUSERM3),
+<a name="970"><q-n>     970  </q-n></a>  .HWUSERM3(HWUSERM3),
+<a name="971"><q-n>     971  </q-n></a>  .HRDATAS0(HRDATAS0),
+<a name="972"><q-n>     972  </q-n></a>  .HREADYS0(HREADYS0),
+<a name="973"><q-n>     973  </q-n></a>  .HRESPS0(HRESPS0),
+<a name="974"><q-n>     974  </q-n></a>  .HRUSERS0(HRUSERS0),
+<a name="975"><q-n>     975  </q-n></a>  .HRDATAS1(HRDATAS1),
+<a name="976"><q-n>     976  </q-n></a>  .HREADYS1(HREADYS1),
+<a name="977"><q-n>     977  </q-n></a>  .HRESPS1(HRESPS1),
+<a name="978"><q-n>     978  </q-n></a>  .HRUSERS1(HRUSERS1),
+<a name="979"><q-n>     979  </q-n></a>  .HRDATAS3(HRDATAS3),
+<a name="980"><q-n>     980  </q-n></a>  .HREADYS3(HREADYS3),
+<a name="981"><q-n>     981  </q-n></a>  .HRESPS3(HRESPS3),
+<a name="982"><q-n>     982  </q-n></a>  .HRUSERS3(HRUSERS3),
+<a name="983"><q-n>     983  </q-n></a>  .HRDATAS4(HRDATAS4),
+<a name="984"><q-n>     984  </q-n></a>  .HREADYS4(HREADYS4),
+<a name="985"><q-n>     985  </q-n></a>  .HRESPS4(HRESPS4),
+<a name="986"><q-n>     986  </q-n></a>  .HRUSERS4(HRUSERS4),
+<a name="987"><q-n>     987  </q-n></a>  .HRDATAS5(HRDATAS5),
+<a name="988"><q-n>     988  </q-n></a>  .HREADYS5(HREADYS5),
+<a name="989"><q-n>     989  </q-n></a>  .HRESPS5(HRESPS5),
+<a name="990"><q-n>     990  </q-n></a>  .HRUSERS5(HRUSERS5),
+<a name="991"><q-n>     991  </q-n></a>  .SCANOUTHCLK(SCANOUTHCLK)
+<a name="992"><q-n>     992  </q-n></a>  );
+<a name="993"><q-n>     993  </q-n></a>  
+<a name="994"><q-n>     994  </q-n></a>  <q-m>//Clks &amp; Resets</q-m>
+<a name="995"><q-n>     995  </q-n></a>  <q-w>assign</q-w> SYSRESETn = HRESETn; <q-m>//Temp TBD, for now map to HRESETn          </q-m>
+<a name="996"><q-n>     996  </q-n></a>  <q-w>assign</q-w> PORESETn  = HRESETn; <q-m>//Temp TBD, for now map to HRESETn</q-m>
+<a name="997"><q-n>     997  </q-n></a>  <q-w>assign</q-w> FCLK      = HCLK; <q-m>//Temp TBD, for now map to HCLK</q-m>
+<a name="998"><q-n>     998  </q-n></a>  
+<a name="999"><q-n>     999  </q-n></a>  <q-m>//Bus-Matrix S0 input Mapping to ICODE</q-m>
+<a name="1000"><q-n>     1000  </q-n></a>  <q-w>assign</q-w> HADDRS0     = HADDRI; <q-m>//ICODE to S0</q-m>
+<a name="1001"><q-n>     1001  </q-n></a>  <q-w>assign</q-w> HTRANSS0    = HTRANSI; <q-m>//ICODE to S0</q-m>
+<a name="1002"><q-n>     1002  </q-n></a>  <q-w>assign</q-w> HWRITES0    = 1'b0; <q-m>//ICODE bus is readonly</q-m>
+<a name="1003"><q-n>     1003  </q-n></a>  <q-w>assign</q-w> HSIZES0     = HSIZEI;
+<a name="1004"><q-n>     1004  </q-n></a>  <q-w>assign</q-w> HBURSTS0    = HBURSTI;
+<a name="1005"><q-n>     1005  </q-n></a>  <q-w>assign</q-w> HPROTS0     = HPROTI;
+<a name="1006"><q-n>     1006  </q-n></a>  <q-w>assign</q-w> HWDATAS0    = 32'h00000000;<q-m>//ICODE Is WRite only bus</q-m>
+<a name="1007"><q-n>     1007  </q-n></a>  <q-w>assign</q-w> HMASTLOCKS0 = 0; <q-m>//no bit band region between 0x0000_0000 and 0x1FFF_FFFF</q-m>
+<a name="1008"><q-n>     1008  </q-n></a>  <q-w>assign</q-w> HAUSERS0    = 0;
+<a name="1009"><q-n>     1009  </q-n></a>  <q-w>assign</q-w> HWUSERS0    = 0;
+<a name="1010"><q-n>     1010  </q-n></a>  
+<a name="1011"><q-n>     1011  </q-n></a>  <q-m>//Bus-Matrix S1 input Mapping to DCODE</q-m>
+<a name="1012"><q-n>     1012  </q-n></a>  <q-w>assign</q-w> HADDRS1     = HADDRD; <q-m>//DCODE to S1</q-m>
+<a name="1013"><q-n>     1013  </q-n></a>  <q-w>assign</q-w> HTRANSS1    = HTRANSD; <q-m>//DCODE to S1</q-m>
+<a name="1014"><q-n>     1014  </q-n></a>  <q-w>assign</q-w> HWRITES1    = HWRITED;
+<a name="1015"><q-n>     1015  </q-n></a>  <q-w>assign</q-w> HSIZES1     = HSIZED;
+<a name="1016"><q-n>     1016  </q-n></a>  <q-w>assign</q-w> HBURSTS1    = HBURSTD;
+<a name="1017"><q-n>     1017  </q-n></a>  <q-w>assign</q-w> HPROTS1     = HPROTD;
+<a name="1018"><q-n>     1018  </q-n></a>  <q-w>assign</q-w> HWDATAS1    = HWDATAD;
+<a name="1019"><q-n>     1019  </q-n></a>  <q-w>assign</q-w> HMASTLOCKS1 = 0; <q-m>//no bit band region between 0x0000_0000 and 0x1FFF_FFFF</q-m>
+<a name="1020"><q-n>     1020  </q-n></a>  <q-w>assign</q-w> HAUSERS1    = 0;
+<a name="1021"><q-n>     1021  </q-n></a>  <q-w>assign</q-w> HWUSERS1    = 0;
+<a name="1022"><q-n>     1022  </q-n></a>  
+<a name="1023"><q-n>     1023  </q-n></a>  <q-m>//Bus-Matrix S3 input Mapping to SYSTEM BUS TBD, fixit, should be S2</q-m>
+<a name="1024"><q-n>     1024  </q-n></a>  <q-w>assign</q-w> HADDRS3     = HADDRS;
+<a name="1025"><q-n>     1025  </q-n></a>  <q-w>assign</q-w> HTRANSS3    = HTRANSS;
+<a name="1026"><q-n>     1026  </q-n></a>  <q-w>assign</q-w> HWRITES3    = HWRITES;
+<a name="1027"><q-n>     1027  </q-n></a>  <q-w>assign</q-w> HSIZES3     = HSIZES;
+<a name="1028"><q-n>     1028  </q-n></a>  <q-w>assign</q-w> HBURSTS3    = HBURSTS;
+<a name="1029"><q-n>     1029  </q-n></a>  <q-w>assign</q-w> HPROTS3     = HPROTS;
+<a name="1030"><q-n>     1030  </q-n></a>  <q-w>assign</q-w> HWDATAS3    = HWDATAS;
+<a name="1031"><q-n>     1031  </q-n></a>  <q-w>assign</q-w> HMASTLOCKS3 = 0; <q-m>//no bit band region between 0x2000_0000 and 0x2FFF_FFFF</q-m>
+<a name="1032"><q-n>     1032  </q-n></a>  <q-w>assign</q-w> HAUSERS3    = 0;
+<a name="1033"><q-n>     1033  </q-n></a>  <q-w>assign</q-w> HWUSERS3    = 0;
+<a name="1034"><q-n>     1034  </q-n></a>  
+<a name="1035"><q-n>     1035  </q-n></a>  <q-w>endmodule</q-w>
+</pre>
+</tt>
+
+  
+</body>
+</html>

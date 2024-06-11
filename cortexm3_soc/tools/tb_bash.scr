@@ -1,0 +1,10 @@
+#!/bin/bash
+TIME_NOW=$(date +"%x %r %z")
+echo $TIME_NOW
+if [ $# -lt 1 ]
+then
+  exit
+fi
+ifile=$1
+#grep -e input -e output $ifile | awk -F\; '{print $infile ";"}' | sed s/output/wire/g | sed s/input/reg/g
+grep -e input -e output $ifile | sed s/\/\//efgh/g

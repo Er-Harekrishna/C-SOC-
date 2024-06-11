@@ -1,0 +1,119 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////////////////////////////////////////</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>//</q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>//  NAME      :- Pradip Prajapati</q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>//  FILE_NAME :- ahb_master_rst_sequence.sv</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>//</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////////////////////////////////////////</q-m>
+<a name="7"><q-n>     7  </q-n></a>
+<a name="8"><q-n>     8  </q-n></a><q-m>/**</q-m>
+<a name="9"><q-n>     9  </q-n></a><q-m> * Abstract:</q-m>
+<a name="10"><q-n>     10  </q-n></a><q-m> * This class defines a sequence in which a all burst random AHB WRITE followed </q-m>
+<a name="11"><q-n>     11  </q-n></a><q-m> * by a random AHB READ along with reset. sequence is generated using `uvm_do_with </q-m>
+<a name="12"><q-n>     12  </q-n></a><q-m> * macros.</q-m>
+<a name="13"><q-n>     13  </q-n></a><q-m> *</q-m>
+<a name="14"><q-n>     14  </q-n></a><q-m> * Execution phase: main_phase</q-m>
+<a name="15"><q-n>     15  </q-n></a><q-m> * Sequencer: ahb_mas_seqr</q-m>
+<a name="16"><q-n>     16  </q-n></a><q-m> *</q-m>
+<a name="17"><q-n>     17  </q-n></a><q-m> */</q-m>
+<a name="18"><q-n>     18  </q-n></a>
+<a name="19"><q-n>     19  </q-n></a>`ifndef AHB_MASTER_RESET_SEQUENCE
+<a name="20"><q-n>     20  </q-n></a>`<q-a>define</q-w> AHB_MASTER_RESET_SEQUENCE
+<a name="21"><q-n>     21  </q-n></a>
+<a name="22"><q-n>     22  </q-n></a><q-w>class</q-w> ahb_master_rst_sequence <q-w>extends</q-w> ahb_base_master_sequence;
+<a name="23"><q-n>     23  </q-n></a>
+<a name="24"><q-n>     24  </q-n></a>  <q-m>/** factroy registration */</q-m>
+<a name="25"><q-n>     25  </q-n></a>  `uvm_object_utils(ahb_master_rst_sequence)
+<a name="26"><q-n>     26  </q-n></a>  
+<a name="27"><q-n>     27  </q-n></a>  <q-m>/** class constructor */</q-m>
+<a name="28"><q-n>     28  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>new</q-w>(<q-w>string</q-w> name=<q-l>"ahb_master_rst_sequence"</q-l>);
+<a name="29"><q-n>     29  </q-n></a>  
+<a name="30"><q-n>     30  </q-n></a>  <q-m>/** body method for generating stimulus */</q-m>
+<a name="31"><q-n>     31  </q-n></a>  <q-w>extern</q-w> <q-w>task</q-w> body();
+<a name="32"><q-n>     32  </q-n></a>
+<a name="33"><q-n>     33  </q-n></a><q-w>endclass</q-w> : ahb_master_rst_sequence
+<a name="34"><q-n>     34  </q-n></a>
+<a name="35"><q-n>     35  </q-n></a><q-m>//*****************************************************************************</q-m>
+<a name="36"><q-n>     36  </q-n></a><q-m>//methods</q-m>
+<a name="37"><q-n>     37  </q-n></a><q-m>//*****************************************************************************</q-m>
+<a name="38"><q-n>     38  </q-n></a>
+<a name="39"><q-n>     39  </q-n></a><q-w>function</q-w> ahb_master_rst_sequence::<q-w>new</q-w>(<q-w>string</q-w> name=<q-l>"ahb_master_rst_sequence"</q-l>);
+<a name="40"><q-n>     40  </q-n></a>  <q-w>super</q-w>.<q-w>new</q-w>(name);
+<a name="41"><q-n>     41  </q-n></a><q-w>endfunction</q-w> : <q-w>new</q-w>
+<a name="42"><q-n>     42  </q-n></a>
+<a name="43"><q-n>     43  </q-n></a><q-w>task</q-w> ahb_master_rst_sequence::body();
+<a name="44"><q-n>     44  </q-n></a>  
+<a name="45"><q-n>     45  </q-n></a>  `uvm_info(<q-l>"body"</q-l>, <q-l>"Entered ..."</q-l>, UVM_MEDIUM)
+<a name="46"><q-n>     46  </q-n></a>
+<a name="47"><q-n>     47  </q-n></a>  <q-w>if</q-w>(!(uvm_config_db #(<q-w>int</q-w> <q-w>unsigned</q-w>)::get(<q-w>null</q-w>, get_full_name(), <q-l>"sequence_length"</q-l>, sequence_length)))
+<a name="48"><q-n>     48  </q-n></a>    `uvm_info(<q-l>"BODY"</q-l>,<q-l>"GET FAILED"</q-l>,UVM_MEDIUM)
+<a name="49"><q-n>     49  </q-n></a>
+<a name="50"><q-n>     50  </q-n></a>  `uvm_info(<q-l>"body"</q-l>, $sformatf(<q-l>"sequence_length is %0d"</q-l>, sequence_length), UVM_MEDIUM);
+<a name="51"><q-n>     51  </q-n></a>  
+<a name="52"><q-n>     52  </q-n></a>  <q-w>for</q-w>(<q-w>int</q-w> k=0;k&lt;8;k++) <q-w>begin</q-w>
+<a name="53"><q-n>     53  </q-n></a>
+<a name="54"><q-n>     54  </q-n></a>    <q-w>for</q-w>(<q-w>int</q-w> i=0;i&lt;=$clog2(`DATA_WIDTH/8);i++) <q-w>begin</q-w>
+<a name="55"><q-n>     55  </q-n></a>
+<a name="56"><q-n>     56  </q-n></a>      <q-w>repeat</q-w> (sequence_length) <q-w>begin</q-w>
+<a name="57"><q-n>     57  </q-n></a>
+<a name="58"><q-n>     58  </q-n></a>        `uvm_do_with(req,
+<a name="59"><q-n>     59  </q-n></a>         {  HADDR       == 2**(i);
+<a name="60"><q-n>     60  </q-n></a>	    HWRITE      == 1;
+<a name="61"><q-n>     61  </q-n></a>	    hburst_type == hburst_enum'(k);
+<a name="62"><q-n>     62  </q-n></a>	    hsize_type  == hsize_enum'(i);
+<a name="63"><q-n>     63  </q-n></a>	    incr_size   == 1;
+<a name="64"><q-n>     64  </q-n></a>	    <q-w>foreach</q-w>(busy_trans_cycles[i])
+<a name="65"><q-n>     65  </q-n></a>	      busy_trans_cycles[i]==0;
+<a name="66"><q-n>     66  </q-n></a>	 })
+<a name="67"><q-n>     67  </q-n></a>
+<a name="68"><q-n>     68  </q-n></a>        `uvm_do_with(req,
+<a name="69"><q-n>     69  </q-n></a>         {  HADDR       == 2**(i);
+<a name="70"><q-n>     70  </q-n></a>	    HWRITE      == 0;
+<a name="71"><q-n>     71  </q-n></a>	    hburst_type == hburst_enum'(k);
+<a name="72"><q-n>     72  </q-n></a>	    hsize_type  == hsize_enum'(i);
+<a name="73"><q-n>     73  </q-n></a>	    incr_size   == 1;
+<a name="74"><q-n>     74  </q-n></a>	    <q-w>foreach</q-w>(busy_trans_cycles[i])
+<a name="75"><q-n>     75  </q-n></a>	      busy_trans_cycles[i]==0;
+<a name="76"><q-n>     76  </q-n></a>	 })
+<a name="77"><q-n>     77  </q-n></a>
+<a name="78"><q-n>     78  </q-n></a>        p_sequencer.vif.reset(11,2);
+<a name="79"><q-n>     79  </q-n></a>        
+<a name="80"><q-n>     80  </q-n></a>	`uvm_do_with(req,
+<a name="81"><q-n>     81  </q-n></a>         {  HADDR       == 2**(i);
+<a name="82"><q-n>     82  </q-n></a>	    HWRITE      == 1;
+<a name="83"><q-n>     83  </q-n></a>	    hburst_type == hburst_enum'(k);
+<a name="84"><q-n>     84  </q-n></a>	    hsize_type  == hsize_enum'(i);
+<a name="85"><q-n>     85  </q-n></a>	    incr_size   == 1;
+<a name="86"><q-n>     86  </q-n></a>	    <q-w>foreach</q-w>(busy_trans_cycles[i])
+<a name="87"><q-n>     87  </q-n></a>	      busy_trans_cycles[i]==0;
+<a name="88"><q-n>     88  </q-n></a>	 })
+<a name="89"><q-n>     89  </q-n></a>
+<a name="90"><q-n>     90  </q-n></a>      <q-w>end</q-w>
+<a name="91"><q-n>     91  </q-n></a>    <q-w>end</q-w>
+<a name="92"><q-n>     92  </q-n></a>
+<a name="93"><q-n>     93  </q-n></a>  <q-w>end</q-w>
+<a name="94"><q-n>     94  </q-n></a>
+<a name="95"><q-n>     95  </q-n></a>  `uvm_info(<q-l>"body"</q-l>, <q-l>"Exiting ..."</q-l>, UVM_MEDIUM)
+<a name="96"><q-n>     96  </q-n></a>
+<a name="97"><q-n>     97  </q-n></a><q-w>endtask</q-w> : body
+<a name="98"><q-n>     98  </q-n></a>
+<a name="99"><q-n>     99  </q-n></a>`<q-a>endif</q-w> <q-m>//AHB_MASTER_RESET_SEQUENCE</q-m>
+<a name="100"><q-n>     100  </q-n></a>
+<a name="101"><q-n>     101  </q-n></a>
+<a name="102"><q-n>     102  </q-n></a>
+<a name="103"><q-n>     103  </q-n></a>
+</pre>
+</tt>
+
+  
+</body>
+</html>

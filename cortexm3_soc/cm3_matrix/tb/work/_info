@@ -1,0 +1,31 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/avimi/Desktop/downloads/asic_design/xilinx/cortexm3_soc/cm3_matrix/tb
+vcm3_matrix_lite_tb
+!s110 1573304244
+!i10b 1
+!s100 R3naJKZCj:KnFO;h@7HoI0
+IJB]ST9K18<3<a`WNoi:Ja3
+VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1573304069
+8cm3_matrix_lite_tb.v
+Fcm3_matrix_lite_tb.v
+L0 5
+OP;L;10.4a;61
+r1
+!s85 0
+31
+!s108 1573304244.000000
+!s107 cm3_matrix_lite_tb.v|
+!s90 cm3_matrix_lite_tb.v|
+!s101 -O0
+!i113 1
+o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0

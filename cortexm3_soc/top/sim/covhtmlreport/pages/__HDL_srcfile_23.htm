@@ -1,0 +1,196 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////////////////////////////////////////</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>//</q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>//  NAME      :- Pradip Prajapati</q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>//  FILE_NAME :- AHB_master_monitor.sv</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>//  EDITED_BY :- Pradip Prajapati</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>//</q-m>
+<a name="7"><q-n>     7  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////////////////////////////////////////</q-m>
+<a name="8"><q-n>     8  </q-n></a>
+<a name="9"><q-n>     9  </q-n></a>`ifndef AHB_MASTER_MONITOR
+<a name="10"><q-n>     10  </q-n></a>`<q-a>define</q-w> AHB_MASTER_MONITOR
+<a name="11"><q-n>     11  </q-n></a>
+<a name="12"><q-n>     12  </q-n></a>`<q-a>define</q-w> MAS_MON_CB mas_vif.ahb_mas_mon_cb
+<a name="13"><q-n>     13  </q-n></a>
+<a name="14"><q-n>     14  </q-n></a><q-w>class</q-w> ahb_mas_mon <q-w>extends</q-w> uvm_monitor;
+<a name="15"><q-n>     15  </q-n></a>
+<a name="16"><q-n>     16  </q-n></a>  <q-m>//factory registration</q-m>
+<a name="17"><q-n>     17  </q-n></a>  `uvm_component_param_utils(ahb_mas_mon)
+<a name="18"><q-n>     18  </q-n></a>
+<a name="19"><q-n>     19  </q-n></a>  <q-m>//analysis port declration</q-m>
+<a name="20"><q-n>     20  </q-n></a>  uvm_analysis_port #(ahb_mas_trans) mas_ap_mon;
+<a name="21"><q-n>     21  </q-n></a>  uvm_analysis_port #(ahb_mas_trans) mas_ap_ch;
+<a name="22"><q-n>     22  </q-n></a>  uvm_analysis_port #(ahb_mas_trans) mas_mon_cc;
+<a name="23"><q-n>     23  </q-n></a>
+<a name="24"><q-n>     24  </q-n></a>  <q-m>//virtual interface</q-m>
+<a name="25"><q-n>     25  </q-n></a>  <q-w>virtual</q-w> ahb_mas_inf mas_vif;
+<a name="26"><q-n>     26  </q-n></a>
+<a name="27"><q-n>     27  </q-n></a>  <q-w>bit</q-w> lock;
+<a name="28"><q-n>     28  </q-n></a> 
+<a name="29"><q-n>     29  </q-n></a>  ahb_mas_trans trans_h;
+<a name="30"><q-n>     30  </q-n></a>
+<a name="31"><q-n>     31  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>new</q-w>(<q-w>string</q-w> name=<q-l>"ahb_mas_mon"</q-l>,uvm_component parent=<q-w>null</q-w>);
+<a name="32"><q-n>     32  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> build_phase(uvm_phase phase);
+<a name="33"><q-n>     33  </q-n></a>  <q-w>extern</q-w> <q-w>task</q-w> run_phase(uvm_phase phase);
+<a name="34"><q-n>     34  </q-n></a>  <q-w>extern</q-w> <q-w>task</q-w> addr_phase();
+<a name="35"><q-n>     35  </q-n></a>  <q-w>extern</q-w> <q-w>task</q-w> data_phase();
+<a name="36"><q-n>     36  </q-n></a>  <q-w>extern</q-w> <q-w>task</q-w> reset();
+<a name="37"><q-n>     37  </q-n></a>  
+<a name="38"><q-n>     38  </q-n></a><q-w>endclass</q-w> : ahb_mas_mon
+<a name="39"><q-n>     39  </q-n></a>
+<a name="40"><q-n>     40  </q-n></a><q-m>//*****************************************************************************</q-m>
+<a name="41"><q-n>     41  </q-n></a><q-m>//methods</q-m>
+<a name="42"><q-n>     42  </q-n></a><q-m>//*****************************************************************************</q-m>
+<a name="43"><q-n>     43  </q-n></a>
+<a name="44"><q-n>     44  </q-n></a><q-m>//new function</q-m>
+<a name="45"><q-n>     45  </q-n></a>
+<a name="46"><q-n>     46  </q-n></a><q-w>function</q-w> ahb_mas_mon::<q-w>new</q-w>(<q-w>string</q-w> name=<q-l>"ahb_mas_mon"</q-l>,uvm_component parent=<q-w>null</q-w>);
+<a name="47"><q-n>     47  </q-n></a>
+<a name="48"><q-n>     48  </q-n></a>  <q-w>super</q-w>.<q-w>new</q-w>(name,parent);
+<a name="49"><q-n>     49  </q-n></a>  mas_ap_mon = <q-w>new</q-w>(<q-l>"mas_ap_mon"</q-l>,<q-w>this</q-w>);
+<a name="50"><q-n>     50  </q-n></a>  mas_ap_ch  = <q-w>new</q-w>(<q-l>"mas_ap_ch"</q-l>,<q-w>this</q-w>);
+<a name="51"><q-n>     51  </q-n></a>  mas_mon_cc  = <q-w>new</q-w>(<q-l>"mas_mon_cc"</q-l>,<q-w>this</q-w>);
+<a name="52"><q-n>     52  </q-n></a>
+<a name="53"><q-n>     53  </q-n></a><q-w>endfunction</q-w> : <q-w>new</q-w>
+<a name="54"><q-n>     54  </q-n></a>
+<a name="55"><q-n>     55  </q-n></a><q-m>//build phase</q-m>
+<a name="56"><q-n>     56  </q-n></a>
+<a name="57"><q-n>     57  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_mas_mon::build_phase(uvm_phase phase);
+<a name="58"><q-n>     58  </q-n></a>
+<a name="59"><q-n>     59  </q-n></a>  trans_h = ahb_mas_trans::type_id::create(<q-l>"trans_h"</q-l>);
+<a name="60"><q-n>     60  </q-n></a>
+<a name="61"><q-n>     61  </q-n></a><q-w>endfunction</q-w> : build_phase
+<a name="62"><q-n>     62  </q-n></a>
+<a name="63"><q-n>     63  </q-n></a><q-m>//run_phase</q-m>
+<a name="64"><q-n>     64  </q-n></a>
+<a name="65"><q-n>     65  </q-n></a><q-w>task</q-w> ahb_mas_mon::run_phase(uvm_phase phase);
+<a name="66"><q-n>     66  </q-n></a>
+<a name="67"><q-n>     67  </q-n></a>  <q-w>forever</q-w> <q-w>begin</q-w>
+<a name="68"><q-n>     68  </q-n></a>
+<a name="69"><q-n>     69  </q-n></a>    <q-w>fork</q-w>
+<a name="70"><q-n>     70  </q-n></a>
+<a name="71"><q-n>     71  </q-n></a>      <q-w>forever</q-w> <q-w>begin</q-w>
+<a name="72"><q-n>     72  </q-n></a>     
+<a name="73"><q-n>     73  </q-n></a>        @(`MAS_MON_CB);
+<a name="74"><q-n>     74  </q-n></a>
+<a name="75"><q-n>     75  </q-n></a>        <q-w>fork</q-w>
+<a name="76"><q-n>     76  </q-n></a>
+<a name="77"><q-n>     77  </q-n></a>          addr_phase();
+<a name="78"><q-n>     78  </q-n></a>          data_phase();
+<a name="79"><q-n>     79  </q-n></a>       
+<a name="80"><q-n>     80  </q-n></a>        <q-w>join_any</q-w>
+<a name="81"><q-n>     81  </q-n></a>
+<a name="82"><q-n>     82  </q-n></a>      <q-w>end</q-w>
+<a name="83"><q-n>     83  </q-n></a>
+<a name="84"><q-n>     84  </q-n></a>      <q-w>begin</q-w> <q-w>wait</q-w>(!mas_vif.hresetn); <q-w>end</q-w>
+<a name="85"><q-n>     85  </q-n></a>
+<a name="86"><q-n>     86  </q-n></a>    <q-w>join_any</q-w>
+<a name="87"><q-n>     87  </q-n></a>
+<a name="88"><q-n>     88  </q-n></a>    <q-w>disable</q-w> <q-w>fork</q-w>;
+<a name="89"><q-n>     89  </q-n></a>
+<a name="90"><q-n>     90  </q-n></a>    <q-w>if</q-w>(!mas_vif.hresetn)
+<a name="91"><q-n>     91  </q-n></a>
+<a name="92"><q-n>     92  </q-n></a>      reset();
+<a name="93"><q-n>     93  </q-n></a>
+<a name="94"><q-n>     94  </q-n></a>  <q-w>end</q-w>
+<a name="95"><q-n>     95  </q-n></a>
+<a name="96"><q-n>     96  </q-n></a><q-w>endtask</q-w>:run_phase
+<a name="97"><q-n>     97  </q-n></a>
+<a name="98"><q-n>     98  </q-n></a><q-m>//reset</q-m>
+<a name="99"><q-n>     99  </q-n></a>
+<a name="100"><q-n>     100  </q-n></a><q-w>task</q-w> ahb_mas_mon::reset();
+<a name="101"><q-n>     101  </q-n></a>
+<a name="102"><q-n>     102  </q-n></a>  `uvm_info(<q-l>"RESET"</q-l>,<q-l>"THIS IS MASTER MONITOR RESET"</q-l>,UVM_MEDIUM)
+<a name="103"><q-n>     103  </q-n></a>  @(<q-a>posedge</q-w> mas_vif.hresetn);
+<a name="104"><q-n>     104  </q-n></a>  @(`MAS_MON_CB);
+<a name="105"><q-n>     105  </q-n></a>  @(`MAS_MON_CB);
+<a name="106"><q-n>     106  </q-n></a>
+<a name="107"><q-n>     107  </q-n></a><q-w>endtask</q-w> : reset
+<a name="108"><q-n>     108  </q-n></a>
+<a name="109"><q-n>     109  </q-n></a><q-m>//addr_phase</q-m>
+<a name="110"><q-n>     110  </q-n></a>
+<a name="111"><q-n>     111  </q-n></a><q-w>task</q-w> ahb_mas_mon::addr_phase();
+<a name="112"><q-n>     112  </q-n></a> 	
+<a name="113"><q-n>     113  </q-n></a>  ahb_mas_trans chk_req;
+<a name="114"><q-n>     114  </q-n></a> 
+<a name="115"><q-n>     115  </q-n></a>  <q-w>if</q-w>(`MAS_MON_CB.HREADY &amp;&amp; `MAS_MON_CB.HSEL &amp;&amp; mas_vif.hresetn) <q-w>begin</q-w>
+<a name="116"><q-n>     116  </q-n></a>  <q-m>//sampling the address phase</q-m>
+<a name="117"><q-n>     117  </q-n></a>  <q-m>//`uvm_info("MASTER MONITOR","INSIDE ADDR PHASE OF MAS MON",UVM_MEDIUM)</q-m>
+<a name="118"><q-n>     118  </q-n></a>  trans_h.HADDR       = `MAS_MON_CB.HADDR;
+<a name="119"><q-n>     119  </q-n></a>  trans_h.HWRITE      = `MAS_MON_CB.HWRITE;
+<a name="120"><q-n>     120  </q-n></a>  trans_h.hsize_type  = hsize_enum'(`MAS_MON_CB.HSIZE);
+<a name="121"><q-n>     121  </q-n></a>  trans_h.hburst_type = hburst_enum'(`MAS_MON_CB.HBURST);
+<a name="122"><q-n>     122  </q-n></a>  trans_h.htrans_type = {htrans_enum'(`MAS_MON_CB.HTRANS)};
+<a name="123"><q-n>     123  </q-n></a>  trans_h.HREADY      = `MAS_MON_CB.HREADY;
+<a name="124"><q-n>     124  </q-n></a>
+<a name="125"><q-n>     125  </q-n></a>  lock = 1;
+<a name="126"><q-n>     126  </q-n></a>  
+<a name="127"><q-n>     127  </q-n></a>  <q-m>//`uvm_info("MASTER MONITOR","THIS IS MONITOR ADDR PHASE SENDING TRANSECTION",UVM_MEDIUM)</q-m>
+<a name="128"><q-n>     128  </q-n></a>  <q-m>//trans_h.print();</q-m>
+<a name="129"><q-n>     129  </q-n></a>  <q-m>//$cast(chk_req,trans_h.clone());</q-m>
+<a name="130"><q-n>     130  </q-n></a>  <q-m>//mas_ap_ch.write(chk_req);</q-m>
+<a name="131"><q-n>     131  </q-n></a>  <q-w>if</q-w>(trans_h.htrans_type[0]!=IDLE) <q-w>begin</q-w>
+<a name="132"><q-n>     132  </q-n></a>  `uvm_info(<q-l>"MASTER MONITOR"</q-l>,<q-l>"THIS IS MONITOR ADDR_PHASE SENDING TRANSECTION"</q-l>,UVM_MEDIUM)
+<a name="133"><q-n>     133  </q-n></a>  trans_h.print();
+<a name="134"><q-n>     134  </q-n></a>  <q-w>end</q-w>
+<a name="135"><q-n>     135  </q-n></a>
+<a name="136"><q-n>     136  </q-n></a>  <q-w>end</q-w>
+<a name="137"><q-n>     137  </q-n></a>     
+<a name="138"><q-n>     138  </q-n></a><q-w>endtask</q-w> :addr_phase
+<a name="139"><q-n>     139  </q-n></a>
+<a name="140"><q-n>     140  </q-n></a><q-m>//data_phase</q-m>
+<a name="141"><q-n>     141  </q-n></a>
+<a name="142"><q-n>     142  </q-n></a><q-w>task</q-w> ahb_mas_mon::data_phase();
+<a name="143"><q-n>     143  </q-n></a>   
+<a name="144"><q-n>     144  </q-n></a>  ahb_mas_trans sb_req,cov_req;
+<a name="145"><q-n>     145  </q-n></a>
+<a name="146"><q-n>     146  </q-n></a>  <q-w>if</q-w>(lock) <q-w>begin</q-w>
+<a name="147"><q-n>     147  </q-n></a>   
+<a name="148"><q-n>     148  </q-n></a>  @(`MAS_MON_CB);
+<a name="149"><q-n>     149  </q-n></a>
+<a name="150"><q-n>     150  </q-n></a>  <q-w>if</q-w>(`MAS_MON_CB.HREADY &amp;&amp; mas_vif.hresetn) <q-w>begin</q-w>
+<a name="151"><q-n>     151  </q-n></a>
+<a name="152"><q-n>     152  </q-n></a>  <q-m>//check if HTRANS is NONSEQ or SEQ  </q-m>
+<a name="153"><q-n>     153  </q-n></a>  <q-m>//`uvm_info("MASTER MONITOR","INSIDE DATA PHASE OF MAS MON",UVM_MEDIUM)</q-m>
+<a name="154"><q-n>     154  </q-n></a>              
+<a name="155"><q-n>     155  </q-n></a>  trans_h.HWDATA = '{`MAS_MON_CB.HWDATA};
+<a name="156"><q-n>     156  </q-n></a>  trans_h.HRDATA = `MAS_MON_CB.HRDATA;
+<a name="157"><q-n>     157  </q-n></a>  trans_h.hresp_type  = hresp_enum'(`MAS_MON_CB.HRESP);
+<a name="158"><q-n>     158  </q-n></a>
+<a name="159"><q-n>     159  </q-n></a>  lock = 0;
+<a name="160"><q-n>     160  </q-n></a> 
+<a name="161"><q-n>     161  </q-n></a>  <q-m>//`uvm_info("MASTER MONITOR","THIS IS MONITOR DATA_PHASE SENDING TRANSECTION",UVM_MEDIUM)</q-m>
+<a name="162"><q-n>     162  </q-n></a>  <q-m>//trans_h.print();</q-m>
+<a name="163"><q-n>     163  </q-n></a>
+<a name="164"><q-n>     164  </q-n></a>  $<q-v>cast</q-w>(cov_req,trans_h.clone());
+<a name="165"><q-n>     165  </q-n></a>  <q-w>if</q-w>(`MAS_MON_CB.HREADY) <q-w>begin</q-w>
+<a name="166"><q-n>     166  </q-n></a>    <q-w>if</q-w>(trans_h.htrans_type[0]!=IDLE) <q-w>begin</q-w>
+<a name="167"><q-n>     167  </q-n></a>    `uvm_info(<q-l>"MASTER MONITOR"</q-l>,<q-l>"THIS IS MONITOR DATA_PHASE SENDING TRANSECTION"</q-l>,UVM_MEDIUM)
+<a name="168"><q-n>     168  </q-n></a>    trans_h.print();
+<a name="169"><q-n>     169  </q-n></a>    <q-w>end</q-w>
+<a name="170"><q-n>     170  </q-n></a>    $<q-v>cast</q-w>(sb_req,trans_h.clone());
+<a name="171"><q-n>     171  </q-n></a>    mas_ap_mon.write(sb_req);
+<a name="172"><q-n>     172  </q-n></a>  <q-w>end</q-w>
+<a name="173"><q-n>     173  </q-n></a>  mas_mon_cc.write(cov_req);
+<a name="174"><q-n>     174  </q-n></a>  <q-w>end</q-w>
+<a name="175"><q-n>     175  </q-n></a>  <q-w>end</q-w>
+<a name="176"><q-n>     176  </q-n></a>  
+<a name="177"><q-n>     177  </q-n></a><q-w>endtask</q-w> :data_phase
+<a name="178"><q-n>     178  </q-n></a>
+<a name="179"><q-n>     179  </q-n></a>`<q-a>endif</q-w>
+<a name="180"><q-n>     180  </q-n></a>
+</pre>
+</tt>
+
+  
+</body>
+</html>

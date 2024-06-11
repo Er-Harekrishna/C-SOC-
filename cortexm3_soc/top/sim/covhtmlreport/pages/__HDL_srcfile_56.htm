@@ -1,0 +1,527 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>//</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>//  NAME      :- Pradip Prajapati</q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>//  FILE_NAME :- ahb_sb.svh</q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>//  EDITED_BY :- Karan Patadiya</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>//</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////////////////////////////////////////</q-m>
+<a name="7"><q-n>     7  </q-n></a>
+<a name="8"><q-n>     8  </q-n></a><q-m>/** ABSTRACT : - </q-m>
+<a name="9"><q-n>     9  </q-n></a><q-m>*                Scoreboard is used to compare data from master and slave</q-m>
+<a name="10"><q-n>     10  </q-n></a><q-m>*                side.</q-m>
+<a name="11"><q-n>     11  </q-n></a><q-m>*                When master provide data for one address and for read</q-m>
+<a name="12"><q-n>     12  </q-n></a><q-m>*                operation on that address we are getting same address or not</q-m>
+<a name="13"><q-n>     13  </q-n></a><q-m>*                is going to check in scoreboard class   */</q-m>
+<a name="14"><q-n>     14  </q-n></a>
+<a name="15"><q-n>     15  </q-n></a>`ifndef AHB_SCOREBOARD
+<a name="16"><q-n>     16  </q-n></a>`<q-a>define</q-w> AHB_SCOREBOARD
+<a name="17"><q-n>     17  </q-n></a>
+<a name="18"><q-n>     18  </q-n></a><q-w>class</q-w> ahb_sb <q-w>extends</q-w> uvm_scoreboard;
+<a name="19"><q-n>     19  </q-n></a>
+<a name="20"><q-n>     20  </q-n></a>  <q-m>/** factory registration */</q-m>
+<a name="21"><q-n>     21  </q-n></a>  `uvm_component_utils(ahb_sb)
+<a name="22"><q-n>     22  </q-n></a>
+<a name="23"><q-n>     23  </q-n></a>  <q-m>/** Decl method for two write method  */</q-m>
+<a name="24"><q-n>     24  </q-n></a>  `uvm_analysis_imp_decl (_mas_m0)
+<a name="25"><q-n>     25  </q-n></a>  `uvm_analysis_imp_decl (_mas_m1)
+<a name="26"><q-n>     26  </q-n></a>  `uvm_analysis_imp_decl (_mas_m2)
+<a name="27"><q-n>     27  </q-n></a>  `uvm_analysis_imp_decl (_mas_m3)
+<a name="28"><q-n>     28  </q-n></a>  `uvm_analysis_imp_decl (_slv_s0)
+<a name="29"><q-n>     29  </q-n></a>  `uvm_analysis_imp_decl (_slv_s1)
+<a name="30"><q-n>     30  </q-n></a>  `uvm_analysis_imp_decl (_slv_s3)
+<a name="31"><q-n>     31  </q-n></a>  `uvm_analysis_imp_decl (_slv_s4)
+<a name="32"><q-n>     32  </q-n></a>  `uvm_analysis_imp_decl (_slv_s5) 
+<a name="33"><q-n>     33  </q-n></a>
+<a name="34"><q-n>     34  </q-n></a>  `uvm_analysis_imp_decl (_ahb_sram)  
+<a name="35"><q-n>     35  </q-n></a>  `uvm_analysis_imp_decl (_sram)
+<a name="36"><q-n>     36  </q-n></a>
+<a name="37"><q-n>     37  </q-n></a>  <q-m>//transaction queues</q-m>
+<a name="38"><q-n>     38  </q-n></a>  ahb_mas_trans mas_m0_act_q[$];
+<a name="39"><q-n>     39  </q-n></a>  ahb_mas_trans mas_m1_act_q[$];
+<a name="40"><q-n>     40  </q-n></a>  ahb_mas_trans mas_m2_act_q[$];
+<a name="41"><q-n>     41  </q-n></a>  ahb_mas_trans mas_m3_act_q[$];
+<a name="42"><q-n>     42  </q-n></a>
+<a name="43"><q-n>     43  </q-n></a>  ahb_slv_trans slv_s0_exp_q[$];
+<a name="44"><q-n>     44  </q-n></a>  ahb_slv_trans slv_s1_exp_q[$];
+<a name="45"><q-n>     45  </q-n></a>  ahb_slv_trans slv_s3_exp_q[$];
+<a name="46"><q-n>     46  </q-n></a>  ahb_slv_trans slv_s4_exp_q[$];
+<a name="47"><q-n>     47  </q-n></a>  ahb_slv_trans slv_s5_exp_q[$];
+<a name="48"><q-n>     48  </q-n></a>
+<a name="49"><q-n>     49  </q-n></a>  <q-m>/** inf handle for reset case. */</q-m>
+<a name="50"><q-n>     50  </q-n></a>  <q-w>virtual</q-w> ahb_inf vif;
+<a name="51"><q-n>     51  </q-n></a>
+<a name="52"><q-n>     52  </q-n></a>  <q-w>int</q-w> mem [<q-w>int</q-w>];
+<a name="53"><q-n>     53  </q-n></a>
+<a name="54"><q-n>     54  </q-n></a>  <q-w>longint</q-w> m0_trans_count;
+<a name="55"><q-n>     55  </q-n></a>  <q-w>longint</q-w> m1_trans_count;
+<a name="56"><q-n>     56  </q-n></a>  <q-w>longint</q-w> m2_trans_count;
+<a name="57"><q-n>     57  </q-n></a>  <q-w>longint</q-w> m3_trans_count;
+<a name="58"><q-n>     58  </q-n></a>  <q-w>longint</q-w> s0_m0_trans_count;
+<a name="59"><q-n>     59  </q-n></a>  <q-w>longint</q-w> s0_m1_trans_count;
+<a name="60"><q-n>     60  </q-n></a>  <q-w>longint</q-w> s1_m0_trans_count;
+<a name="61"><q-n>     61  </q-n></a>  <q-w>longint</q-w> s1_m1_trans_count;
+<a name="62"><q-n>     62  </q-n></a>  <q-w>longint</q-w> s3_m2_trans_count;
+<a name="63"><q-n>     63  </q-n></a>  <q-w>longint</q-w> s3_m3_trans_count;
+<a name="64"><q-n>     64  </q-n></a>  <q-w>longint</q-w> s4_m0_trans_count;
+<a name="65"><q-n>     65  </q-n></a>  <q-w>longint</q-w> s4_m1_trans_count;
+<a name="66"><q-n>     66  </q-n></a>  <q-w>longint</q-w> s4_m2_trans_count;
+<a name="67"><q-n>     67  </q-n></a>  <q-w>longint</q-w> s5_m0_trans_count;
+<a name="68"><q-n>     68  </q-n></a>  <q-w>longint</q-w> s5_m1_trans_count;
+<a name="69"><q-n>     69  </q-n></a>  <q-w>longint</q-w> s5_m3_trans_count;
+<a name="70"><q-n>     70  </q-n></a>  
+<a name="71"><q-n>     71  </q-n></a>  <q-m>/** analysis import for the receiving data from the monitor for checker */</q-m>
+<a name="72"><q-n>     72  </q-n></a>  uvm_analysis_imp_mas_m0 #(ahb_mas_trans,ahb_sb) mas_ai_sb_m0;
+<a name="73"><q-n>     73  </q-n></a>  uvm_analysis_imp_mas_m1 #(ahb_mas_trans,ahb_sb) mas_ai_sb_m1;
+<a name="74"><q-n>     74  </q-n></a>  uvm_analysis_imp_mas_m2 #(ahb_mas_trans,ahb_sb) mas_ai_sb_m2;
+<a name="75"><q-n>     75  </q-n></a>  uvm_analysis_imp_mas_m3 #(ahb_mas_trans,ahb_sb) mas_ai_sb_m3;
+<a name="76"><q-n>     76  </q-n></a>  uvm_analysis_imp_slv_s0 #(ahb_slv_trans,ahb_sb) slv_ai_sb_s0;
+<a name="77"><q-n>     77  </q-n></a>  uvm_analysis_imp_slv_s1 #(ahb_slv_trans,ahb_sb) slv_ai_sb_s1;
+<a name="78"><q-n>     78  </q-n></a>  uvm_analysis_imp_slv_s3 #(ahb_slv_trans,ahb_sb) slv_ai_sb_s3;
+<a name="79"><q-n>     79  </q-n></a>  uvm_analysis_imp_slv_s4 #(ahb_slv_trans,ahb_sb) slv_ai_sb_s4;
+<a name="80"><q-n>     80  </q-n></a>  uvm_analysis_imp_slv_s5 #(ahb_slv_trans,ahb_sb) slv_ai_sb_s5;
+<a name="81"><q-n>     81  </q-n></a>
+<a name="82"><q-n>     82  </q-n></a>  uvm_analysis_imp_sram #(sram_transaction,ahb_sb) sram_ai_sb;
+<a name="83"><q-n>     83  </q-n></a>  uvm_analysis_imp_ahb_sram #(ahb_mas_trans,ahb_sb) ahb_sram_ai_sb;
+<a name="84"><q-n>     84  </q-n></a>
+<a name="85"><q-n>     85  </q-n></a>  <q-m>/** extern methods */</q-m>
+<a name="86"><q-n>     86  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>new</q-w>(<q-w>string</q-w> name=<q-l>"ahb_sb"</q-l>,uvm_component parent=<q-w>null</q-w>);
+<a name="87"><q-n>     87  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> write_mas_m0(ahb_mas_trans mas_trans_h);
+<a name="88"><q-n>     88  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> write_mas_m1(ahb_mas_trans mas_trans_h);
+<a name="89"><q-n>     89  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> write_mas_m2(ahb_mas_trans mas_trans_h);
+<a name="90"><q-n>     90  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> write_mas_m3(ahb_mas_trans mas_trans_h);
+<a name="91"><q-n>     91  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> write_slv_s0(ahb_slv_trans slv_trans_h);
+<a name="92"><q-n>     92  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> write_slv_s1(ahb_slv_trans slv_trans_h);
+<a name="93"><q-n>     93  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> write_slv_s3(ahb_slv_trans slv_trans_h);
+<a name="94"><q-n>     94  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> write_slv_s4(ahb_slv_trans slv_trans_h);
+<a name="95"><q-n>     95  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> write_slv_s5(ahb_slv_trans slv_trans_h);
+<a name="96"><q-n>     96  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> write_sram(sram_transaction sram_tr);
+<a name="97"><q-n>     97  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> write_ahb_sram(ahb_mas_trans ahb_sram_tr);
+<a name="98"><q-n>     98  </q-n></a>
+<a name="99"><q-n>     99  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> build_phase(uvm_phase phase);
+<a name="100"><q-n>     100  </q-n></a>  <q-m>//extern function void compare_trans(ahb_slv_trans slv_tr,ahb_mas_trans mas_tr);</q-m>
+<a name="101"><q-n>     101  </q-n></a>  <q-m>//extern task run_phase(uvm_phase phase);</q-m>
+<a name="102"><q-n>     102  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>void</q-w> report_phase(uvm_phase phase);
+<a name="103"><q-n>     103  </q-n></a>  
+<a name="104"><q-n>     104  </q-n></a><q-w>endclass</q-w> : ahb_sb
+<a name="105"><q-n>     105  </q-n></a>
+<a name="106"><q-n>     106  </q-n></a><q-m>//*****************************************************************************</q-m>
+<a name="107"><q-n>     107  </q-n></a><q-m>//                                   METHODS</q-m>
+<a name="108"><q-n>     108  </q-n></a><q-m>//*****************************************************************************</q-m>
+<a name="109"><q-n>     109  </q-n></a>
+<a name="110"><q-n>     110  </q-n></a><q-m>/**  constructor(new)  function */</q-m>
+<a name="111"><q-n>     111  </q-n></a><q-w>function</q-w> ahb_sb::<q-w>new</q-w>(<q-w>string</q-w> name=<q-l>"ahb_sb"</q-l>,uvm_component parent=<q-w>null</q-w>);
+<a name="112"><q-n>     112  </q-n></a>
+<a name="113"><q-n>     113  </q-n></a>  <q-w>super</q-w>.<q-w>new</q-w>(name,parent);
+<a name="114"><q-n>     114  </q-n></a>  mas_ai_sb_m0 = <q-w>new</q-w>(<q-l>"mas_ai_sb_m0"</q-l>,<q-w>this</q-w>);
+<a name="115"><q-n>     115  </q-n></a>  mas_ai_sb_m1 = <q-w>new</q-w>(<q-l>"mas_ai_sb_m1"</q-l>,<q-w>this</q-w>);
+<a name="116"><q-n>     116  </q-n></a>  mas_ai_sb_m2 = <q-w>new</q-w>(<q-l>"mas_ai_sb_m2"</q-l>,<q-w>this</q-w>);
+<a name="117"><q-n>     117  </q-n></a>  mas_ai_sb_m3 = <q-w>new</q-w>(<q-l>"mas_ai_sb_m3"</q-l>,<q-w>this</q-w>);
+<a name="118"><q-n>     118  </q-n></a>  slv_ai_sb_s0 = <q-w>new</q-w>(<q-l>"slv_ai_sb_s0"</q-l>,<q-w>this</q-w>);
+<a name="119"><q-n>     119  </q-n></a>  slv_ai_sb_s1 = <q-w>new</q-w>(<q-l>"slv_ai_sb_s1"</q-l>,<q-w>this</q-w>);
+<a name="120"><q-n>     120  </q-n></a>  slv_ai_sb_s3 = <q-w>new</q-w>(<q-l>"slv_ai_sb_s3"</q-l>,<q-w>this</q-w>);
+<a name="121"><q-n>     121  </q-n></a>  slv_ai_sb_s4 = <q-w>new</q-w>(<q-l>"slv_ai_sb_s4"</q-l>,<q-w>this</q-w>);
+<a name="122"><q-n>     122  </q-n></a>  slv_ai_sb_s5 = <q-w>new</q-w>(<q-l>"slv_ai_sb_s5"</q-l>,<q-w>this</q-w>);
+<a name="123"><q-n>     123  </q-n></a>  sram_ai_sb   = <q-w>new</q-w>(<q-l>"sram_ai_sb"</q-l>,<q-w>this</q-w>);
+<a name="124"><q-n>     124  </q-n></a>  ahb_sram_ai_sb = <q-w>new</q-w>(<q-l>"ahb_sram_si_sb"</q-l>,<q-w>this</q-w>);
+<a name="125"><q-n>     125  </q-n></a>
+<a name="126"><q-n>     126  </q-n></a><q-w>endfunction</q-w> : <q-w>new</q-w>
+<a name="127"><q-n>     127  </q-n></a>
+<a name="128"><q-n>     128  </q-n></a><q-m>/**  build phase  */</q-m>
+<a name="129"><q-n>     129  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::build_phase(uvm_phase phase);
+<a name="130"><q-n>     130  </q-n></a>  
+<a name="131"><q-n>     131  </q-n></a>  <q-w>if</q-w>(!(uvm_config_db#(<q-w>virtual</q-w> ahb_inf)::get(<q-w>null</q-w>,<q-l>""</q-l>,<q-l>"inf"</q-l>,vif))) <q-w>begin</q-w>
+<a name="132"><q-n>     132  </q-n></a>    `uvm_fatal(get_type_name(),<q-l>"Failed to get inf handle!!!"</q-l>);
+<a name="133"><q-n>     133  </q-n></a>  <q-w>end</q-w>
+<a name="134"><q-n>     134  </q-n></a>
+<a name="135"><q-n>     135  </q-n></a><q-w>endfunction</q-w> 
+<a name="136"><q-n>     136  </q-n></a>
+<a name="137"><q-n>     137  </q-n></a><q-m>/** write method for master */</q-m>
+<a name="138"><q-n>     138  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::write_mas_m0(ahb_mas_trans mas_trans_h);
+<a name="139"><q-n>     139  </q-n></a>
+<a name="140"><q-n>     140  </q-n></a>  <q-w>if</q-w>(mas_trans_h.htrans_type[0]!=IDLE) <q-w>begin</q-w>
+<a name="141"><q-n>     141  </q-n></a>
+<a name="142"><q-n>     142  </q-n></a>    <q-w>if</q-w>(mas_trans_h.HADDR&gt;=32'h0000_0000 &amp;&amp; mas_trans_h.HADDR&lt;=32'h0000_ffff)<q-w>begin</q-w>
+<a name="143"><q-n>     143  </q-n></a>	mas_m0_act_q.push_back(mas_trans_h);
+<a name="144"><q-n>     144  </q-n></a>	m0_trans_count++;
+<a name="145"><q-n>     145  </q-n></a>    <q-w>end</q-w>
+<a name="146"><q-n>     146  </q-n></a>
+<a name="147"><q-n>     147  </q-n></a>    <q-w>else</q-w>
+<a name="148"><q-n>     148  </q-n></a>      `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"Address out of range for M0 Port, Monitored address - %h"</q-l>,mas_trans_h.HADDR))
+<a name="149"><q-n>     149  </q-n></a>
+<a name="150"><q-n>     150  </q-n></a>  <q-w>end</q-w>  
+<a name="151"><q-n>     151  </q-n></a>
+<a name="152"><q-n>     152  </q-n></a><q-w>endfunction</q-w> : write_mas_m0
+<a name="153"><q-n>     153  </q-n></a>
+<a name="154"><q-n>     154  </q-n></a><q-m>/** write method for master */</q-m>
+<a name="155"><q-n>     155  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::write_mas_m1(ahb_mas_trans mas_trans_h);
+<a name="156"><q-n>     156  </q-n></a>
+<a name="157"><q-n>     157  </q-n></a>  <q-w>if</q-w>(mas_trans_h.htrans_type[0]!=IDLE) <q-w>begin</q-w>
+<a name="158"><q-n>     158  </q-n></a>    
+<a name="159"><q-n>     159  </q-n></a>    <q-w>if</q-w>(mas_trans_h.HADDR&gt;=32'h0001_0000 &amp;&amp; mas_trans_h.HADDR&lt;=32'h0001_ffff) <q-w>begin</q-w>
+<a name="160"><q-n>     160  </q-n></a>      mas_m1_act_q.push_back(mas_trans_h);
+<a name="161"><q-n>     161  </q-n></a>      m1_trans_count++;
+<a name="162"><q-n>     162  </q-n></a>    <q-w>end</q-w>
+<a name="163"><q-n>     163  </q-n></a>    <q-w>else</q-w>
+<a name="164"><q-n>     164  </q-n></a>      `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"Address out of range for M1 Port, Monitored address - %h"</q-l>,mas_trans_h.HADDR))
+<a name="165"><q-n>     165  </q-n></a>  
+<a name="166"><q-n>     166  </q-n></a>  <q-w>end</q-w>  
+<a name="167"><q-n>     167  </q-n></a>
+<a name="168"><q-n>     168  </q-n></a><q-w>endfunction</q-w> : write_mas_m1
+<a name="169"><q-n>     169  </q-n></a>
+<a name="170"><q-n>     170  </q-n></a><q-m>/** write method for master */</q-m>
+<a name="171"><q-n>     171  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::write_mas_m2(ahb_mas_trans mas_trans_h);
+<a name="172"><q-n>     172  </q-n></a>
+<a name="173"><q-n>     173  </q-n></a>  <q-w>if</q-w>(mas_trans_h.htrans_type[0]!=IDLE) <q-w>begin</q-w>
+<a name="174"><q-n>     174  </q-n></a>  
+<a name="175"><q-n>     175  </q-n></a>	  <q-w>if</q-w>(mas_trans_h.HADDR&gt;=32'h4000_0000 &amp;&amp; mas_trans_h.HADDR&lt;=32'h4000_ffff) <q-w>begin</q-w>
+<a name="176"><q-n>     176  </q-n></a>      mas_m2_act_q.push_back(mas_trans_h);
+<a name="177"><q-n>     177  </q-n></a>      m2_trans_count++;
+<a name="178"><q-n>     178  </q-n></a>      <q-w>end</q-w>
+<a name="179"><q-n>     179  </q-n></a>    <q-w>else</q-w>
+<a name="180"><q-n>     180  </q-n></a>      `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"Address out of range for M2 Port, Monitored address - %h"</q-l>,mas_trans_h.HADDR))
+<a name="181"><q-n>     181  </q-n></a>    
+<a name="182"><q-n>     182  </q-n></a>    `uvm_info(<q-l>"COUNT"</q-l>,$sformatf(<q-l>"Count Of M2 Transaction - %0d"</q-l>,mas_m2_act_q.size()),UVM_MEDIUM)
+<a name="183"><q-n>     183  </q-n></a>
+<a name="184"><q-n>     184  </q-n></a>  <q-w>end</q-w>  
+<a name="185"><q-n>     185  </q-n></a>
+<a name="186"><q-n>     186  </q-n></a><q-w>endfunction</q-w> : write_mas_m2
+<a name="187"><q-n>     187  </q-n></a>
+<a name="188"><q-n>     188  </q-n></a><q-m>/** write method for master */</q-m>
+<a name="189"><q-n>     189  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::write_mas_m3(ahb_mas_trans mas_trans_h);
+<a name="190"><q-n>     190  </q-n></a>  
+<a name="191"><q-n>     191  </q-n></a>  <q-w>if</q-w>(mas_trans_h.htrans_type[0]!=IDLE) <q-w>begin</q-w>
+<a name="192"><q-n>     192  </q-n></a> 
+<a name="193"><q-n>     193  </q-n></a>	  <q-w>if</q-w>(mas_trans_h.HADDR&gt;=32'h2000_0000 &amp;&amp; mas_trans_h.HADDR&lt;=32'h2001_ffff) <q-w>begin</q-w>
+<a name="194"><q-n>     194  </q-n></a>      mas_m3_act_q.push_back(mas_trans_h);
+<a name="195"><q-n>     195  </q-n></a>      m3_trans_count++;
+<a name="196"><q-n>     196  </q-n></a>      <q-w>end</q-w>
+<a name="197"><q-n>     197  </q-n></a>    <q-w>else</q-w>
+<a name="198"><q-n>     198  </q-n></a>      `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"Address out of range for M3 Port, Monitored address - %h"</q-l>,mas_trans_h.HADDR))
+<a name="199"><q-n>     199  </q-n></a>
+<a name="200"><q-n>     200  </q-n></a>  <q-w>end</q-w>
+<a name="201"><q-n>     201  </q-n></a>
+<a name="202"><q-n>     202  </q-n></a><q-w>endfunction</q-w> : write_mas_m3
+<a name="203"><q-n>     203  </q-n></a>
+<a name="204"><q-n>     204  </q-n></a><q-m>/**  write method for slave */</q-m>
+<a name="205"><q-n>     205  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::write_slv_s0(ahb_slv_trans slv_trans_h);
+<a name="206"><q-n>     206  </q-n></a>
+<a name="207"><q-n>     207  </q-n></a>  ahb_mas_trans mas_tr;	
+<a name="208"><q-n>     208  </q-n></a>
+<a name="209"><q-n>     209  </q-n></a>  <q-w>if</q-w>(slv_trans_h.htrans_type!=IDLE) <q-w>begin</q-w> 
+<a name="210"><q-n>     210  </q-n></a> 
+<a name="211"><q-n>     211  </q-n></a>    <q-w>case</q-w> (slv_trans_h.HADDR) <q-w>inside</q-w>
+<a name="212"><q-n>     212  </q-n></a>      
+<a name="213"><q-n>     213  </q-n></a>      [32'h0000_0000 : 32'h0000_ffff] : <q-w>begin</q-w> 
+<a name="214"><q-n>     214  </q-n></a>                                          mas_tr = mas_m0_act_q.pop_front();
+<a name="215"><q-n>     215  </q-n></a>          			          <q-w>if</q-w>(slv_trans_h.HWRITE) <q-w>begin</q-w>
+<a name="216"><q-n>     216  </q-n></a>          			            <q-w>if</q-w>(slv_trans_h.HWDATA!=mas_tr.HWDATA[0])
+<a name="217"><q-n>     217  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"write data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HWDATA[0],slv_trans_h.HWDATA))
+<a name="218"><q-n>     218  </q-n></a>          			          <q-w>end</q-w>
+<a name="219"><q-n>     219  </q-n></a>          			          <q-w>else</q-w> <q-w>begin</q-w>
+<a name="220"><q-n>     220  </q-n></a>                                            <q-w>if</q-w>(slv_trans_h.HRDATA!=mas_tr.HRDATA)
+<a name="221"><q-n>     221  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"read data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HRDATA,slv_trans_h.HRDATA))
+<a name="222"><q-n>     222  </q-n></a>          			          <q-w>end</q-w>
+<a name="223"><q-n>     223  </q-n></a>					  s0_m0_trans_count++;
+<a name="224"><q-n>     224  </q-n></a>                                        <q-w>end</q-w>
+<a name="225"><q-n>     225  </q-n></a>      [32'h0001_0000 : 32'h0001_ffff] : <q-w>begin</q-w> 
+<a name="226"><q-n>     226  </q-n></a>                                          mas_tr = mas_m1_act_q.pop_front();
+<a name="227"><q-n>     227  </q-n></a>          				  <q-w>if</q-w>(slv_trans_h.HWRITE) <q-w>begin</q-w>
+<a name="228"><q-n>     228  </q-n></a>          			            <q-w>if</q-w>(slv_trans_h.HWDATA!=mas_tr.HWDATA[0])
+<a name="229"><q-n>     229  </q-n></a>          				      `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"write data mismatch at S0"</q-l>)
+<a name="230"><q-n>     230  </q-n></a>          			          <q-w>end</q-w>
+<a name="231"><q-n>     231  </q-n></a>          				  <q-w>else</q-w> <q-w>begin</q-w>
+<a name="232"><q-n>     232  </q-n></a>                                            <q-w>if</q-w>(slv_trans_h.HRDATA!=mas_tr.HRDATA)
+<a name="233"><q-n>     233  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"read data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HRDATA,slv_trans_h.HRDATA))
+<a name="234"><q-n>     234  </q-n></a>          				  <q-w>end</q-w>
+<a name="235"><q-n>     235  </q-n></a>					  s0_m1_trans_count++;
+<a name="236"><q-n>     236  </q-n></a>          		                <q-w>end</q-w>
+<a name="237"><q-n>     237  </q-n></a>
+<a name="238"><q-n>     238  </q-n></a>      <q-w>default</q-w> : `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"Address out of range access"</q-l>)
+<a name="239"><q-n>     239  </q-n></a>
+<a name="240"><q-n>     240  </q-n></a>    <q-w>endcase</q-w>
+<a name="241"><q-n>     241  </q-n></a>
+<a name="242"><q-n>     242  </q-n></a>  <q-w>end</q-w>
+<a name="243"><q-n>     243  </q-n></a>
+<a name="244"><q-n>     244  </q-n></a><q-w>endfunction</q-w> : write_slv_s0
+<a name="245"><q-n>     245  </q-n></a>
+<a name="246"><q-n>     246  </q-n></a><q-m>/**  write method for slave */</q-m>
+<a name="247"><q-n>     247  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::write_slv_s1(ahb_slv_trans slv_trans_h);
+<a name="248"><q-n>     248  </q-n></a>
+<a name="249"><q-n>     249  </q-n></a>  ahb_mas_trans mas_tr;	
+<a name="250"><q-n>     250  </q-n></a>  
+<a name="251"><q-n>     251  </q-n></a>  <q-w>if</q-w>(slv_trans_h.htrans_type!=IDLE) <q-w>begin</q-w> 
+<a name="252"><q-n>     252  </q-n></a> 
+<a name="253"><q-n>     253  </q-n></a>    <q-w>case</q-w> (slv_trans_h.HADDR) <q-w>inside</q-w>
+<a name="254"><q-n>     254  </q-n></a>      
+<a name="255"><q-n>     255  </q-n></a>      [32'h0000_0000 : 32'h0000_ffff] : <q-w>begin</q-w> 
+<a name="256"><q-n>     256  </q-n></a>                                          mas_tr = mas_m0_act_q.pop_front();
+<a name="257"><q-n>     257  </q-n></a>          				  <q-w>if</q-w>(slv_trans_h.HWRITE) <q-w>begin</q-w>
+<a name="258"><q-n>     258  </q-n></a>          			            <q-w>if</q-w>(slv_trans_h.HWDATA!=mas_tr.HWDATA[0])
+<a name="259"><q-n>     259  </q-n></a>          				      `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"write data mismatch S1"</q-l>)
+<a name="260"><q-n>     260  </q-n></a>          			          <q-w>end</q-w>
+<a name="261"><q-n>     261  </q-n></a>          				  <q-w>else</q-w> <q-w>begin</q-w>
+<a name="262"><q-n>     262  </q-n></a>                                            <q-w>if</q-w>(slv_trans_h.HRDATA!=mas_tr.HRDATA)
+<a name="263"><q-n>     263  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"read data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HRDATA,slv_trans_h.HRDATA))
+<a name="264"><q-n>     264  </q-n></a>          				  <q-w>end</q-w>
+<a name="265"><q-n>     265  </q-n></a>					  s1_m0_trans_count++;
+<a name="266"><q-n>     266  </q-n></a>                                        <q-w>end</q-w>
+<a name="267"><q-n>     267  </q-n></a>      [32'h0001_0000 : 32'h0001_ffff] : <q-w>begin</q-w> 
+<a name="268"><q-n>     268  </q-n></a>                                          mas_tr = mas_m1_act_q.pop_front();
+<a name="269"><q-n>     269  </q-n></a>          				  <q-w>if</q-w>(slv_trans_h.HWRITE) <q-w>begin</q-w>
+<a name="270"><q-n>     270  </q-n></a>          			            <q-w>if</q-w>(slv_trans_h.HWDATA!=mas_tr.HWDATA[0])
+<a name="271"><q-n>     271  </q-n></a>          				      `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"write data mismatch"</q-l>)
+<a name="272"><q-n>     272  </q-n></a>          			          <q-w>end</q-w>
+<a name="273"><q-n>     273  </q-n></a>          				  <q-w>else</q-w> <q-w>begin</q-w>
+<a name="274"><q-n>     274  </q-n></a>                                            <q-w>if</q-w>(slv_trans_h.HRDATA!=mas_tr.HRDATA)
+<a name="275"><q-n>     275  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"read data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HRDATA,slv_trans_h.HRDATA))
+<a name="276"><q-n>     276  </q-n></a>          				  <q-w>end</q-w>
+<a name="277"><q-n>     277  </q-n></a>					  s1_m1_trans_count++;
+<a name="278"><q-n>     278  </q-n></a>          		                <q-w>end</q-w>
+<a name="279"><q-n>     279  </q-n></a>
+<a name="280"><q-n>     280  </q-n></a>      <q-w>default</q-w> : `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"Address out of range access"</q-l>)
+<a name="281"><q-n>     281  </q-n></a>
+<a name="282"><q-n>     282  </q-n></a>    <q-w>endcase</q-w>
+<a name="283"><q-n>     283  </q-n></a>
+<a name="284"><q-n>     284  </q-n></a>  <q-w>end</q-w>
+<a name="285"><q-n>     285  </q-n></a>
+<a name="286"><q-n>     286  </q-n></a><q-w>endfunction</q-w> : write_slv_s1
+<a name="287"><q-n>     287  </q-n></a>
+<a name="288"><q-n>     288  </q-n></a><q-m>/**  write method for slave */</q-m>
+<a name="289"><q-n>     289  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::write_slv_s3(ahb_slv_trans slv_trans_h);
+<a name="290"><q-n>     290  </q-n></a> 
+<a name="291"><q-n>     291  </q-n></a>  ahb_mas_trans mas_tr;	
+<a name="292"><q-n>     292  </q-n></a>  
+<a name="293"><q-n>     293  </q-n></a>  <q-w>if</q-w>(slv_trans_h.htrans_type!=IDLE) <q-w>begin</q-w> 
+<a name="294"><q-n>     294  </q-n></a> 
+<a name="295"><q-n>     295  </q-n></a>    <q-w>case</q-w> (slv_trans_h.HADDR) <q-w>inside</q-w>
+<a name="296"><q-n>     296  </q-n></a>      
+<a name="297"><q-n>     297  </q-n></a>      [32'h2000_0000 : 32'h2001_ffff] : <q-w>begin</q-w> 
+<a name="298"><q-n>     298  </q-n></a>                                          mas_tr = mas_m3_act_q.pop_front();
+<a name="299"><q-n>     299  </q-n></a>          				  <q-w>if</q-w>(slv_trans_h.HWRITE) <q-w>begin</q-w>
+<a name="300"><q-n>     300  </q-n></a>          			            <q-w>if</q-w>(slv_trans_h.HWDATA!=mas_tr.HWDATA[0])
+<a name="301"><q-n>     301  </q-n></a>          				      `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"write data mismatch S3"</q-l>)
+<a name="302"><q-n>     302  </q-n></a>          			          <q-w>end</q-w>
+<a name="303"><q-n>     303  </q-n></a>          				  <q-w>else</q-w> <q-w>begin</q-w>
+<a name="304"><q-n>     304  </q-n></a>                                            <q-w>if</q-w>(slv_trans_h.HRDATA!=mas_tr.HRDATA)
+<a name="305"><q-n>     305  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"read data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HRDATA,slv_trans_h.HRDATA))
+<a name="306"><q-n>     306  </q-n></a>          				  <q-w>end</q-w>
+<a name="307"><q-n>     307  </q-n></a>					  s3_m3_trans_count++;
+<a name="308"><q-n>     308  </q-n></a>                                        <q-w>end</q-w>
+<a name="309"><q-n>     309  </q-n></a>      [32'h4000_0000 : 32'h4000_ffff] : <q-w>begin</q-w> 
+<a name="310"><q-n>     310  </q-n></a>                                          mas_tr = mas_m2_act_q.pop_front();
+<a name="311"><q-n>     311  </q-n></a>					  <q-w>if</q-w>(mas_tr==<q-w>null</q-w>)
+<a name="312"><q-n>     312  </q-n></a>					    `uvm_info(<q-l>"NULL"</q-l>,<q-l>"null access"</q-l>,UVM_MEDIUM)
+<a name="313"><q-n>     313  </q-n></a>          				  <q-w>if</q-w>(slv_trans_h.HWRITE) <q-w>begin</q-w>
+<a name="314"><q-n>     314  </q-n></a>          			            <q-w>if</q-w>(slv_trans_h.HWDATA!=mas_tr.HWDATA[0])
+<a name="315"><q-n>     315  </q-n></a>          				      `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"write data mismatch"</q-l>)
+<a name="316"><q-n>     316  </q-n></a>          			          <q-w>end</q-w>
+<a name="317"><q-n>     317  </q-n></a>          				  <q-w>else</q-w> <q-w>begin</q-w>
+<a name="318"><q-n>     318  </q-n></a>                                            <q-w>if</q-w>(slv_trans_h.HRDATA!=mas_tr.HRDATA)
+<a name="319"><q-n>     319  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"read data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HRDATA,slv_trans_h.HRDATA))
+<a name="320"><q-n>     320  </q-n></a>          				  <q-w>end</q-w>
+<a name="321"><q-n>     321  </q-n></a>					  s3_m2_trans_count++;
+<a name="322"><q-n>     322  </q-n></a>          		                <q-w>end</q-w>
+<a name="323"><q-n>     323  </q-n></a>
+<a name="324"><q-n>     324  </q-n></a>      <q-w>default</q-w> : `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"Address out of range access"</q-l>)
+<a name="325"><q-n>     325  </q-n></a>
+<a name="326"><q-n>     326  </q-n></a>    <q-w>endcase</q-w>
+<a name="327"><q-n>     327  </q-n></a>
+<a name="328"><q-n>     328  </q-n></a>  <q-w>end</q-w>
+<a name="329"><q-n>     329  </q-n></a>
+<a name="330"><q-n>     330  </q-n></a><q-w>endfunction</q-w> : write_slv_s3
+<a name="331"><q-n>     331  </q-n></a>
+<a name="332"><q-n>     332  </q-n></a><q-m>/**  write method for slave */</q-m>
+<a name="333"><q-n>     333  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::write_slv_s4(ahb_slv_trans slv_trans_h);
+<a name="334"><q-n>     334  </q-n></a>
+<a name="335"><q-n>     335  </q-n></a>  ahb_mas_trans mas_tr;	
+<a name="336"><q-n>     336  </q-n></a>  
+<a name="337"><q-n>     337  </q-n></a>  <q-w>if</q-w>(slv_trans_h.htrans_type!=IDLE) <q-w>begin</q-w> 
+<a name="338"><q-n>     338  </q-n></a> 
+<a name="339"><q-n>     339  </q-n></a>    <q-w>case</q-w> (slv_trans_h.HADDR) <q-w>inside</q-w>
+<a name="340"><q-n>     340  </q-n></a>      
+<a name="341"><q-n>     341  </q-n></a>      [32'h0000_0000 : 32'h0000_ffff] : <q-w>begin</q-w> 
+<a name="342"><q-n>     342  </q-n></a>                                          mas_tr = mas_m0_act_q.pop_front();
+<a name="343"><q-n>     343  </q-n></a>          				  <q-w>if</q-w>(slv_trans_h.HWRITE) <q-w>begin</q-w>
+<a name="344"><q-n>     344  </q-n></a>          			            <q-w>if</q-w>(slv_trans_h.HWDATA!=mas_tr.HWDATA[0])
+<a name="345"><q-n>     345  </q-n></a>          				      `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"write data mismatch s4"</q-l>)
+<a name="346"><q-n>     346  </q-n></a>          			          <q-w>end</q-w>
+<a name="347"><q-n>     347  </q-n></a>          				  <q-w>else</q-w> <q-w>begin</q-w>
+<a name="348"><q-n>     348  </q-n></a>                                            <q-w>if</q-w>(slv_trans_h.HRDATA!=mas_tr.HRDATA)
+<a name="349"><q-n>     349  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"read data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HRDATA,slv_trans_h.HRDATA))
+<a name="350"><q-n>     350  </q-n></a>          				  <q-w>end</q-w>
+<a name="351"><q-n>     351  </q-n></a>					  s4_m0_trans_count++;
+<a name="352"><q-n>     352  </q-n></a>                                        <q-w>end</q-w>
+<a name="353"><q-n>     353  </q-n></a>      [32'h0001_0000 : 32'h0001_ffff] : <q-w>begin</q-w> 
+<a name="354"><q-n>     354  </q-n></a>                                          mas_tr = mas_m1_act_q.pop_front();
+<a name="355"><q-n>     355  </q-n></a>          				  <q-w>if</q-w>(slv_trans_h.HWRITE) <q-w>begin</q-w>
+<a name="356"><q-n>     356  </q-n></a>          			            <q-w>if</q-w>(slv_trans_h.HWDATA!=mas_tr.HWDATA[0])
+<a name="357"><q-n>     357  </q-n></a>          				      `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"write data mismatch"</q-l>)
+<a name="358"><q-n>     358  </q-n></a>          			          <q-w>end</q-w>
+<a name="359"><q-n>     359  </q-n></a>          				  <q-w>else</q-w> <q-w>begin</q-w>
+<a name="360"><q-n>     360  </q-n></a>                                            <q-w>if</q-w>(slv_trans_h.HRDATA!=mas_tr.HRDATA)
+<a name="361"><q-n>     361  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"read data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HRDATA,slv_trans_h.HRDATA))
+<a name="362"><q-n>     362  </q-n></a>          				  <q-w>end</q-w>
+<a name="363"><q-n>     363  </q-n></a>					  s4_m1_trans_count++;
+<a name="364"><q-n>     364  </q-n></a>          		                <q-w>end</q-w>
+<a name="365"><q-n>     365  </q-n></a>
+<a name="366"><q-n>     366  </q-n></a>      [32'h4000_0000 : 32'h4000_ffff] : <q-w>begin</q-w> 
+<a name="367"><q-n>     367  </q-n></a>                                          mas_tr = mas_m2_act_q.pop_front();
+<a name="368"><q-n>     368  </q-n></a>          				  <q-w>if</q-w>(slv_trans_h.HWRITE) <q-w>begin</q-w>
+<a name="369"><q-n>     369  </q-n></a>          			            <q-w>if</q-w>(slv_trans_h.HWDATA!=mas_tr.HWDATA[0])
+<a name="370"><q-n>     370  </q-n></a>          				      `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"write data mismatch"</q-l>)
+<a name="371"><q-n>     371  </q-n></a>          			          <q-w>end</q-w>
+<a name="372"><q-n>     372  </q-n></a>          				  <q-w>else</q-w> <q-w>begin</q-w>
+<a name="373"><q-n>     373  </q-n></a>                                            <q-w>if</q-w>(slv_trans_h.HRDATA!=mas_tr.HRDATA)
+<a name="374"><q-n>     374  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"read data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HRDATA,slv_trans_h.HRDATA))
+<a name="375"><q-n>     375  </q-n></a>          				  <q-w>end</q-w>
+<a name="376"><q-n>     376  </q-n></a>					  s4_m2_trans_count++;
+<a name="377"><q-n>     377  </q-n></a>          		                <q-w>end</q-w>
+<a name="378"><q-n>     378  </q-n></a>
+<a name="379"><q-n>     379  </q-n></a>      <q-w>default</q-w> : `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"Address out of range access"</q-l>)
+<a name="380"><q-n>     380  </q-n></a>
+<a name="381"><q-n>     381  </q-n></a>    <q-w>endcase</q-w>
+<a name="382"><q-n>     382  </q-n></a>
+<a name="383"><q-n>     383  </q-n></a>  <q-w>end</q-w>
+<a name="384"><q-n>     384  </q-n></a>
+<a name="385"><q-n>     385  </q-n></a><q-w>endfunction</q-w> : write_slv_s4
+<a name="386"><q-n>     386  </q-n></a>
+<a name="387"><q-n>     387  </q-n></a><q-m>/**  write method for slave */</q-m>
+<a name="388"><q-n>     388  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::write_slv_s5(ahb_slv_trans slv_trans_h);
+<a name="389"><q-n>     389  </q-n></a>
+<a name="390"><q-n>     390  </q-n></a>  ahb_mas_trans mas_tr;	
+<a name="391"><q-n>     391  </q-n></a>  
+<a name="392"><q-n>     392  </q-n></a>  <q-w>if</q-w>(slv_trans_h.htrans_type!=IDLE) <q-w>begin</q-w> 
+<a name="393"><q-n>     393  </q-n></a> 
+<a name="394"><q-n>     394  </q-n></a>    <q-w>case</q-w> (slv_trans_h.HADDR) <q-w>inside</q-w>
+<a name="395"><q-n>     395  </q-n></a>      
+<a name="396"><q-n>     396  </q-n></a>      [32'h0000_0000 : 32'h0000_ffff] : <q-w>begin</q-w> 
+<a name="397"><q-n>     397  </q-n></a>                                          mas_tr = mas_m0_act_q.pop_front();
+<a name="398"><q-n>     398  </q-n></a>          				  <q-w>if</q-w>(slv_trans_h.HWRITE) <q-w>begin</q-w>
+<a name="399"><q-n>     399  </q-n></a>          			            <q-w>if</q-w>(slv_trans_h.HWDATA!=mas_tr.HWDATA[0])
+<a name="400"><q-n>     400  </q-n></a>          				      `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"write data mismatch S5"</q-l>)
+<a name="401"><q-n>     401  </q-n></a>          			          <q-w>end</q-w>
+<a name="402"><q-n>     402  </q-n></a>          				  <q-w>else</q-w> <q-w>begin</q-w>
+<a name="403"><q-n>     403  </q-n></a>                                            <q-w>if</q-w>(slv_trans_h.HRDATA!=mas_tr.HRDATA)
+<a name="404"><q-n>     404  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"read data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HRDATA,slv_trans_h.HRDATA))
+<a name="405"><q-n>     405  </q-n></a>          				  <q-w>end</q-w>
+<a name="406"><q-n>     406  </q-n></a>					  s5_m0_trans_count++;
+<a name="407"><q-n>     407  </q-n></a>                                        <q-w>end</q-w>
+<a name="408"><q-n>     408  </q-n></a>      [32'h0001_0000 : 32'h0001_ffff] : <q-w>begin</q-w> 
+<a name="409"><q-n>     409  </q-n></a>                                          mas_tr = mas_m1_act_q.pop_front();
+<a name="410"><q-n>     410  </q-n></a>          				  <q-w>if</q-w>(slv_trans_h.HWRITE) <q-w>begin</q-w>
+<a name="411"><q-n>     411  </q-n></a>          			            <q-w>if</q-w>(slv_trans_h.HWDATA!=mas_tr.HWDATA[0])
+<a name="412"><q-n>     412  </q-n></a>          				      `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"write data mismatch"</q-l>)
+<a name="413"><q-n>     413  </q-n></a>          			          <q-w>end</q-w>
+<a name="414"><q-n>     414  </q-n></a>          				  <q-w>else</q-w> <q-w>begin</q-w>
+<a name="415"><q-n>     415  </q-n></a>                                            <q-w>if</q-w>(slv_trans_h.HRDATA!=mas_tr.HRDATA)
+<a name="416"><q-n>     416  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"read data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HRDATA,slv_trans_h.HRDATA))
+<a name="417"><q-n>     417  </q-n></a>          				  <q-w>end</q-w>
+<a name="418"><q-n>     418  </q-n></a>					  s5_m1_trans_count++;
+<a name="419"><q-n>     419  </q-n></a>          		                <q-w>end</q-w>
+<a name="420"><q-n>     420  </q-n></a>
+<a name="421"><q-n>     421  </q-n></a>      [32'h2000_0000 : 32'h2001_ffff] : <q-w>begin</q-w> 
+<a name="422"><q-n>     422  </q-n></a>                                          mas_tr = mas_m3_act_q.pop_front();
+<a name="423"><q-n>     423  </q-n></a>          				  <q-w>if</q-w>(slv_trans_h.HWRITE) <q-w>begin</q-w>
+<a name="424"><q-n>     424  </q-n></a>          			            <q-w>if</q-w>(slv_trans_h.HWDATA!=mas_tr.HWDATA[0])
+<a name="425"><q-n>     425  </q-n></a>          				      `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"write data mismatch"</q-l>)
+<a name="426"><q-n>     426  </q-n></a>          			          <q-w>end</q-w>
+<a name="427"><q-n>     427  </q-n></a>          				  <q-w>else</q-w> <q-w>begin</q-w>
+<a name="428"><q-n>     428  </q-n></a>                                            <q-w>if</q-w>(slv_trans_h.HRDATA!=mas_tr.HRDATA)
+<a name="429"><q-n>     429  </q-n></a>          			              `uvm_error(<q-l>"SCOREBOARD"</q-l>,$sformatf(<q-l>"read data mismatch act - %0d | exp - %0d"</q-l>,mas_tr.HRDATA,slv_trans_h.HRDATA))
+<a name="430"><q-n>     430  </q-n></a>          				  <q-w>end</q-w>
+<a name="431"><q-n>     431  </q-n></a>					  s5_m3_trans_count++;
+<a name="432"><q-n>     432  </q-n></a>                                        <q-w>end</q-w>
+<a name="433"><q-n>     433  </q-n></a>
+<a name="434"><q-n>     434  </q-n></a>      <q-w>default</q-w> : `uvm_error(<q-l>"SCOREBOARD"</q-l>,<q-l>"Address out of range access"</q-l>)
+<a name="435"><q-n>     435  </q-n></a>
+<a name="436"><q-n>     436  </q-n></a>    <q-w>endcase</q-w>
+<a name="437"><q-n>     437  </q-n></a>
+<a name="438"><q-n>     438  </q-n></a>  <q-w>end</q-w>
+<a name="439"><q-n>     439  </q-n></a>  
+<a name="440"><q-n>     440  </q-n></a><q-w>endfunction</q-w> : write_slv_s5
+<a name="441"><q-n>     441  </q-n></a>
+<a name="442"><q-n>     442  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::write_ahb_sram(ahb_mas_trans ahb_sram_tr);
+<a name="443"><q-n>     443  </q-n></a>
+<a name="444"><q-n>     444  </q-n></a>  <q-w>if</q-w>(ahb_sram_tr.HWRITE)	
+<a name="445"><q-n>     445  </q-n></a>    mem[ahb_sram_tr] = ahb_sram_tr.HWDATA[0]; 
+<a name="446"><q-n>     446  </q-n></a>  	
+<a name="447"><q-n>     447  </q-n></a><q-w>endfunction</q-w> : write_ahb_sram
+<a name="448"><q-n>     448  </q-n></a>
+<a name="449"><q-n>     449  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::write_sram(sram_transaction sram_tr);
+<a name="450"><q-n>     450  </q-n></a>
+<a name="451"><q-n>     451  </q-n></a>  <q-w>if</q-w>(!sram_tr.SRAMWREN) <q-w>begin</q-w>
+<a name="452"><q-n>     452  </q-n></a>    <q-w>if</q-w>(sram_tr.SRAMRDATA != mem[sram_tr.SRAMADATA])
+<a name="453"><q-n>     453  </q-n></a>      `uvm_info(<q-l>"DATA INTEGRATY FAILED"</q-l>,<q-l>"Data mismatch"</q-l>,UVM_MEDIUM)
+<a name="454"><q-n>     454  </q-n></a>  <q-w>end</q-w>
+<a name="455"><q-n>     455  </q-n></a>
+<a name="456"><q-n>     456  </q-n></a><q-w>endfunction</q-w> : write_sram
+<a name="457"><q-n>     457  </q-n></a>
+<a name="458"><q-n>     458  </q-n></a><q-m>/**  run phase to reset memory when active low reset comes  */</q-m>
+<a name="459"><q-n>     459  </q-n></a><q-m>//task ahb_sb:: run_phase(uvm_phase phase);</q-m>
+<a name="460"><q-n>     460  </q-n></a>  <q-m>//forever begin</q-m>
+<a name="461"><q-n>     461  </q-n></a>
+<a name="462"><q-n>     462  </q-n></a>   <q-m>/* @(posedge vif.HCLK);</q-m>
+<a name="463"><q-n>     463  </q-n></a><q-m></q-m>
+<a name="464"><q-n>     464  </q-n></a><q-m>    if(slv_ai_sb_s0.size()&gt;0 &amp;&amp; mas_m0_act_q.size()&gt;0) begin</q-m>
+<a name="465"><q-n>     465  </q-n></a><q-m>     </q-m>
+<a name="466"><q-n>     466  </q-n></a><q-m>      slv_tr = slv_ai_sb_s0.pop_front();</q-m>
+<a name="467"><q-n>     467  </q-n></a><q-m>      mas_tr = mas_m0_act_q.pop_front();</q-m>
+<a name="468"><q-n>     468  </q-n></a><q-m></q-m>
+<a name="469"><q-n>     469  </q-n></a><q-m>      if()</q-m>
+<a name="470"><q-n>     470  </q-n></a><q-m></q-m>
+<a name="471"><q-n>     471  </q-n></a><q-m>    end*/</q-m>
+<a name="472"><q-n>     472  </q-n></a>     
+<a name="473"><q-n>     473  </q-n></a>  <q-m>//end</q-m>
+<a name="474"><q-n>     474  </q-n></a><q-m>//endtask</q-m>
+<a name="475"><q-n>     475  </q-n></a>
+<a name="476"><q-n>     476  </q-n></a><q-w>function</q-w> <q-w>void</q-w> ahb_sb::report_phase(uvm_phase phase);
+<a name="477"><q-n>     477  </q-n></a>
+<a name="478"><q-n>     478  </q-n></a>  $display(<q-l>"|-----------------------------------------------"</q-l>);
+<a name="479"><q-n>     479  </q-n></a>  $display(<q-l>"|     M0 - %5d | S0 - %5d                       "</q-l>,m0_trans_count,s0_m0_trans_count);
+<a name="480"><q-n>     480  </q-n></a>  $display(<q-l>"|                | S1 - %5d                     "</q-l>,s1_m0_trans_count);
+<a name="481"><q-n>     481  </q-n></a>  $display(<q-l>"|                | S4 - %5d                     "</q-l>,s4_m0_trans_count);
+<a name="482"><q-n>     482  </q-n></a>  $display(<q-l>"|                | S5 - %5d                     "</q-l>,s5_m0_trans_count);
+<a name="483"><q-n>     483  </q-n></a>  $display(<q-l>" ----------------------------------------------- "</q-l>);
+<a name="484"><q-n>     484  </q-n></a>  $display(<q-l>"|     M1 - %5d | S0 - %5d                       "</q-l>,m1_trans_count,s0_m1_trans_count);
+<a name="485"><q-n>     485  </q-n></a>  $display(<q-l>"|                | S1 - %5d                       "</q-l>,s1_m1_trans_count);
+<a name="486"><q-n>     486  </q-n></a>  $display(<q-l>"|                | S4 - %5d                       "</q-l>,s4_m1_trans_count);
+<a name="487"><q-n>     487  </q-n></a>  $display(<q-l>"|                | S5 - %5d                       "</q-l>,s5_m1_trans_count);
+<a name="488"><q-n>     488  </q-n></a>  $display(<q-l>" ----------------------------------------------- "</q-l>);
+<a name="489"><q-n>     489  </q-n></a>  $display(<q-l>"|     M2 - %5d | S3 - %5d                       "</q-l>,m2_trans_count,s3_m2_trans_count);
+<a name="490"><q-n>     490  </q-n></a>  $display(<q-l>"|                | S4 - %5d                       "</q-l>,s4_m2_trans_count);
+<a name="491"><q-n>     491  </q-n></a>  $display(<q-l>" ----------------------------------------------- "</q-l>);
+<a name="492"><q-n>     492  </q-n></a>  $display(<q-l>"|     M3 - %5d | S3 - %5d                       "</q-l>,m3_trans_count,s3_m3_trans_count);
+<a name="493"><q-n>     493  </q-n></a>  $display(<q-l>"|                | S5 - %5d                       "</q-l>,s5_m3_trans_count);
+<a name="494"><q-n>     494  </q-n></a>  $display(<q-l>"|-----------------------------------------------"</q-l>);
+<a name="495"><q-n>     495  </q-n></a>
+<a name="496"><q-n>     496  </q-n></a>  <q-w>if</q-w>(m0_trans_count != s0_m0_trans_count+s1_m0_trans_count+s4_m0_trans_count+s5_m0_trans_count)
+<a name="497"><q-n>     497  </q-n></a>    `uvm_error(<q-l>"SB"</q-l>,$sformatf(<q-l>"Transaction Count Mis Match Exp Count - %0d | Act Count - %0d"</q-l>,m0_trans_count,s0_m0_trans_count+s1_m0_trans_count+s4_m0_trans_count+s5_m0_trans_count))
+<a name="498"><q-n>     498  </q-n></a>  
+<a name="499"><q-n>     499  </q-n></a>  <q-w>if</q-w>(m1_trans_count != s0_m1_trans_count+s1_m1_trans_count+s4_m1_trans_count+s5_m1_trans_count)
+<a name="500"><q-n>     500  </q-n></a>    `uvm_error(<q-l>"SB"</q-l>,$sformatf(<q-l>"Transaction Count Mis Match Exp Count - %0d | Act Count - %0d"</q-l>,m1_trans_count,s0_m1_trans_count+s1_m1_trans_count+s4_m1_trans_count+s5_m1_trans_count))
+<a name="501"><q-n>     501  </q-n></a>    
+<a name="502"><q-n>     502  </q-n></a>  <q-w>if</q-w>(m2_trans_count != s3_m2_trans_count+s4_m2_trans_count)
+<a name="503"><q-n>     503  </q-n></a>    `uvm_error(<q-l>"SB"</q-l>,$sformatf(<q-l>"Transaction Count Mis Match Exp Count - %0d | Act Count - %0d"</q-l>,m2_trans_count,s3_m2_trans_count+s4_m2_trans_count))
+<a name="504"><q-n>     504  </q-n></a>
+<a name="505"><q-n>     505  </q-n></a>  <q-w>if</q-w>(m3_trans_count != s3_m3_trans_count+s5_m3_trans_count)
+<a name="506"><q-n>     506  </q-n></a>    `uvm_error(<q-l>"SB"</q-l>,$sformatf(<q-l>"Transaction Count Mis Match Exp Count - %0d | Act Count - %0d"</q-l>,m3_trans_count,s3_m3_trans_count+s5_m3_trans_count))
+<a name="507"><q-n>     507  </q-n></a>
+<a name="508"><q-n>     508  </q-n></a><q-w>endfunction</q-w> : report_phase
+<a name="509"><q-n>     509  </q-n></a>
+<a name="510"><q-n>     510  </q-n></a>`<q-a>endif</q-w> 
+<a name="511"><q-n>     511  </q-n></a>
+</pre>
+</tt>
+
+  
+</body>
+</html>

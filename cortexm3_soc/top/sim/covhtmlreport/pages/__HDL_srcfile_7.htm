@@ -1,0 +1,226 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>// Company        : SCALEDGE </q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>// Engineer       : SIDDHARTH </q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>// Create Date    : 10-10-2023</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>// File Name   	  : uart_monitor.sv</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>// Class Name 	  : uart_monitor</q-m>
+<a name="7"><q-n>     7  </q-n></a><q-m>// Project Name	  : UART_UVC </q-m>
+<a name="8"><q-n>     8  </q-n></a><q-m>// Description	  : </q-m>
+<a name="9"><q-n>     9  </q-n></a><q-m>//////////////////////////////////////////////////////////////////////////</q-m>
+<a name="10"><q-n>     10  </q-n></a>
+<a name="11"><q-n>     11  </q-n></a>
+<a name="12"><q-n>     12  </q-n></a><q-w>class</q-w> uart_rx_monitor <q-w>extends</q-w> uvm_monitor;
+<a name="13"><q-n>     13  </q-n></a>
+<a name="14"><q-n>     14  </q-n></a>    <q-m>//factory registration macro </q-m>
+<a name="15"><q-n>     15  </q-n></a>    `uvm_component_utils(uart_rx_monitor);
+<a name="16"><q-n>     16  </q-n></a>
+<a name="17"><q-n>     17  </q-n></a>    <q-m>//virtual interface</q-m>
+<a name="18"><q-n>     18  </q-n></a>    <q-w>virtual</q-w> uart_interface uif;
+<a name="19"><q-n>     19  </q-n></a>
+<a name="20"><q-n>     20  </q-n></a>    <q-m>//reg configuration</q-m>
+<a name="21"><q-n>     21  </q-n></a>      uart_reg_config  reg_cfg; 
+<a name="22"><q-n>     22  </q-n></a>    
+<a name="23"><q-n>     23  </q-n></a>    <q-m>//uart_transaction class</q-m>
+<a name="24"><q-n>     24  </q-n></a>    uart_seq_item trans_h;
+<a name="25"><q-n>     25  </q-n></a>    <q-w>int</q-w> rx_count;
+<a name="26"><q-n>     26  </q-n></a>    <q-m>// tx and rx parity calculate in this register. </q-m>
+<a name="27"><q-n>     27  </q-n></a>    <q-w>bit</q-w> [`DATA_WIDTH:0] rx_parity;
+<a name="28"><q-n>     28  </q-n></a>
+<a name="29"><q-n>     29  </q-n></a>    <q-m>//analysis port item collected for transmiting packet monitor to scoreboard</q-m>
+<a name="30"><q-n>     30  </q-n></a>    uvm_analysis_port#(uart_seq_item) item_collected_port;
+<a name="31"><q-n>     31  </q-n></a>
+<a name="32"><q-n>     32  </q-n></a>    <q-m>//monitor constructor</q-m>
+<a name="33"><q-n>     33  </q-n></a>    <q-w>function</q-w> <q-w>new</q-w>(<q-w>string</q-w> name = <q-l>"uart_rx_monitor"</q-l>,uvm_component parent);
+<a name="34"><q-n>     34  </q-n></a>        <q-w>super</q-w>.<q-w>new</q-w>(name,parent);
+<a name="35"><q-n>     35  </q-n></a>        <q-m>//assigning memry to analysis port </q-m>
+<a name="36"><q-n>     36  </q-n></a>        item_collected_port = <q-w>new</q-w>(<q-l>"item_collected_port"</q-l>,<q-w>this</q-w>);
+<a name="37"><q-n>     37  </q-n></a>
+<a name="38"><q-n>     38  </q-n></a>        <q-m>//uart transaction class got memory</q-m>
+<a name="39"><q-n>     39  </q-n></a>        trans_h = <q-w>new</q-w>();
+<a name="40"><q-n>     40  </q-n></a>        
+<a name="41"><q-n>     41  </q-n></a>        <q-m>//register configure class got memory and it will automatically configure the register</q-m>
+<a name="42"><q-n>     42  </q-n></a>        reg_cfg = <q-w>new</q-w>(<q-l>"reg_cfg"</q-l>);
+<a name="43"><q-n>     43  </q-n></a>         `uvm_info(get_full_name(),{<q-l>"using uvm_default_printer show reg_configs\n"</q-l>,reg_cfg.sprint()},UVM_LOW);
+<a name="44"><q-n>     44  </q-n></a>    <q-w>endfunction</q-w>:<q-w>new</q-w>
+<a name="45"><q-n>     45  </q-n></a>        
+<a name="46"><q-n>     46  </q-n></a>
+<a name="47"><q-n>     47  </q-n></a>    <q-w>task</q-w> reset_phase(uvm_phase phase);
+<a name="48"><q-n>     48  </q-n></a>        `uvm_info(get_name(),<q-l>"-----------------------------------------------------  RX MONITOR RESET PHASE CALLED ------------------------------------------------------------------------"</q-l>,UVM_LOW)
+<a name="49"><q-n>     49  </q-n></a>        trans_h.rx_shifter = 'b0;
+<a name="50"><q-n>     50  </q-n></a>        trans_h.RX_STATE  = trans_h.RX_STATE.first();
+<a name="51"><q-n>     51  </q-n></a>        trans_h.rx_gated_clk = 'b0;
+<a name="52"><q-n>     52  </q-n></a>        rx_count = 'b0;
+<a name="53"><q-n>     53  </q-n></a>        `uvm_info(get_name(), <q-l>"reset_phase returning"</q-l>, UVM_HIGH)
+<a name="54"><q-n>     54  </q-n></a>      <q-w>endtask</q-w>
+<a name="55"><q-n>     55  </q-n></a>
+<a name="56"><q-n>     56  </q-n></a>    <q-w>task</q-w> main_phase(uvm_phase phase);
+<a name="57"><q-n>     57  </q-n></a>        `uvm_info(get_full_name(),<q-l>" ENTER INSIDE THE Monitor MAIN PHASE "</q-l>,UVM_DEBUG)
+<a name="58"><q-n>     58  </q-n></a>         <q-w>super</q-w>.main_phase(phase); 
+<a name="59"><q-n>     59  </q-n></a>         <q-w>forever</q-w> <q-w>begin</q-w> 
+<a name="60"><q-n>     60  </q-n></a>             <q-w>fork</q-w>
+<a name="61"><q-n>     61  </q-n></a>                 <q-m>//monitor the rxd line</q-m>
+<a name="62"><q-n>     62  </q-n></a>                 rx_monitor();
+<a name="63"><q-n>     63  </q-n></a>                 baud_clk();
+<a name="64"><q-n>     64  </q-n></a>             <q-w>join</q-w>
+<a name="65"><q-n>     65  </q-n></a>
+<a name="66"><q-n>     66  </q-n></a>         <q-w>end</q-w> <q-m>// forever begin</q-m>
+<a name="67"><q-n>     67  </q-n></a>        `uvm_info(get_full_name(),<q-l>" EXIT INSIDE THE MAIN PHASE "</q-l>,UVM_DEBUG)
+<a name="68"><q-n>     68  </q-n></a>        
+<a name="69"><q-n>     69  </q-n></a>    <q-w>endtask</q-w>:main_phase
+<a name="70"><q-n>     70  </q-n></a>    
+<a name="71"><q-n>     71  </q-n></a>    <q-w>task</q-w> rx_monitor();
+<a name="72"><q-n>     72  </q-n></a>        <q-w>forever</q-w> 
+<a name="73"><q-n>     73  </q-n></a>            @(<q-a>negedge</q-w> uif.rxd &amp;&amp; trans_h.RX_STATE == IDLEE)<q-w>begin</q-w>
+<a name="74"><q-n>     74  </q-n></a>	            trans_h.rx_gated_clk = 1'b1;
+<a name="75"><q-n>     75  </q-n></a>                uif.rx_gated_clk    = 1'b1;
+<a name="76"><q-n>     76  </q-n></a>                <q-m>//rx_shifter is shift register[SIPO]. here we clear the shift register when ever data state arrive of the rx line</q-m>
+<a name="77"><q-n>     77  </q-n></a>                trans_h.rx_shifter = 'b0;
+<a name="78"><q-n>     78  </q-n></a>		uif.rx_shifter = 'b0;
+<a name="79"><q-n>     79  </q-n></a>		rx_count = 0;
+<a name="80"><q-n>     80  </q-n></a>		uif.rx_count = 0;
+<a name="81"><q-n>     81  </q-n></a>                trans_h.rx_gated_clk = 1'b1;
+<a name="82"><q-n>     82  </q-n></a>                reg_cfg.is_data_ready = reg_cfg.is_data_ready.first();
+<a name="83"><q-n>     83  </q-n></a>                trans_h.RX_STATE = trans_h.RX_STATE.next(); <q-m>// START</q-m>
+<a name="84"><q-n>     84  </q-n></a>                uif.RX_STATE = uif.RX_STATE.next(); <q-m>// START</q-m>
+<a name="85"><q-n>     85  </q-n></a>                
+<a name="86"><q-n>     86  </q-n></a>                <q-w>foreach</q-w>(`RX_START)<q-w>begin</q-w>
+<a name="87"><q-n>     87  </q-n></a>                    trans_h.START = `MON_CB.rxd;
+<a name="88"><q-n>     88  </q-n></a>                    @(<q-a>posedge</q-w> trans_h.rx_shift);
+<a name="89"><q-n>     89  </q-n></a>                <q-w>end</q-w> <q-m>// foreach rx_state</q-m>
+<a name="90"><q-n>     90  </q-n></a>               
+<a name="91"><q-n>     91  </q-n></a>                @(<q-a>posedge</q-w> trans_h.tx_shift);
+<a name="92"><q-n>     92  </q-n></a>                
+<a name="93"><q-n>     93  </q-n></a>                trans_h.RX_STATE = trans_h.RX_STATE.next(); <q-m>// DATA</q-m>
+<a name="94"><q-n>     94  </q-n></a>                uif.RX_STATE = uif.RX_STATE.next(); <q-m>// DATA</q-m>
+<a name="95"><q-n>     95  </q-n></a>                
+<a name="96"><q-n>     96  </q-n></a>                <q-m>//acording rx_word_length we set that much time loop iterate forever wait (trans_h.tx_gated_clk)</q-m>
+<a name="97"><q-n>     97  </q-n></a>         
+<a name="98"><q-n>     98  </q-n></a>                <q-w>foreach</q-w>(`RX_CHAR_LEN)<q-w>begin</q-w>
+<a name="99"><q-n>     99  </q-n></a>                    <q-w>case</q-w>(reg_cfg.rx_data_shift)
+<a name="100"><q-n>     100  </q-n></a>                        MSB_2_LSB:<q-w>begin</q-w>
+<a name="101"><q-n>     101  </q-n></a>                                     <q-m>//1 bit data shift msb 2 lsb</q-m>
+<a name="102"><q-n>     102  </q-n></a>                                     trans_h.rx_shifter = trans_h.rx_shifter &lt;&lt; 1;
+<a name="103"><q-n>     103  </q-n></a>				     uif.rx_shifter = uif.rx_shifter &lt;&lt;1;
+<a name="104"><q-n>     104  </q-n></a>                                     trans_h.rx_shifter[0] = `MON_CB.rxd;
+<a name="105"><q-n>     105  </q-n></a>				     uif.rx_shifter[0] = `MON_CB.rxd;
+<a name="106"><q-n>     106  </q-n></a>                                     `uvm_info(get_name(),{<q-l>" [RX] MSB2LSB monitor sample bit from msb 2 lsb \n"</q-l>,trans_h.sprint()},UVM_DEBUG);                                
+<a name="107"><q-n>     107  </q-n></a> 				    @(<q-a>posedge</q-w> trans_h.rx_shift);
+<a name="108"><q-n>     108  </q-n></a>                                   <q-w>end</q-w> <q-m>// begin</q-m>
+<a name="109"><q-n>     109  </q-n></a>                        LSB_2_MSB: <q-w>begin</q-w>
+<a name="110"><q-n>     110  </q-n></a>                                    <q-m>//1 bit data shift msb 2 lsb</q-m>
+<a name="111"><q-n>     111  </q-n></a>                                     trans_h.rx_shifter = trans_h.rx_shifter &gt;&gt; 1;
+<a name="112"><q-n>     112  </q-n></a>				     uif.rx_shifter = uif.rx_shifter &gt;&gt;1;
+<a name="113"><q-n>     113  </q-n></a>                                     trans_h.rx_shifter[`THR_SIZE-1] = `MON_CB.rxd;
+<a name="114"><q-n>     114  </q-n></a>                                     uif.rx_shifter[`THR_SIZE-1] = `MON_CB.rxd;
+<a name="115"><q-n>     115  </q-n></a>                                    `uvm_info(get_name(),{<q-l>" [RX]  LSB2MSB monitor sample bit from lsb 2 msb \n"</q-l>,trans_h.sprint()},UVM_DEBUG);                                
+<a name="116"><q-n>     116  </q-n></a> 				    @(<q-a>posedge</q-w> trans_h.rx_shift);
+<a name="117"><q-n>     117  </q-n></a>
+<a name="118"><q-n>     118  </q-n></a>                                  <q-w>end</q-w> <q-m>// begin</q-m>
+<a name="119"><q-n>     119  </q-n></a>                    <q-w>endcase</q-w>
+<a name="120"><q-n>     120  </q-n></a>                   <q-w>end</q-w> <q-m>//foreach begin</q-m>
+<a name="121"><q-n>     121  </q-n></a>                
+<a name="122"><q-n>     122  </q-n></a>                reg_cfg.is_data_ready = reg_cfg.is_data_ready.next();
+<a name="123"><q-n>     123  </q-n></a>                <q-m>//here calculate parity acording reg config register rx_parity</q-m>
+<a name="124"><q-n>     124  </q-n></a>                <q-w>if</q-w>(reg_cfg.rx_parity == PARITY_ENABLE)<q-w>begin</q-w>
+<a name="125"><q-n>     125  </q-n></a>                    trans_h.RX_STATE = trans_h.RX_STATE.next(); <q-m>// PARITY</q-m>
+<a name="126"><q-n>     126  </q-n></a>                    uif.RX_STATE = uif.RX_STATE.next(); <q-m>// PARITY</q-m>
+<a name="127"><q-n>     127  </q-n></a>                    @(<q-a>posedge</q-w> trans_h.rx_shift);
+<a name="128"><q-n>     128  </q-n></a>                      <q-w>case</q-w>(reg_cfg.rx_parity_types)
+<a name="129"><q-n>     129  </q-n></a>                          EVEN_PARITY: even_parity();
+<a name="130"><q-n>     130  </q-n></a>                          ODD_PARITY:  odd_parity();
+<a name="131"><q-n>     131  </q-n></a>                      <q-w>endcase</q-w>         
+<a name="132"><q-n>     132  </q-n></a>                <q-w>end</q-w> <q-m>// if(parity _enable)              </q-m>
+<a name="133"><q-n>     133  </q-n></a>                  
+<a name="134"><q-n>     134  </q-n></a>             <q-w>foreach</q-w>(`RX_STOP_LEN)
+<a name="135"><q-n>     135  </q-n></a>                  <q-w>begin</q-w>
+<a name="136"><q-n>     136  </q-n></a>                        trans_h.RX_STOP = `MON_CB.rxd;
+<a name="137"><q-n>     137  </q-n></a>                        trans_h.RX_STATE = trans_h.RX_STATE.last(); <q-m>// STOP</q-m>
+<a name="138"><q-n>     138  </q-n></a>                        uif.RX_STATE = uif.RX_STATE.last(); <q-m>// STOP</q-m>
+<a name="139"><q-n>     139  </q-n></a>                        @(<q-a>posedge</q-w> trans_h.rx_shift);
+<a name="140"><q-n>     140  </q-n></a>                  <q-w>end</q-w><q-m>//foreach tx_stop_len</q-m>
+<a name="141"><q-n>     141  </q-n></a>                trans_h.wr = 0;        
+<a name="142"><q-n>     142  </q-n></a>                `uvm_info(get_name(),{<q-l>"[BEFORE] recived transaction is \n"</q-l>,trans_h.sprint()},UVM_LOW);
+<a name="143"><q-n>     143  </q-n></a>                item_collected_port.write(trans_h);
+<a name="144"><q-n>     144  </q-n></a>                trans_h.RX_STATE = trans_h.RX_STATE.first(); <q-m>//IDLEE</q-m>
+<a name="145"><q-n>     145  </q-n></a>                uif.RX_STATE = uif.RX_STATE.first(); <q-m>//IDLEE</q-m>
+<a name="146"><q-n>     146  </q-n></a>                @(<q-a>posedge</q-w> trans_h.rx_shift);
+<a name="147"><q-n>     147  </q-n></a>	            trans_h.rx_gated_clk =0;
+<a name="148"><q-n>     148  </q-n></a>                uif.rx_gated_clk =0;
+<a name="149"><q-n>     149  </q-n></a>    <q-w>end</q-w> <q-m>// forever</q-m>
+<a name="150"><q-n>     150  </q-n></a>
+<a name="151"><q-n>     151  </q-n></a>    <q-w>endtask</q-w>:rx_monitor
+<a name="152"><q-n>     152  </q-n></a>
+<a name="153"><q-n>     153  </q-n></a>    <q-w>task</q-w> baud_clk();
+<a name="154"><q-n>     154  </q-n></a>            <q-w>forever</q-w> <q-w>wait</q-w> (trans_h.rx_gated_clk)
+<a name="155"><q-n>     155  </q-n></a>            <q-w>begin</q-w>
+<a name="156"><q-n>     156  </q-n></a>              <q-m>//when rx_count is equal to DLL AND DLH then one tx shift pulse generate acording that pulse data serially shifted</q-m>
+<a name="157"><q-n>     157  </q-n></a>               <q-w>if</q-w>(rx_count == {reg_cfg.RX_DLM,reg_cfg.RX_DLL})    
+<a name="158"><q-n>     158  </q-n></a>               <q-w>begin</q-w>
+<a name="159"><q-n>     159  </q-n></a>                   trans_h.rx_shift = 1'b1;
+<a name="160"><q-n>     160  </q-n></a>                   uif.rx_shift    = 1'b1;
+<a name="161"><q-n>     161  </q-n></a>                   rx_count = 0;
+<a name="162"><q-n>     162  </q-n></a>                   uif.rx_count = 0;
+<a name="163"><q-n>     163  </q-n></a>                   #1;
+<a name="164"><q-n>     164  </q-n></a>                   trans_h.rx_shift = 0;
+<a name="165"><q-n>     165  </q-n></a>                   uif.rx_shift    = 1'b0;
+<a name="166"><q-n>     166  </q-n></a>
+<a name="167"><q-n>     167  </q-n></a>               <q-w>end</q-w> <q-m>// if </q-m>
+<a name="168"><q-n>     168  </q-n></a>               <q-w>else</q-w> <q-w>begin</q-w>
+<a name="169"><q-n>     169  </q-n></a>                   trans_h.rx_shift = 0;
+<a name="170"><q-n>     170  </q-n></a>                   uif.rx_shift    = 1'b0;
+<a name="171"><q-n>     171  </q-n></a>               rx_count = rx_count + 1;
+<a name="172"><q-n>     172  </q-n></a>               uif.rx_count = uif.rx_count + 1;
+<a name="173"><q-n>     173  </q-n></a>               @(`MON_CB);
+<a name="174"><q-n>     174  </q-n></a>               <q-w>end</q-w>
+<a name="175"><q-n>     175  </q-n></a>           <q-w>end</q-w> <q-m>// wait</q-m>
+<a name="176"><q-n>     176  </q-n></a>
+<a name="177"><q-n>     177  </q-n></a> <q-w>endtask</q-w>
+<a name="178"><q-n>     178  </q-n></a>
+<a name="179"><q-n>     179  </q-n></a> <q-w>task</q-w> even_parity();
+<a name="180"><q-n>     180  </q-n></a>      <q-w>begin</q-w>
+<a name="181"><q-n>     181  </q-n></a>            rx_parity =  {`MON_CB.rxd,trans_h.rx_shifter};
+<a name="182"><q-n>     182  </q-n></a>            `uvm_info(get_name(),$sformatf(<q-l>"EVEN PARITY rx_parity is %b"</q-l>,rx_parity),UVM_DEBUG);
+<a name="183"><q-n>     183  </q-n></a>            rx_parity = ^ rx_parity;
+<a name="184"><q-n>     184  </q-n></a>            `uvm_info(get_name(),$sformatf(<q-l>"EVEN PARITY[AFTER_CALC] rx_parity is %b"</q-l>,rx_parity),UVM_DEBUG);
+<a name="185"><q-n>     185  </q-n></a>            <q-w>if</q-w>(rx_parity == 0)<q-w>begin</q-w>
+<a name="186"><q-n>     186  </q-n></a>                reg_cfg.is_rx_parity_error  = NO_PARITY_ERROR_OCCURE;
+<a name="187"><q-n>     187  </q-n></a>            <q-w>end</q-w> <q-m>// if begin</q-m>
+<a name="188"><q-n>     188  </q-n></a>            <q-w>else</q-w> <q-w>begin</q-w>
+<a name="189"><q-n>     189  </q-n></a>                reg_cfg.is_rx_parity_error  = PARITY_ERROR_OCCURE;
+<a name="190"><q-n>     190  </q-n></a>            <q-w>end</q-w> <q-m>// else begin</q-m>
+<a name="191"><q-n>     191  </q-n></a>        <q-w>end</q-w> <q-m>// case even parity begin</q-m>
+<a name="192"><q-n>     192  </q-n></a> <q-w>endtask</q-w>
+<a name="193"><q-n>     193  </q-n></a> <q-w>task</q-w> odd_parity();
+<a name="194"><q-n>     194  </q-n></a>     <q-w>begin</q-w>
+<a name="195"><q-n>     195  </q-n></a>         rx_parity =  {`MON_CB.rxd,trans_h.rx_shifter};
+<a name="196"><q-n>     196  </q-n></a>        `uvm_info(get_name(),$sformatf(<q-l>"ODD PARITY rx_parity is %b"</q-l>,rx_parity),UVM_DEBUG);
+<a name="197"><q-n>     197  </q-n></a>         rx_parity = ^ rx_parity;
+<a name="198"><q-n>     198  </q-n></a>        `uvm_info(get_name(),$sformatf(<q-l>"ODD PARITY[AFTER_CALC] rx_parity is %b"</q-l>,rx_parity),UVM_DEBUG);
+<a name="199"><q-n>     199  </q-n></a>         <q-w>if</q-w>(rx_parity == 1) <q-w>begin</q-w>
+<a name="200"><q-n>     200  </q-n></a>             reg_cfg.is_rx_parity_error  = NO_PARITY_ERROR_OCCURE;
+<a name="201"><q-n>     201  </q-n></a>         <q-w>end</q-w> <q-m>//if begin</q-m>
+<a name="202"><q-n>     202  </q-n></a>         <q-w>else</q-w> <q-w>begin</q-w>
+<a name="203"><q-n>     203  </q-n></a>             reg_cfg.is_rx_parity_error  = PARITY_ERROR_OCCURE;
+<a name="204"><q-n>     204  </q-n></a>
+<a name="205"><q-n>     205  </q-n></a>         <q-w>end</q-w> <q-m>// else begin</q-m>
+<a name="206"><q-n>     206  </q-n></a>   <q-w>end</q-w> <q-m>//case odd parity begin</q-m>
+<a name="207"><q-n>     207  </q-n></a>
+<a name="208"><q-n>     208  </q-n></a> <q-w>endtask</q-w>
+<a name="209"><q-n>     209  </q-n></a>
+<a name="210"><q-n>     210  </q-n></a><q-w>endclass</q-w>:uart_rx_monitor
+</pre>
+</tt>
+
+  
+</body>
+</html>

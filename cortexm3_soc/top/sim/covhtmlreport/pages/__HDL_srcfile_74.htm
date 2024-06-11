@@ -1,0 +1,370 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>// Copyright 2017 ETH Zurich and University of Bologna.</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>// Copyright and related rights are licensed under the Solderpad Hardware</q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>// License, Version 0.51 (the License); you may not use this file except in</q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>// compliance with the License.  You may obtain a copy of the License at</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>// http://solderpad.org/licenses/SHL-0.51. Unless required by applicable law</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>// or agreed to in writing, software, hardware and materials distributed under</q-m>
+<a name="7"><q-n>     7  </q-n></a><q-m>// this License is distributed on an AS IS BASIS, WITHOUT WARRANTIES OR</q-m>
+<a name="8"><q-n>     8  </q-n></a><q-m>// CONDITIONS OF ANY KIND, either express or implied. See the License for the</q-m>
+<a name="9"><q-n>     9  </q-n></a><q-m>// specific language governing permissions and limitations under the License.</q-m>
+<a name="10"><q-n>     10  </q-n></a>`<q-i>include</q-w> <q-l>"io_generic_fifo.sv"</q-l>
+<a name="11"><q-n>     11  </q-n></a>`<q-i>include</q-w> <q-l>"uart_interrupt.sv"</q-l>
+<a name="12"><q-n>     12  </q-n></a>`<q-i>include</q-w> <q-l>"uart_rx.sv"</q-l>
+<a name="13"><q-n>     13  </q-n></a>`<q-i>include</q-w> <q-l>"uart_tx.sv"</q-l>
+<a name="14"><q-n>     14  </q-n></a><q-w>module</q-w> apb_uart_sv
+<a name="15"><q-n>     15  </q-n></a>#(
+<a name="16"><q-n>     16  </q-n></a>    <q-w>parameter</q-w> APB_ADDR_WIDTH = 12  <q-m>//APB slaves are 4KB by default</q-m>
+<a name="17"><q-n>     17  </q-n></a>)
+<a name="18"><q-n>     18  </q-n></a>(
+<a name="19"><q-n>     19  </q-n></a>    <q-w>input</q-w>  <q-w>logic</q-w>                      CLK,
+<a name="20"><q-n>     20  </q-n></a>    <q-w>input</q-w>  <q-w>logic</q-w>                      RSTN,
+<a name="21"><q-n>     21  </q-n></a>    <q-m>/* verilator lint_off UNUSED */</q-m>
+<a name="22"><q-n>     22  </q-n></a>    <q-w>input</q-w>  <q-w>logic</q-w> [APB_ADDR_WIDTH-1:0] PADDR,
+<a name="23"><q-n>     23  </q-n></a>    <q-m>/* lint_on */</q-m>
+<a name="24"><q-n>     24  </q-n></a>    <q-w>input</q-w>  <q-w>logic</q-w>               [31:0] PWDATA,
+<a name="25"><q-n>     25  </q-n></a>    <q-w>input</q-w>  <q-w>logic</q-w>                      PWRITE,
+<a name="26"><q-n>     26  </q-n></a>    <q-w>input</q-w>  <q-w>logic</q-w>                      PSEL,
+<a name="27"><q-n>     27  </q-n></a>    <q-w>input</q-w>  <q-w>logic</q-w>                      PENABLE,
+<a name="28"><q-n>     28  </q-n></a>    <q-w>output</q-w> <q-w>logic</q-w>               [31:0] PRDATA,
+<a name="29"><q-n>     29  </q-n></a>    <q-w>output</q-w> <q-w>logic</q-w>                      PREADY,
+<a name="30"><q-n>     30  </q-n></a>    <q-w>output</q-w> <q-w>logic</q-w>                      PSLVERR,
+<a name="31"><q-n>     31  </q-n></a>
+<a name="32"><q-n>     32  </q-n></a>    <q-w>input</q-w>  <q-w>logic</q-w>                      rx_i,      <q-m>// Receiver input</q-m>
+<a name="33"><q-n>     33  </q-n></a>    <q-w>output</q-w> <q-w>logic</q-w>                      tx_o,      <q-m>// Transmitter output</q-m>
+<a name="34"><q-n>     34  </q-n></a>
+<a name="35"><q-n>     35  </q-n></a>    <q-w>output</q-w> <q-w>logic</q-w>                      event_o    <q-m>// interrupt/event output</q-m>
+<a name="36"><q-n>     36  </q-n></a>);
+<a name="37"><q-n>     37  </q-n></a>    <q-m>// register addresses</q-m>
+<a name="38"><q-n>     38  </q-n></a>    <q-w>parameter</q-w> RBR = 3'h0, THR = 3'h0, DLL = 3'h0, IER = 3'h1, DLM = 3'h1, IIR = 3'h2,
+<a name="39"><q-n>     39  </q-n></a>              FCR = 3'h2, LCR = 3'h3, MCR = 3'h4, LSR = 3'h5, MSR = 3'h6, SCR = 3'h7;
+<a name="40"><q-n>     40  </q-n></a>
+<a name="41"><q-n>     41  </q-n></a>    <q-w>parameter</q-w> TX_FIFO_DEPTH = 16; <q-m>// in bytes</q-m>
+<a name="42"><q-n>     42  </q-n></a>    <q-w>parameter</q-w> RX_FIFO_DEPTH = 16; <q-m>// in bytes</q-m>
+<a name="43"><q-n>     43  </q-n></a>
+<a name="44"><q-n>     44  </q-n></a>    <q-w>logic</q-w> [2:0]       register_adr;
+<a name="45"><q-n>     45  </q-n></a>    <q-w>logic</q-w> [9:0][7:0]  regs_q, regs_n;
+<a name="46"><q-n>     46  </q-n></a>    <q-w>logic</q-w> [1:0]       trigger_level_n, trigger_level_q;
+<a name="47"><q-n>     47  </q-n></a>
+<a name="48"><q-n>     48  </q-n></a>    <q-m>// receive buffer register, read only</q-m>
+<a name="49"><q-n>     49  </q-n></a>    <q-w>logic</q-w> [7:0]       rx_data;
+<a name="50"><q-n>     50  </q-n></a>    <q-m>// parity error</q-m>
+<a name="51"><q-n>     51  </q-n></a>    <q-w>logic</q-w>             parity_error;
+<a name="52"><q-n>     52  </q-n></a>    <q-w>logic</q-w> [3:0]       IIR_o;
+<a name="53"><q-n>     53  </q-n></a>    <q-w>logic</q-w> [3:0]       clr_int;
+<a name="54"><q-n>     54  </q-n></a>
+<a name="55"><q-n>     55  </q-n></a>    <q-m>/* verilator lint_off UNOPTFLAT */</q-m>
+<a name="56"><q-n>     56  </q-n></a>    <q-m>// tx flow control</q-m>
+<a name="57"><q-n>     57  </q-n></a>    <q-w>logic</q-w>             tx_ready;
+<a name="58"><q-n>     58  </q-n></a>    <q-m>/* lint_on */</q-m>
+<a name="59"><q-n>     59  </q-n></a>
+<a name="60"><q-n>     60  </q-n></a>    <q-m>// rx flow control</q-m>
+<a name="61"><q-n>     61  </q-n></a>    <q-w>logic</q-w>             apb_rx_ready;
+<a name="62"><q-n>     62  </q-n></a>    <q-w>logic</q-w>             rx_valid;
+<a name="63"><q-n>     63  </q-n></a>
+<a name="64"><q-n>     64  </q-n></a>    <q-w>logic</q-w>             tx_fifo_clr_n, tx_fifo_clr_q;
+<a name="65"><q-n>     65  </q-n></a>    <q-w>logic</q-w>             rx_fifo_clr_n, rx_fifo_clr_q;
+<a name="66"><q-n>     66  </q-n></a>
+<a name="67"><q-n>     67  </q-n></a>    <q-w>logic</q-w>             fifo_tx_valid;
+<a name="68"><q-n>     68  </q-n></a>    <q-w>logic</q-w>             tx_valid;
+<a name="69"><q-n>     69  </q-n></a>    <q-w>logic</q-w>             fifo_rx_valid;
+<a name="70"><q-n>     70  </q-n></a>    <q-w>logic</q-w>             fifo_rx_ready;
+<a name="71"><q-n>     71  </q-n></a>    <q-w>logic</q-w>             rx_ready;
+<a name="72"><q-n>     72  </q-n></a>
+<a name="73"><q-n>     73  </q-n></a>    <q-w>logic</q-w>             [7:0] fifo_tx_data;
+<a name="74"><q-n>     74  </q-n></a>    <q-w>logic</q-w>             [8:0] fifo_rx_data;
+<a name="75"><q-n>     75  </q-n></a>
+<a name="76"><q-n>     76  </q-n></a>    <q-w>logic</q-w>             [7:0] tx_data;
+<a name="77"><q-n>     77  </q-n></a>    <q-w>logic</q-w>             [$clog2(TX_FIFO_DEPTH):0] tx_elements;
+<a name="78"><q-n>     78  </q-n></a>    <q-w>logic</q-w>             [$clog2(RX_FIFO_DEPTH):0] rx_elements;
+<a name="79"><q-n>     79  </q-n></a>
+<a name="80"><q-n>     80  </q-n></a>    <q-m>// TODO: check that stop bits are really not necessary here</q-m>
+<a name="81"><q-n>     81  </q-n></a>    uart_rx uart_rx_i
+<a name="82"><q-n>     82  </q-n></a>    (
+<a name="83"><q-n>     83  </q-n></a>        .clk_i              ( CLK                           ),
+<a name="84"><q-n>     84  </q-n></a>        .rstn_i             ( RSTN                          ),
+<a name="85"><q-n>     85  </q-n></a>        .rx_i               ( rx_i                          ),
+<a name="86"><q-n>     86  </q-n></a>        .cfg_en_i           ( 1'b1                          ),
+<a name="87"><q-n>     87  </q-n></a>        .cfg_div_i          ( {regs_q[DLM + 'd8], regs_q[DLL + 'd8]}    ),
+<a name="88"><q-n>     88  </q-n></a>        .cfg_parity_en_i    ( regs_q[LCR][3]                ),
+<a name="89"><q-n>     89  </q-n></a>        .cfg_bits_i         ( regs_q[LCR][1:0]              ),
+<a name="90"><q-n>     90  </q-n></a>        <q-m>// .cfg_stop_bits_i    ( regs_q[LCR][2]                ),</q-m>
+<a name="91"><q-n>     91  </q-n></a>        <q-m>/* verilator lint_off PINCONNECTEMPTY */</q-m>
+<a name="92"><q-n>     92  </q-n></a>        .busy_o             (                               ),
+<a name="93"><q-n>     93  </q-n></a>        <q-m>/* lint_on */</q-m>
+<a name="94"><q-n>     94  </q-n></a>        .err_o              ( parity_error                  ),
+<a name="95"><q-n>     95  </q-n></a>        .err_clr_i          ( 1'b1                          ),
+<a name="96"><q-n>     96  </q-n></a>        .rx_data_o          ( rx_data                       ),
+<a name="97"><q-n>     97  </q-n></a>        .rx_valid_o         ( rx_valid                      ),
+<a name="98"><q-n>     98  </q-n></a>        .rx_ready_i         ( rx_ready                      )
+<a name="99"><q-n>     99  </q-n></a>    );
+<a name="100"><q-n>     100  </q-n></a>
+<a name="101"><q-n>     101  </q-n></a>    uart_tx uart_tx_i
+<a name="102"><q-n>     102  </q-n></a>    (
+<a name="103"><q-n>     103  </q-n></a>        .clk_i              ( CLK                           ),
+<a name="104"><q-n>     104  </q-n></a>        .rstn_i             ( RSTN                          ),
+<a name="105"><q-n>     105  </q-n></a>        .tx_o               ( tx_o                          ),
+<a name="106"><q-n>     106  </q-n></a>        <q-m>/* verilator lint_off PINCONNECTEMPTY */</q-m>
+<a name="107"><q-n>     107  </q-n></a>        .busy_o             (                               ),
+<a name="108"><q-n>     108  </q-n></a>        <q-m>/* lint_on */</q-m>
+<a name="109"><q-n>     109  </q-n></a>        .cfg_en_i           ( 1'b1                          ),
+<a name="110"><q-n>     110  </q-n></a>        .cfg_div_i          ( {regs_q[DLM + 'd8], regs_q[DLL + 'd8]}    ),
+<a name="111"><q-n>     111  </q-n></a>        .cfg_parity_en_i    ( regs_q[LCR][3]                ),
+<a name="112"><q-n>     112  </q-n></a>        .cfg_bits_i         ( regs_q[LCR][1:0]              ),
+<a name="113"><q-n>     113  </q-n></a>        .cfg_stop_bits_i    ( regs_q[LCR][2]                ),
+<a name="114"><q-n>     114  </q-n></a>
+<a name="115"><q-n>     115  </q-n></a>        .tx_data_i          ( tx_data                       ),
+<a name="116"><q-n>     116  </q-n></a>        .tx_valid_i         ( tx_valid                      ),
+<a name="117"><q-n>     117  </q-n></a>        .tx_ready_o         ( tx_ready                      )
+<a name="118"><q-n>     118  </q-n></a>    );
+<a name="119"><q-n>     119  </q-n></a>
+<a name="120"><q-n>     120  </q-n></a>    io_generic_fifo
+<a name="121"><q-n>     121  </q-n></a>    #(
+<a name="122"><q-n>     122  </q-n></a>        .DATA_WIDTH         ( 9                             ),
+<a name="123"><q-n>     123  </q-n></a>        .BUFFER_DEPTH       ( RX_FIFO_DEPTH                 )
+<a name="124"><q-n>     124  </q-n></a>    )
+<a name="125"><q-n>     125  </q-n></a>    uart_rx_fifo_i
+<a name="126"><q-n>     126  </q-n></a>    (
+<a name="127"><q-n>     127  </q-n></a>        .clk_i              ( CLK                           ),
+<a name="128"><q-n>     128  </q-n></a>        .rstn_i             ( RSTN                          ),
+<a name="129"><q-n>     129  </q-n></a>
+<a name="130"><q-n>     130  </q-n></a>        .clr_i              ( rx_fifo_clr_q                 ),
+<a name="131"><q-n>     131  </q-n></a>
+<a name="132"><q-n>     132  </q-n></a>        .elements_o         ( rx_elements                   ),
+<a name="133"><q-n>     133  </q-n></a>
+<a name="134"><q-n>     134  </q-n></a>        .data_o             ( fifo_rx_data                  ),
+<a name="135"><q-n>     135  </q-n></a>        .valid_o            ( fifo_rx_valid                 ),
+<a name="136"><q-n>     136  </q-n></a>        .ready_i            ( fifo_rx_ready                 ),
+<a name="137"><q-n>     137  </q-n></a>
+<a name="138"><q-n>     138  </q-n></a>        .valid_i            ( rx_valid                      ),
+<a name="139"><q-n>     139  </q-n></a>        .data_i             ( { parity_error, rx_data }     ),
+<a name="140"><q-n>     140  </q-n></a>        .ready_o            ( rx_ready                      )
+<a name="141"><q-n>     141  </q-n></a>    );
+<a name="142"><q-n>     142  </q-n></a>
+<a name="143"><q-n>     143  </q-n></a>    io_generic_fifo
+<a name="144"><q-n>     144  </q-n></a>    #(
+<a name="145"><q-n>     145  </q-n></a>        .DATA_WIDTH         ( 8                             ),
+<a name="146"><q-n>     146  </q-n></a>        .BUFFER_DEPTH       ( TX_FIFO_DEPTH                 )
+<a name="147"><q-n>     147  </q-n></a>    )
+<a name="148"><q-n>     148  </q-n></a>    uart_tx_fifo_i
+<a name="149"><q-n>     149  </q-n></a>    (
+<a name="150"><q-n>     150  </q-n></a>        .clk_i              ( CLK                           ),
+<a name="151"><q-n>     151  </q-n></a>        .rstn_i             ( RSTN                          ),
+<a name="152"><q-n>     152  </q-n></a>
+<a name="153"><q-n>     153  </q-n></a>        .clr_i              ( tx_fifo_clr_q                 ),
+<a name="154"><q-n>     154  </q-n></a>
+<a name="155"><q-n>     155  </q-n></a>        .elements_o         ( tx_elements                   ),
+<a name="156"><q-n>     156  </q-n></a>
+<a name="157"><q-n>     157  </q-n></a>        .data_o             ( tx_data                       ),
+<a name="158"><q-n>     158  </q-n></a>        .valid_o            ( tx_valid                      ),
+<a name="159"><q-n>     159  </q-n></a>        .ready_i            ( tx_ready                      ),
+<a name="160"><q-n>     160  </q-n></a>
+<a name="161"><q-n>     161  </q-n></a>        .valid_i            ( fifo_tx_valid                 ),
+<a name="162"><q-n>     162  </q-n></a>        .data_i             ( fifo_tx_data                  ),
+<a name="163"><q-n>     163  </q-n></a>        <q-m>// not needed since we are getting the status via the fifo population</q-m>
+<a name="164"><q-n>     164  </q-n></a>        .ready_o            (                               )
+<a name="165"><q-n>     165  </q-n></a>    );
+<a name="166"><q-n>     166  </q-n></a>
+<a name="167"><q-n>     167  </q-n></a>    uart_interrupt
+<a name="168"><q-n>     168  </q-n></a>    #(
+<a name="169"><q-n>     169  </q-n></a>        .TX_FIFO_DEPTH (TX_FIFO_DEPTH),
+<a name="170"><q-n>     170  </q-n></a>        .RX_FIFO_DEPTH (RX_FIFO_DEPTH)
+<a name="171"><q-n>     171  </q-n></a>    )
+<a name="172"><q-n>     172  </q-n></a>    uart_interrupt_i
+<a name="173"><q-n>     173  </q-n></a>    (
+<a name="174"><q-n>     174  </q-n></a>        .clk_i              ( CLK                           ),
+<a name="175"><q-n>     175  </q-n></a>        .rstn_i             ( RSTN                          ),
+<a name="176"><q-n>     176  </q-n></a>
+<a name="177"><q-n>     177  </q-n></a>
+<a name="178"><q-n>     178  </q-n></a>        .IER_i              ( regs_q[IER][2:0]              ), <q-m>// interrupt enable register</q-m>
+<a name="179"><q-n>     179  </q-n></a>        .RDA_i              ( regs_n[LSR][5]                ), <q-m>// receiver data available</q-m>
+<a name="180"><q-n>     180  </q-n></a>        .CTI_i              ( 1'b0                          ), <q-m>// character timeout indication</q-m>
+<a name="181"><q-n>     181  </q-n></a>
+<a name="182"><q-n>     182  </q-n></a>
+<a name="183"><q-n>     183  </q-n></a>        .error_i            ( regs_n[LSR][2]                ),
+<a name="184"><q-n>     184  </q-n></a>        .rx_elements_i      ( rx_elements                   ),
+<a name="185"><q-n>     185  </q-n></a>        .tx_elements_i      ( tx_elements                   ),
+<a name="186"><q-n>     186  </q-n></a>        .trigger_level_i    ( trigger_level_q               ),
+<a name="187"><q-n>     187  </q-n></a>
+<a name="188"><q-n>     188  </q-n></a>        .clr_int_i          ( clr_int                       ), <q-m>// one hot</q-m>
+<a name="189"><q-n>     189  </q-n></a>
+<a name="190"><q-n>     190  </q-n></a>        .interrupt_o        ( event_o                       ),
+<a name="191"><q-n>     191  </q-n></a>        .IIR_o              ( IIR_o                         )
+<a name="192"><q-n>     192  </q-n></a>
+<a name="193"><q-n>     193  </q-n></a>    );
+<a name="194"><q-n>     194  </q-n></a>
+<a name="195"><q-n>     195  </q-n></a>    <q-m>// UART Registers</q-m>
+<a name="196"><q-n>     196  </q-n></a>
+<a name="197"><q-n>     197  </q-n></a>    <q-m>// register write and update logic</q-m>
+<a name="198"><q-n>     198  </q-n></a>    <q-w>always_comb</q-w>
+<a name="199"><q-n>     199  </q-n></a>    <q-w>begin</q-w>
+<a name="200"><q-n>     200  </q-n></a>        regs_n          = regs_q;
+<a name="201"><q-n>     201  </q-n></a>        trigger_level_n = trigger_level_q;
+<a name="202"><q-n>     202  </q-n></a>
+<a name="203"><q-n>     203  </q-n></a>        fifo_tx_valid   = 1'b0;
+<a name="204"><q-n>     204  </q-n></a>        tx_fifo_clr_n   = 1'b0; <q-m>// self clearing</q-m>
+<a name="205"><q-n>     205  </q-n></a>        rx_fifo_clr_n   = 1'b0; <q-m>// self clearing</q-m>
+<a name="206"><q-n>     206  </q-n></a>
+<a name="207"><q-n>     207  </q-n></a>        <q-m>// rx status</q-m>
+<a name="208"><q-n>     208  </q-n></a>        regs_n[LSR][0] = fifo_rx_valid; <q-m>// fifo is empty</q-m>
+<a name="209"><q-n>     209  </q-n></a>
+<a name="210"><q-n>     210  </q-n></a>        <q-m>// parity error on receiving part has occured</q-m>
+<a name="211"><q-n>     211  </q-n></a>        regs_n[LSR][2] = fifo_rx_data[8]; <q-m>// parity error is detected when element is retrieved</q-m>
+<a name="212"><q-n>     212  </q-n></a>
+<a name="213"><q-n>     213  </q-n></a>        <q-m>// tx status register</q-m>
+<a name="214"><q-n>     214  </q-n></a>        regs_n[LSR][5] = ~ (|tx_elements); <q-m>// fifo is empty</q-m>
+<a name="215"><q-n>     215  </q-n></a>        regs_n[LSR][6] = tx_ready &amp; ~ (|tx_elements); <q-m>// shift register and fifo are empty</q-m>
+<a name="216"><q-n>     216  </q-n></a>
+<a name="217"><q-n>     217  </q-n></a>        <q-w>if</q-w> (PSEL &amp;&amp; PENABLE &amp;&amp; PWRITE)
+<a name="218"><q-n>     218  </q-n></a>        <q-w>begin</q-w>
+<a name="219"><q-n>     219  </q-n></a>            <q-w>case</q-w> (register_adr)
+<a name="220"><q-n>     220  </q-n></a>
+<a name="221"><q-n>     221  </q-n></a>                THR: <q-m>// either THR or DLL</q-m>
+<a name="222"><q-n>     222  </q-n></a>                <q-w>begin</q-w>
+<a name="223"><q-n>     223  </q-n></a>                    <q-w>if</q-w> (regs_q[LCR][7]) <q-m>// Divisor Latch Access Bit (DLAB)</q-m>
+<a name="224"><q-n>     224  </q-n></a>                    <q-w>begin</q-w>
+<a name="225"><q-n>     225  </q-n></a>                        regs_n[DLL + 'd8] = PWDATA[7:0];
+<a name="226"><q-n>     226  </q-n></a>                    <q-w>end</q-w>
+<a name="227"><q-n>     227  </q-n></a>                    <q-w>else</q-w>
+<a name="228"><q-n>     228  </q-n></a>                    <q-w>begin</q-w>
+<a name="229"><q-n>     229  </q-n></a>                        fifo_tx_data = PWDATA[7:0];
+<a name="230"><q-n>     230  </q-n></a>                        fifo_tx_valid = 1'b1;
+<a name="231"><q-n>     231  </q-n></a>                    <q-w>end</q-w>
+<a name="232"><q-n>     232  </q-n></a>                <q-w>end</q-w>
+<a name="233"><q-n>     233  </q-n></a>
+<a name="234"><q-n>     234  </q-n></a>                IER: <q-m>// either IER or DLM</q-m>
+<a name="235"><q-n>     235  </q-n></a>                <q-w>begin</q-w>
+<a name="236"><q-n>     236  </q-n></a>                    <q-w>if</q-w> (regs_q[LCR][7]) <q-m>// Divisor Latch Access Bit (DLAB)</q-m>
+<a name="237"><q-n>     237  </q-n></a>                        regs_n[DLM + 'd8] = PWDATA[7:0];
+<a name="238"><q-n>     238  </q-n></a>                    <q-w>else</q-w>
+<a name="239"><q-n>     239  </q-n></a>                        regs_n[IER] = PWDATA[7:0];
+<a name="240"><q-n>     240  </q-n></a>                <q-w>end</q-w>
+<a name="241"><q-n>     241  </q-n></a>
+<a name="242"><q-n>     242  </q-n></a>                LCR:
+<a name="243"><q-n>     243  </q-n></a>                    regs_n[LCR] = PWDATA[7:0];
+<a name="244"><q-n>     244  </q-n></a>
+<a name="245"><q-n>     245  </q-n></a>                FCR: <q-m>// write only register, fifo control register</q-m>
+<a name="246"><q-n>     246  </q-n></a>                <q-w>begin</q-w>
+<a name="247"><q-n>     247  </q-n></a>                    rx_fifo_clr_n   = PWDATA[1];
+<a name="248"><q-n>     248  </q-n></a>                    tx_fifo_clr_n   = PWDATA[2];
+<a name="249"><q-n>     249  </q-n></a>                    trigger_level_n = PWDATA[7:6];
+<a name="250"><q-n>     250  </q-n></a>                <q-w>end</q-w>
+<a name="251"><q-n>     251  </q-n></a>
+<a name="252"><q-n>     252  </q-n></a>                <q-w>default</q-w>: ;
+<a name="253"><q-n>     253  </q-n></a>            <q-w>endcase</q-w>
+<a name="254"><q-n>     254  </q-n></a>
+<a name="255"><q-n>     255  </q-n></a>        <q-w>end</q-w>
+<a name="256"><q-n>     256  </q-n></a>
+<a name="257"><q-n>     257  </q-n></a>    <q-w>end</q-w>
+<a name="258"><q-n>     258  </q-n></a>
+<a name="259"><q-n>     259  </q-n></a>    <q-m>// register read logic</q-m>
+<a name="260"><q-n>     260  </q-n></a>    <q-w>always_comb</q-w>
+<a name="261"><q-n>     261  </q-n></a>    <q-w>begin</q-w>
+<a name="262"><q-n>     262  </q-n></a>	<q-m>//TODO: added reset logic</q-m>
+<a name="263"><q-n>     263  </q-n></a>	<q-m>//if(~RSTN) begin</q-m>
+<a name="264"><q-n>     264  </q-n></a>        PRDATA = 'b0;
+<a name="265"><q-n>     265  </q-n></a>        apb_rx_ready = 1'b0;
+<a name="266"><q-n>     266  </q-n></a>        fifo_rx_ready = 1'b0;
+<a name="267"><q-n>     267  </q-n></a>        clr_int      = 4'b0;
+<a name="268"><q-n>     268  </q-n></a>        <q-m>//end</q-m>
+<a name="269"><q-n>     269  </q-n></a>	<q-m>//TODO</q-m>
+<a name="270"><q-n>     270  </q-n></a>
+<a name="271"><q-n>     271  </q-n></a>        <q-w>if</q-w> (PSEL &amp;&amp; PENABLE &amp;&amp; !PWRITE)
+<a name="272"><q-n>     272  </q-n></a>        <q-w>begin</q-w>
+<a name="273"><q-n>     273  </q-n></a>            <q-w>case</q-w> (register_adr)
+<a name="274"><q-n>     274  </q-n></a>                RBR: <q-m>// either RBR or DLL</q-m>
+<a name="275"><q-n>     275  </q-n></a>                <q-w>begin</q-w>
+<a name="276"><q-n>     276  </q-n></a>                    <q-w>if</q-w> (regs_q[LCR][7]) <q-m>// Divisor Latch Access Bit (DLAB)</q-m>
+<a name="277"><q-n>     277  </q-n></a>                        PRDATA = {24'b0, regs_q[DLL + 'd8]};
+<a name="278"><q-n>     278  </q-n></a>                    <q-w>else</q-w>
+<a name="279"><q-n>     279  </q-n></a>                    <q-w>begin</q-w>
+<a name="280"><q-n>     280  </q-n></a>
+<a name="281"><q-n>     281  </q-n></a>                        fifo_rx_ready = 1'b1;
+<a name="282"><q-n>     282  </q-n></a>
+<a name="283"><q-n>     283  </q-n></a>                        PRDATA = {24'b0, fifo_rx_data[7:0]};
+<a name="284"><q-n>     284  </q-n></a>
+<a name="285"><q-n>     285  </q-n></a>                        clr_int = 4'b1000; <q-m>// clear Received Data Available interrupt</q-m>
+<a name="286"><q-n>     286  </q-n></a>                    <q-w>end</q-w>
+<a name="287"><q-n>     287  </q-n></a>                <q-w>end</q-w>
+<a name="288"><q-n>     288  </q-n></a>
+<a name="289"><q-n>     289  </q-n></a>                LSR: <q-m>// Line Status Register</q-m>
+<a name="290"><q-n>     290  </q-n></a>                <q-w>begin</q-w>
+<a name="291"><q-n>     291  </q-n></a>                    PRDATA = {24'b0, regs_q[LSR]};
+<a name="292"><q-n>     292  </q-n></a>                    clr_int = 4'b1100; <q-m>// clear parrity interrupt error</q-m>
+<a name="293"><q-n>     293  </q-n></a>                <q-w>end</q-w>
+<a name="294"><q-n>     294  </q-n></a>
+<a name="295"><q-n>     295  </q-n></a>                LCR: <q-m>// Line Control Register</q-m>
+<a name="296"><q-n>     296  </q-n></a>                    PRDATA= {24'b0, regs_q[LCR]};
+<a name="297"><q-n>     297  </q-n></a>
+<a name="298"><q-n>     298  </q-n></a>                IER: <q-m>// either IER or DLM</q-m>
+<a name="299"><q-n>     299  </q-n></a>                <q-w>begin</q-w>
+<a name="300"><q-n>     300  </q-n></a>                    <q-w>if</q-w> (regs_q[LCR][7]) <q-m>// Divisor Latch Access Bit (DLAB)</q-m>
+<a name="301"><q-n>     301  </q-n></a>                        PRDATA = {24'b0, regs_q[DLM + 'd8]};
+<a name="302"><q-n>     302  </q-n></a>                    <q-w>else</q-w>
+<a name="303"><q-n>     303  </q-n></a>                        PRDATA = {24'b0, regs_q[IER]};
+<a name="304"><q-n>     304  </q-n></a>                <q-w>end</q-w>
+<a name="305"><q-n>     305  </q-n></a>
+<a name="306"><q-n>     306  </q-n></a>                IIR: <q-m>// interrupt identification register read only</q-m>
+<a name="307"><q-n>     307  </q-n></a>                <q-w>begin</q-w>
+<a name="308"><q-n>     308  </q-n></a>                    PRDATA = {24'b0, 1'b1, 1'b1, 2'b0, IIR_o};
+<a name="309"><q-n>     309  </q-n></a>                    clr_int = 4'b0100; <q-m>// clear Transmitter Holding Register Empty</q-m>
+<a name="310"><q-n>     310  </q-n></a>                <q-w>end</q-w>
+<a name="311"><q-n>     311  </q-n></a>
+<a name="312"><q-n>     312  </q-n></a>                <q-w>default</q-w>: ;
+<a name="313"><q-n>     313  </q-n></a>            <q-w>endcase</q-w>
+<a name="314"><q-n>     314  </q-n></a>        <q-w>end</q-w>
+<a name="315"><q-n>     315  </q-n></a>    <q-w>end</q-w>
+<a name="316"><q-n>     316  </q-n></a>
+<a name="317"><q-n>     317  </q-n></a>    <q-m>// synchronouse part</q-m>
+<a name="318"><q-n>     318  </q-n></a>    <q-w>always_ff</q-w> @(<q-a>posedge</q-w> CLK, <q-a>negedge</q-w> RSTN)
+<a name="319"><q-n>     319  </q-n></a>    <q-w>begin</q-w>
+<a name="320"><q-n>     320  </q-n></a>        <q-w>if</q-w>(~RSTN)
+<a name="321"><q-n>     321  </q-n></a>        <q-w>begin</q-w>
+<a name="322"><q-n>     322  </q-n></a>
+<a name="323"><q-n>     323  </q-n></a>            regs_q[IER]       &lt;= 8'h0;
+<a name="324"><q-n>     324  </q-n></a>            regs_q[IIR]       &lt;= 8'h1;
+<a name="325"><q-n>     325  </q-n></a>            regs_q[LCR]       &lt;= 8'h0;
+<a name="326"><q-n>     326  </q-n></a>            regs_q[MCR]       &lt;= 8'h0;
+<a name="327"><q-n>     327  </q-n></a>            regs_q[LSR]       &lt;= 8'h60;
+<a name="328"><q-n>     328  </q-n></a>            regs_q[MSR]       &lt;= 8'h0;
+<a name="329"><q-n>     329  </q-n></a>            regs_q[SCR]       &lt;= 8'h0;
+<a name="330"><q-n>     330  </q-n></a>            regs_q[DLM + 'd8] &lt;= 8'h0;
+<a name="331"><q-n>     331  </q-n></a>            regs_q[DLL + 'd8] &lt;= 8'h0;
+<a name="332"><q-n>     332  </q-n></a>
+<a name="333"><q-n>     333  </q-n></a>            trigger_level_q &lt;= 2'b00;
+<a name="334"><q-n>     334  </q-n></a>            tx_fifo_clr_q   &lt;= 1'b0;
+<a name="335"><q-n>     335  </q-n></a>            rx_fifo_clr_q   &lt;= 1'b0;
+<a name="336"><q-n>     336  </q-n></a>
+<a name="337"><q-n>     337  </q-n></a>        <q-w>end</q-w>
+<a name="338"><q-n>     338  </q-n></a>        <q-w>else</q-w>
+<a name="339"><q-n>     339  </q-n></a>        <q-w>begin</q-w>
+<a name="340"><q-n>     340  </q-n></a>            regs_q &lt;= regs_n;
+<a name="341"><q-n>     341  </q-n></a>
+<a name="342"><q-n>     342  </q-n></a>            trigger_level_q &lt;= trigger_level_n;
+<a name="343"><q-n>     343  </q-n></a>            tx_fifo_clr_q   &lt;= tx_fifo_clr_n;
+<a name="344"><q-n>     344  </q-n></a>            rx_fifo_clr_q   &lt;= rx_fifo_clr_n;
+<a name="345"><q-n>     345  </q-n></a>
+<a name="346"><q-n>     346  </q-n></a>        <q-w>end</q-w>
+<a name="347"><q-n>     347  </q-n></a>    <q-w>end</q-w>
+<a name="348"><q-n>     348  </q-n></a>
+<a name="349"><q-n>     349  </q-n></a>    <q-w>assign</q-w> register_adr = {PADDR[2:0]};
+<a name="350"><q-n>     350  </q-n></a>    <q-m>// APB logic: we are always ready to capture the data into our regs</q-m>
+<a name="351"><q-n>     351  </q-n></a>    <q-m>// not supporting transfare failure</q-m>
+<a name="352"><q-n>     352  </q-n></a>    <q-w>assign</q-w> PREADY  = 1'b1;
+<a name="353"><q-n>     353  </q-n></a>    <q-w>assign</q-w> PSLVERR = 1'b0;
+<a name="354"><q-n>     354  </q-n></a><q-w>endmodule</q-w>
+</pre>
+</tt>
+
+  
+</body>
+</html>

@@ -1,0 +1,160 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-w>module</q-w> ahb_slave(HADDR,HWDATA,HTRANS,HREADYin,HWRITE,HRESP, HRDATA,
+<a name="2"><q-n>     2  </q-n></a>		HSIZE,HCLK,HRESETn,HADDR_1,HWDATA_1,HADDR_2,HWDATA_2,
+<a name="3"><q-n>     3  </q-n></a>		HADDR_3,HWDATA_3,HWRITEreg,valid,TEMP_SEL,PRDATA);
+<a name="4"><q-n>     4  </q-n></a>
+<a name="5"><q-n>     5  </q-n></a><q-w>input</q-w>	[31:0]HADDR,HWDATA,PRDATA;
+<a name="6"><q-n>     6  </q-n></a><q-w>input</q-w>	[1:0]HTRANS;
+<a name="7"><q-n>     7  </q-n></a><q-w>input</q-w>	HREADYin,HWRITE;
+<a name="8"><q-n>     8  </q-n></a><q-w>input</q-w>	[2:0]HSIZE;
+<a name="9"><q-n>     9  </q-n></a><q-w>input</q-w>	HCLK,HRESETn;
+<a name="10"><q-n>     10  </q-n></a>	
+<a name="11"><q-n>     11  </q-n></a>
+<a name="12"><q-n>     12  </q-n></a><q-w>output</q-w> <q-w>reg</q-w>	[31:0]HADDR_1,
+<a name="13"><q-n>     13  </q-n></a>		HWDATA_1,
+<a name="14"><q-n>     14  </q-n></a>		HADDR_2,
+<a name="15"><q-n>     15  </q-n></a>		HWDATA_2,
+<a name="16"><q-n>     16  </q-n></a>		HADDR_3,
+<a name="17"><q-n>     17  </q-n></a>		HWDATA_3;
+<a name="18"><q-n>     18  </q-n></a>
+<a name="19"><q-n>     19  </q-n></a><q-w>output</q-w> 		[31:0]HRDATA;
+<a name="20"><q-n>     20  </q-n></a>	
+<a name="21"><q-n>     21  </q-n></a>
+<a name="22"><q-n>     22  </q-n></a><q-w>output</q-w> <q-w>reg</q-w> 	HWRITEreg,valid;
+<a name="23"><q-n>     23  </q-n></a><q-w>output</q-w> <q-w>reg</q-w>	[1:0]HRESP;
+<a name="24"><q-n>     24  </q-n></a><q-w>output</q-w> <q-w>reg</q-w>	[2:0]TEMP_SEL;
+<a name="25"><q-n>     25  </q-n></a>
+<a name="26"><q-n>     26  </q-n></a>
+<a name="27"><q-n>     27  </q-n></a>
+<a name="28"><q-n>     28  </q-n></a><q-w>assign</q-w> HRDATA=PRDATA;
+<a name="29"><q-n>     29  </q-n></a>
+<a name="30"><q-n>     30  </q-n></a>
+<a name="31"><q-n>     31  </q-n></a><q-w>parameter</q-w> IDLE=2'b00,
+<a name="32"><q-n>     32  </q-n></a>	  BUSY=2'b01,
+<a name="33"><q-n>     33  </q-n></a>	  NONSEQ=2'b10,
+<a name="34"><q-n>     34  </q-n></a>	  SEQ=2'b11;
+<a name="35"><q-n>     35  </q-n></a>
+<a name="36"><q-n>     36  </q-n></a>
+<a name="37"><q-n>     37  </q-n></a>
+<a name="38"><q-n>     38  </q-n></a><q-w>always</q-w>@(<q-a>posedge</q-w> HCLK,<q-a>negedge</q-w> HRESETn)
+<a name="39"><q-n>     39  </q-n></a>  <q-w>begin</q-w>
+<a name="40"><q-n>     40  </q-n></a>	HRESP=0;
+<a name="41"><q-n>     41  </q-n></a>
+<a name="42"><q-n>     42  </q-n></a>	<q-w>if</q-w>(~HRESETn)
+<a name="43"><q-n>     43  </q-n></a>       	 <q-w>begin</q-w>
+<a name="44"><q-n>     44  </q-n></a>          HADDR_1&lt;=0;
+<a name="45"><q-n>     45  </q-n></a>	  HADDR_2&lt;=0;
+<a name="46"><q-n>     46  </q-n></a>	  HADDR_3&lt;=0;
+<a name="47"><q-n>     47  </q-n></a>	 <q-w>end</q-w>
+<a name="48"><q-n>     48  </q-n></a>
+<a name="49"><q-n>     49  </q-n></a>	
+<a name="50"><q-n>     50  </q-n></a>	<q-w>else</q-w>
+<a name="51"><q-n>     51  </q-n></a>	  <q-w>begin</q-w>
+<a name="52"><q-n>     52  </q-n></a>	    HADDR_1&lt;=HADDR;
+<a name="53"><q-n>     53  </q-n></a>	    HADDR_2&lt;=HADDR_1;
+<a name="54"><q-n>     54  </q-n></a>	    HADDR_3&lt;=HADDR_2;
+<a name="55"><q-n>     55  </q-n></a>	  <q-w>end</q-w>
+<a name="56"><q-n>     56  </q-n></a> <q-w>end</q-w>
+<a name="57"><q-n>     57  </q-n></a>
+<a name="58"><q-n>     58  </q-n></a>
+<a name="59"><q-n>     59  </q-n></a><q-w>always</q-w>@(<q-a>posedge</q-w> HCLK, <q-a>negedge</q-w> HRESETn)
+<a name="60"><q-n>     60  </q-n></a>  <q-w>begin</q-w>
+<a name="61"><q-n>     61  </q-n></a>	<q-w>if</q-w>(~HRESETn)
+<a name="62"><q-n>     62  </q-n></a>	  <q-w>begin</q-w>
+<a name="63"><q-n>     63  </q-n></a>	    HWDATA_1&lt;=0;
+<a name="64"><q-n>     64  </q-n></a>	    HWDATA_2&lt;=0;
+<a name="65"><q-n>     65  </q-n></a>	    HWDATA_3&lt;=0;
+<a name="66"><q-n>     66  </q-n></a>	  <q-w>end</q-w>
+<a name="67"><q-n>     67  </q-n></a>
+<a name="68"><q-n>     68  </q-n></a>	<q-w>else</q-w>
+<a name="69"><q-n>     69  </q-n></a>	  <q-w>begin</q-w>
+<a name="70"><q-n>     70  </q-n></a>	   HWDATA_1&lt;=HWDATA;
+<a name="71"><q-n>     71  </q-n></a>	   HWDATA_2&lt;=HWDATA_1;
+<a name="72"><q-n>     72  </q-n></a>	   HWDATA_3&lt;=HWDATA_2;
+<a name="73"><q-n>     73  </q-n></a>	  <q-w>end</q-w>
+<a name="74"><q-n>     74  </q-n></a>  <q-w>end</q-w>
+<a name="75"><q-n>     75  </q-n></a>
+<a name="76"><q-n>     76  </q-n></a>
+<a name="77"><q-n>     77  </q-n></a><q-w>always</q-w>@(<q-a>posedge</q-w> HCLK, <q-a>negedge</q-w> HRESETn)
+<a name="78"><q-n>     78  </q-n></a>  <q-w>begin</q-w>
+<a name="79"><q-n>     79  </q-n></a>	<q-w>if</q-w>(~HRESETn)
+<a name="80"><q-n>     80  </q-n></a>	   HWRITEreg&lt;=0;
+<a name="81"><q-n>     81  </q-n></a>	<q-w>else</q-w>
+<a name="82"><q-n>     82  </q-n></a>	   HWRITEreg&lt;=HWRITE;
+<a name="83"><q-n>     83  </q-n></a>  <q-w>end</q-w>
+<a name="84"><q-n>     84  </q-n></a>       
+<a name="85"><q-n>     85  </q-n></a>
+<a name="86"><q-n>     86  </q-n></a><q-w>always</q-w>@(*)
+<a name="87"><q-n>     87  </q-n></a>  <q-w>begin</q-w>
+<a name="88"><q-n>     88  </q-n></a>    <q-w>if</q-w>(~HRESETn)
+<a name="89"><q-n>     89  </q-n></a>       valid=0;
+<a name="90"><q-n>     90  </q-n></a>    
+<a name="91"><q-n>     91  </q-n></a>    <q-w>else</q-w> <q-w>if</q-w>((HADDR&gt;=32'h4000_0000 &amp;&amp; HADDR&lt;= 32'h4000_FFFF) <q-m>/*&amp;&amp;  (HTRANS==NONSEQ || HTRANS==SEQ)*/</q-m>)
+<a name="92"><q-n>     92  </q-n></a>     
+<a name="93"><q-n>     93  </q-n></a>         valid=1'b1;
+<a name="94"><q-n>     94  </q-n></a>    <q-w>else</q-w>
+<a name="95"><q-n>     95  </q-n></a>         valid=1'b0;
+<a name="96"><q-n>     96  </q-n></a>   <q-w>end</q-w>
+<a name="97"><q-n>     97  </q-n></a>
+<a name="98"><q-n>     98  </q-n></a>
+<a name="99"><q-n>     99  </q-n></a><q-w>always</q-w>@(*)
+<a name="100"><q-n>     100  </q-n></a>  <q-w>begin</q-w>
+<a name="101"><q-n>     101  </q-n></a>
+<a name="102"><q-n>     102  </q-n></a>   
+<a name="103"><q-n>     103  </q-n></a>         <q-w>if</q-w>((HADDR&gt;=32'h4000_2000 &amp;&amp; HADDR&lt;= 32'h4000_2FFF)) 
+<a name="104"><q-n>     104  </q-n></a>		TEMP_SEL=3'b100;
+<a name="105"><q-n>     105  </q-n></a>	 <q-w>else</q-w> <q-w>if</q-w>((HADDR&gt;=32'h4000_1000 &amp;&amp; HADDR&lt;= 32'h4000_1FFF))
+<a name="106"><q-n>     106  </q-n></a>		TEMP_SEL=3'b010;
+<a name="107"><q-n>     107  </q-n></a> 	 <q-w>else</q-w> <q-w>if</q-w>((HADDR&gt;=32'h4000_0000 &amp;&amp; HADDR&lt;= 32'h4000_0FFF))
+<a name="108"><q-n>     108  </q-n></a>		TEMP_SEL=3'b001;
+<a name="109"><q-n>     109  </q-n></a>	<q-m>//secure purpose , modified</q-m>
+<a name="110"><q-n>     110  </q-n></a>	<q-m>//else TEMP_SEL=3'b000;</q-m>
+<a name="111"><q-n>     111  </q-n></a>		
+<a name="112"><q-n>     112  </q-n></a>	 
+<a name="113"><q-n>     113  </q-n></a>  <q-w>end</q-w>
+<a name="114"><q-n>     114  </q-n></a><q-w>endmodule</q-w>
+<a name="115"><q-n>     115  </q-n></a>
+<a name="116"><q-n>     116  </q-n></a>
+<a name="117"><q-n>     117  </q-n></a>
+<a name="118"><q-n>     118  </q-n></a> 
+<a name="119"><q-n>     119  </q-n></a>     
+<a name="120"><q-n>     120  </q-n></a>    
+<a name="121"><q-n>     121  </q-n></a>
+<a name="122"><q-n>     122  </q-n></a>
+<a name="123"><q-n>     123  </q-n></a>
+<a name="124"><q-n>     124  </q-n></a>
+<a name="125"><q-n>     125  </q-n></a>
+<a name="126"><q-n>     126  </q-n></a>
+<a name="127"><q-n>     127  </q-n></a>
+<a name="128"><q-n>     128  </q-n></a>
+<a name="129"><q-n>     129  </q-n></a>	
+<a name="130"><q-n>     130  </q-n></a>	    
+<a name="131"><q-n>     131  </q-n></a>	
+<a name="132"><q-n>     132  </q-n></a>
+<a name="133"><q-n>     133  </q-n></a>
+<a name="134"><q-n>     134  </q-n></a>
+<a name="135"><q-n>     135  </q-n></a>
+<a name="136"><q-n>     136  </q-n></a>
+<a name="137"><q-n>     137  </q-n></a>
+<a name="138"><q-n>     138  </q-n></a>
+<a name="139"><q-n>     139  </q-n></a>
+<a name="140"><q-n>     140  </q-n></a>
+<a name="141"><q-n>     141  </q-n></a>	
+<a name="142"><q-n>     142  </q-n></a>	
+<a name="143"><q-n>     143  </q-n></a>	
+<a name="144"><q-n>     144  </q-n></a>	
+</pre>
+</tt>
+
+  
+</body>
+</html>

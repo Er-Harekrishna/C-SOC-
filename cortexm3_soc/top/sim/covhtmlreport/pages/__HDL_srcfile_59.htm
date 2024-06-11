@@ -1,0 +1,80 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////////////////////////////////////////</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>//</q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>//  NAME      :- Pradip Prajapati</q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>//  FILE_NAME :- ahb_system_config.svh</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>//  EDITED_BY :- Pradip Prajapati</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>//</q-m>
+<a name="7"><q-n>     7  </q-n></a><q-m>/////////////////////////////////////////////////////////////////////////////////////////////////////////////</q-m>
+<a name="8"><q-n>     8  </q-n></a>
+<a name="9"><q-n>     9  </q-n></a><q-w>class</q-w> ahb_system_config <q-w>extends</q-w> uvm_object;
+<a name="10"><q-n>     10  </q-n></a>
+<a name="11"><q-n>     11  </q-n></a>  <q-m>//configurations which can be modified</q-m>
+<a name="12"><q-n>     12  </q-n></a>  ahb_env_config env_cfg; 
+<a name="13"><q-n>     13  </q-n></a>
+<a name="14"><q-n>     14  </q-n></a>  <q-m>//factory registration</q-m>
+<a name="15"><q-n>     15  </q-n></a>  `uvm_object_utils(ahb_system_config)
+<a name="16"><q-n>     16  </q-n></a>
+<a name="17"><q-n>     17  </q-n></a>  <q-w>extern</q-w> <q-w>function</q-w> <q-w>new</q-w>(<q-w>string</q-w> name=<q-l>"ahb_system_config"</q-l>);
+<a name="18"><q-n>     18  </q-n></a>  
+<a name="19"><q-n>     19  </q-n></a><q-w>endclass</q-w> : ahb_system_config
+<a name="20"><q-n>     20  </q-n></a>
+<a name="21"><q-n>     21  </q-n></a><q-m>//*****************************************************************************</q-m>
+<a name="22"><q-n>     22  </q-n></a><q-m>//methods</q-m>
+<a name="23"><q-n>     23  </q-n></a><q-m>//*****************************************************************************</q-m>
+<a name="24"><q-n>     24  </q-n></a>
+<a name="25"><q-n>     25  </q-n></a><q-m>//new function</q-m>
+<a name="26"><q-n>     26  </q-n></a><q-w>function</q-w> ahb_system_config::<q-w>new</q-w>(<q-w>string</q-w> name=<q-l>"ahb_system_config"</q-l>);
+<a name="27"><q-n>     27  </q-n></a>
+<a name="28"><q-n>     28  </q-n></a>  <q-w>super</q-w>.<q-w>new</q-w>(name);
+<a name="29"><q-n>     29  </q-n></a>
+<a name="30"><q-n>     30  </q-n></a>  env_cfg = ahb_env_config::type_id::create($sformatf(<q-l>"env_cfg"</q-l>));   
+<a name="31"><q-n>     31  </q-n></a>  
+<a name="32"><q-n>     32  </q-n></a>  env_cfg.has_scoreboard = 0;
+<a name="33"><q-n>     33  </q-n></a>  env_cfg.has_coverage = 0;
+<a name="34"><q-n>     34  </q-n></a>  env_cfg.no_of_uvc = 1;
+<a name="35"><q-n>     35  </q-n></a>  env_cfg.create_sub_cfgs(1);
+<a name="36"><q-n>     36  </q-n></a>  <q-m>//env_cfg.uvc_cfg[0].no_of_masters = 1;</q-m>
+<a name="37"><q-n>     37  </q-n></a>  <q-m>//env_cfg.uvc_cfg[0].no_of_slaves  = 0;</q-m>
+<a name="38"><q-n>     38  </q-n></a>  env_cfg.uvc_cfg[0].no_of_masters = 5;
+<a name="39"><q-n>     39  </q-n></a>  env_cfg.uvc_cfg[0].no_of_slaves  = 5;
+<a name="40"><q-n>     40  </q-n></a>  
+<a name="41"><q-n>     41  </q-n></a>  env_cfg.uvc_cfg[0].create_sub_cfgs(5,5);
+<a name="42"><q-n>     42  </q-n></a>  
+<a name="43"><q-n>     43  </q-n></a>  env_cfg.uvc_cfg[0].master_cfg[0].is_active = UVM_PASSIVE;
+<a name="44"><q-n>     44  </q-n></a>  env_cfg.uvc_cfg[0].master_cfg[1].is_active = UVM_PASSIVE;
+<a name="45"><q-n>     45  </q-n></a>  env_cfg.uvc_cfg[0].master_cfg[2].is_active = UVM_PASSIVE;
+<a name="46"><q-n>     46  </q-n></a>  env_cfg.uvc_cfg[0].master_cfg[3].is_active = UVM_PASSIVE;
+<a name="47"><q-n>     47  </q-n></a>  env_cfg.uvc_cfg[0].master_cfg[4].is_active = UVM_PASSIVE;
+<a name="48"><q-n>     48  </q-n></a>  
+<a name="49"><q-n>     49  </q-n></a>  env_cfg.uvc_cfg[0].master_cfg[0].is_enable = DISABLE;
+<a name="50"><q-n>     50  </q-n></a>  env_cfg.uvc_cfg[0].master_cfg[1].is_enable = DISABLE;
+<a name="51"><q-n>     51  </q-n></a>  env_cfg.uvc_cfg[0].master_cfg[2].is_enable = DISABLE;
+<a name="52"><q-n>     52  </q-n></a>  env_cfg.uvc_cfg[0].master_cfg[3].is_enable = DISABLE;
+<a name="53"><q-n>     53  </q-n></a>  env_cfg.uvc_cfg[0].master_cfg[4].is_enable = DISABLE;
+<a name="54"><q-n>     54  </q-n></a>  
+<a name="55"><q-n>     55  </q-n></a>  env_cfg.uvc_cfg[0].slave_cfg[0].is_active = UVM_PASSIVE;
+<a name="56"><q-n>     56  </q-n></a>  env_cfg.uvc_cfg[0].slave_cfg[1].is_active = UVM_PASSIVE;
+<a name="57"><q-n>     57  </q-n></a>  env_cfg.uvc_cfg[0].slave_cfg[2].is_active = UVM_PASSIVE;
+<a name="58"><q-n>     58  </q-n></a>  env_cfg.uvc_cfg[0].slave_cfg[3].is_active = UVM_PASSIVE;
+<a name="59"><q-n>     59  </q-n></a>  env_cfg.uvc_cfg[0].slave_cfg[4].is_active = UVM_PASSIVE;
+<a name="60"><q-n>     60  </q-n></a>
+<a name="61"><q-n>     61  </q-n></a>  env_cfg.print();
+<a name="62"><q-n>     62  </q-n></a>
+<a name="63"><q-n>     63  </q-n></a><q-w>endfunction</q-w> : <q-w>new</q-w>
+<a name="64"><q-n>     64  </q-n></a>
+</pre>
+</tt>
+
+  
+</body>
+</html>

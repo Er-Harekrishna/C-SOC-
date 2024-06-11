@@ -1,0 +1,272 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a>
+<a name="2"><q-n>     2  </q-n></a><q-w>import</q-w> uvm_pkg::*;
+<a name="3"><q-n>     3  </q-n></a>`<q-i>include</q-w> <q-l>"uvm_macros.svh"</q-l>
+<a name="4"><q-n>     4  </q-n></a>
+<a name="5"><q-n>     5  </q-n></a><q-m>//`include "common_if.sv"</q-m>
+<a name="6"><q-n>     6  </q-n></a>`<q-i>include</q-w> <q-l>"cm3_outM0.v"</q-l>
+<a name="7"><q-n>     7  </q-n></a>`<q-i>include</q-w> <q-l>"cm3_outM1.v"</q-l>
+<a name="8"><q-n>     8  </q-n></a>`<q-i>include</q-w> <q-l>"cm3_outM2.v"</q-l>
+<a name="9"><q-n>     9  </q-n></a>`<q-i>include</q-w> <q-l>"cm3_outM3.v"</q-l>
+<a name="10"><q-n>     10  </q-n></a>`<q-i>include</q-w> <q-l>"cm3_matrix_default_slave.v"</q-l>
+<a name="11"><q-n>     11  </q-n></a>`<q-i>include</q-w> <q-l>"cmsdk_MyArbiterNameM0.v"</q-l>
+<a name="12"><q-n>     12  </q-n></a>`<q-i>include</q-w> <q-l>"cmsdk_MyArbiterNameM1.v"</q-l>
+<a name="13"><q-n>     13  </q-n></a>`<q-i>include</q-w> <q-l>"cmsdk_MyArbiterNameM2.v"</q-l>
+<a name="14"><q-n>     14  </q-n></a>`<q-i>include</q-w> <q-l>"cmsdk_MyArbiterNameM3.v"</q-l>
+<a name="15"><q-n>     15  </q-n></a>`<q-i>include</q-w> <q-l>"cmsdk_MyDecoderNameS0.v"</q-l>
+<a name="16"><q-n>     16  </q-n></a>`<q-i>include</q-w> <q-l>"cmsdk_MyDecoderNameS1.v"</q-l>
+<a name="17"><q-n>     17  </q-n></a>`<q-i>include</q-w> <q-l>"cmsdk_MyDecoderNameS3.v"</q-l>
+<a name="18"><q-n>     18  </q-n></a>`<q-i>include</q-w> <q-l>"cmsdk_MyDecoderNameS4.v"</q-l>
+<a name="19"><q-n>     19  </q-n></a>`<q-i>include</q-w> <q-l>"cmsdk_MyDecoderNameS5.v"</q-l>
+<a name="20"><q-n>     20  </q-n></a>`<q-i>include</q-w> <q-l>"cm3_matrix.v"</q-l>
+<a name="21"><q-n>     21  </q-n></a>`<q-i>include</q-w> <q-l>"cm3_matrix_lite.v"</q-l>
+<a name="22"><q-n>     22  </q-n></a>`<q-i>include</q-w> <q-l>"cm3_in.v"</q-l>
+<a name="23"><q-n>     23  </q-n></a>
+<a name="24"><q-n>     24  </q-n></a>`<q-i>include</q-w> <q-l>"cmsdk_ahb_to_sram.v"</q-l>
+<a name="25"><q-n>     25  </q-n></a>
+<a name="26"><q-n>     26  </q-n></a>`<q-i>include</q-w> <q-l>"cmsdk_fpga_sram.v"</q-l>
+<a name="27"><q-n>     27  </q-n></a>
+<a name="28"><q-n>     28  </q-n></a>`<q-i>include</q-w> <q-l>"cortexm3ds_logic.v"</q-l>
+<a name="29"><q-n>     29  </q-n></a>`<q-i>include</q-w> <q-l>"CORTEXM3INTEGRATIONDS.v"</q-l>
+<a name="30"><q-n>     30  </q-n></a>
+<a name="31"><q-n>     31  </q-n></a>`<q-i>include</q-w> <q-l>"cortexm3_soc.v"</q-l>
+<a name="32"><q-n>     32  </q-n></a>
+<a name="33"><q-n>     33  </q-n></a>`<q-i>include</q-w> <q-l>"ahb_defines.sv"</q-l>
+<a name="34"><q-n>     34  </q-n></a>`<q-i>include</q-w> <q-l>"ahb_dut.v"</q-l>
+<a name="35"><q-n>     35  </q-n></a>`<q-i>include</q-w> <q-l>"ahb_dut_wrapper.sv"</q-l>
+<a name="36"><q-n>     36  </q-n></a>
+<a name="37"><q-n>     37  </q-n></a>`<q-i>include</q-w> <q-l>"top_rtl.v"</q-l>
+<a name="38"><q-n>     38  </q-n></a>`<q-i>include</q-w> <q-l>"apb_memory.v"</q-l>
+<a name="39"><q-n>     39  </q-n></a>`<q-i>include</q-w> <q-l>"i2c.v"</q-l>
+<a name="40"><q-n>     40  </q-n></a>`<q-i>include</q-w> <q-l>"apb_uart.sv"</q-l>
+<a name="41"><q-n>     41  </q-n></a>
+<a name="42"><q-n>     42  </q-n></a>`<q-i>include</q-w> <q-l>"apb_defines.sv"</q-l>
+<a name="43"><q-n>     43  </q-n></a>`<q-i>include</q-w> <q-l>"uart_interface.sv"</q-l>
+<a name="44"><q-n>     44  </q-n></a>
+<a name="45"><q-n>     45  </q-n></a><q-w>module</q-w> cortexm3_soc_tb();
+<a name="46"><q-n>     46  </q-n></a>
+<a name="47"><q-n>     47  </q-n></a>  <q-w>reg</q-w> HCLK;
+<a name="48"><q-n>     48  </q-n></a>  <q-w>reg</q-w> HRESETn;
+<a name="49"><q-n>     49  </q-n></a>
+<a name="50"><q-n>     50  </q-n></a>  <q-w>wire</q-w> TX_o_AU,RX_i_AU;
+<a name="51"><q-n>     51  </q-n></a>
+<a name="52"><q-n>     52  </q-n></a>  <q-m>/** Import the AHB VIP */</q-m>
+<a name="53"><q-n>     53  </q-n></a>  <q-w>import</q-w> ahb_pkg::*;
+<a name="54"><q-n>     54  </q-n></a>  `<q-i>include</q-w> <q-l>"ahb_base_test.sv"</q-l>
+<a name="55"><q-n>     55  </q-n></a>
+<a name="56"><q-n>     56  </q-n></a>  <q-w>import</q-w> uvc_pkg::*;
+<a name="57"><q-n>     57  </q-n></a>
+<a name="58"><q-n>     58  </q-n></a>  <q-w>initial</q-w> <q-w>begin</q-w>
+<a name="59"><q-n>     59  </q-n></a>    HCLK = 0;
+<a name="60"><q-n>     60  </q-n></a>    HRESETn = 0;
+<a name="61"><q-n>     61  </q-n></a>    #103 HRESETn = 1;
+<a name="62"><q-n>     62  </q-n></a>    #39647 HRESETn = 0;
+<a name="63"><q-n>     63  </q-n></a>    #150 HRESETn = 1;
+<a name="64"><q-n>     64  </q-n></a>  <q-w>end</q-w>
+<a name="65"><q-n>     65  </q-n></a>  
+<a name="66"><q-n>     66  </q-n></a>  <q-w>always</q-w> #30 HCLK = ~HCLK;
+<a name="67"><q-n>     67  </q-n></a>
+<a name="68"><q-n>     68  </q-n></a>  cortexm3_soc cortexm3_soc_i0 (.HCLK(HCLK),
+<a name="69"><q-n>     69  </q-n></a>                                .HRESETn(HRESETn),
+<a name="70"><q-n>     70  </q-n></a>			        .TX_o_AU(TX_o_AU),
+<a name="71"><q-n>     71  </q-n></a>				.RX_i_AU(RX_i_AU));
+<a name="72"><q-n>     72  </q-n></a>
+<a name="73"><q-n>     73  </q-n></a>  <q-w>assign</q-w> RX_i_AU = TX_o_AU;
+<a name="74"><q-n>     74  </q-n></a>
+<a name="75"><q-n>     75  </q-n></a>  ahb_inf  sram_ahb_inf();
+<a name="76"><q-n>     76  </q-n></a>  sram_inf sram_if(HCLK);
+<a name="77"><q-n>     77  </q-n></a>
+<a name="78"><q-n>     78  </q-n></a>  <q-w>assign</q-w> sram_ahb_inf.hclk = HCLK;
+<a name="79"><q-n>     79  </q-n></a>  
+<a name="80"><q-n>     80  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.hresetn = HRESETn; 
+<a name="81"><q-n>     81  </q-n></a>
+<a name="82"><q-n>     82  </q-n></a>  <q-m>//M0</q-m>
+<a name="83"><q-n>     83  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[0].HSEL      = cortexm3_soc_i0.HSELM0;
+<a name="84"><q-n>     84  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[0].HADDR     = cortexm3_soc_i0.HADDRM0;
+<a name="85"><q-n>     85  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[0].HTRANS    = cortexm3_soc_i0.HTRANSM0;
+<a name="86"><q-n>     86  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[0].HBURST    = cortexm3_soc_i0.HBURSTM0;
+<a name="87"><q-n>     87  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[0].HPROT     = cortexm3_soc_i0.HPROTM0;
+<a name="88"><q-n>     88  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[0].HMASTLOCK = cortexm3_soc_i0.HMASTLOCKM0;
+<a name="89"><q-n>     89  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[0].HWRITE    = cortexm3_soc_i0.HWRITEM0;
+<a name="90"><q-n>     90  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[0].HSIZE     = cortexm3_soc_i0.HSIZEM0;
+<a name="91"><q-n>     91  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[0].HWDATA    = cortexm3_soc_i0.HWDATAM0;
+<a name="92"><q-n>     92  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[0].HRDATA    = cortexm3_soc_i0.HRDATAM0;
+<a name="93"><q-n>     93  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[0].HREADY    = cortexm3_soc_i0.HREADYOUTM0;
+<a name="94"><q-n>     94  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[0].HRESP     = cortexm3_soc_i0.HRESPM0;
+<a name="95"><q-n>     95  </q-n></a>
+<a name="96"><q-n>     96  </q-n></a>  <q-m>//M1</q-m>
+<a name="97"><q-n>     97  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[1].HSEL      = cortexm3_soc_i0.HSELM1;
+<a name="98"><q-n>     98  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[1].HADDR     = cortexm3_soc_i0.HADDRM1;
+<a name="99"><q-n>     99  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[1].HTRANS    = cortexm3_soc_i0.HTRANSM1;
+<a name="100"><q-n>     100  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[1].HBURST    = cortexm3_soc_i0.HBURSTM1;
+<a name="101"><q-n>     101  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[1].HPROT     = cortexm3_soc_i0.HPROTM1;
+<a name="102"><q-n>     102  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[1].HMASTLOCK = cortexm3_soc_i0.HMASTLOCKM1;
+<a name="103"><q-n>     103  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[1].HWRITE    = cortexm3_soc_i0.HWRITEM1;
+<a name="104"><q-n>     104  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[1].HSIZE     = cortexm3_soc_i0.HSIZEM1;
+<a name="105"><q-n>     105  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[1].HWDATA    = cortexm3_soc_i0.HWDATAM1;
+<a name="106"><q-n>     106  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[1].HRDATA    = cortexm3_soc_i0.HRDATAM1;
+<a name="107"><q-n>     107  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[1].HREADY    = cortexm3_soc_i0.HREADYOUTM1;
+<a name="108"><q-n>     108  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[1].HRESP     = cortexm3_soc_i0.HRESPM1;
+<a name="109"><q-n>     109  </q-n></a>
+<a name="110"><q-n>     110  </q-n></a>  <q-m>//M2</q-m>
+<a name="111"><q-n>     111  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[2].HSEL      = cortexm3_soc_i0.HSELM2;
+<a name="112"><q-n>     112  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[2].HADDR     = cortexm3_soc_i0.HADDRM2;
+<a name="113"><q-n>     113  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[2].HTRANS    = cortexm3_soc_i0.HTRANSM2;
+<a name="114"><q-n>     114  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[2].HBURST    = cortexm3_soc_i0.HBURSTM2;
+<a name="115"><q-n>     115  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[2].HPROT     = cortexm3_soc_i0.HPROTM2;
+<a name="116"><q-n>     116  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[2].HMASTLOCK = cortexm3_soc_i0.HMASTLOCKM2;
+<a name="117"><q-n>     117  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[2].HWRITE    = cortexm3_soc_i0.HWRITEM2;
+<a name="118"><q-n>     118  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[2].HSIZE     = cortexm3_soc_i0.HSIZEM2;
+<a name="119"><q-n>     119  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[2].HWDATA    = cortexm3_soc_i0.HWDATAM2;
+<a name="120"><q-n>     120  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[2].HRDATA    = cortexm3_soc_i0.HRDATAM2;
+<a name="121"><q-n>     121  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[2].HREADY    = cortexm3_soc_i0.HREADYOUTM2;
+<a name="122"><q-n>     122  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[2].HRESP     = cortexm3_soc_i0.HRESPM2;
+<a name="123"><q-n>     123  </q-n></a>
+<a name="124"><q-n>     124  </q-n></a>  <q-m>//M3</q-m>
+<a name="125"><q-n>     125  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[3].HSEL      = cortexm3_soc_i0.HSELM3;
+<a name="126"><q-n>     126  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[3].HADDR     = cortexm3_soc_i0.HADDRM3;
+<a name="127"><q-n>     127  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[3].HTRANS    = cortexm3_soc_i0.HTRANSM3;
+<a name="128"><q-n>     128  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[3].HBURST    = cortexm3_soc_i0.HBURSTM3;
+<a name="129"><q-n>     129  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[3].HPROT     = cortexm3_soc_i0.HPROTM3;
+<a name="130"><q-n>     130  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[3].HMASTLOCK = cortexm3_soc_i0.HMASTLOCKM3;
+<a name="131"><q-n>     131  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[3].HWRITE    = cortexm3_soc_i0.HWRITEM3;
+<a name="132"><q-n>     132  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[3].HSIZE     = cortexm3_soc_i0.HSIZEM3;
+<a name="133"><q-n>     133  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[3].HWDATA    = cortexm3_soc_i0.HWDATAM3;
+<a name="134"><q-n>     134  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[3].HRDATA    = cortexm3_soc_i0.HRDATAM3;
+<a name="135"><q-n>     135  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[3].HREADY    = cortexm3_soc_i0.HREADYOUTM3;
+<a name="136"><q-n>     136  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[3].HRESP     = cortexm3_soc_i0.HRESPM3;
+<a name="137"><q-n>     137  </q-n></a>
+<a name="138"><q-n>     138  </q-n></a>  <q-m>//AHB_TO_SRAMS</q-m>
+<a name="139"><q-n>     139  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[4].HSEL      = cortexm3_soc_i0.HSEL_SRAMS;
+<a name="140"><q-n>     140  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[4].HADDR     = cortexm3_soc_i0.HADDR_SRAMS;
+<a name="141"><q-n>     141  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[4].HTRANS    = cortexm3_soc_i0.HTRANS_SRAMS;
+<a name="142"><q-n>     142  </q-n></a>  <q-m>//always@(*) sram_ahb_inf.mas_if[4].HBURST    = cortexm3_soc_i0.HBURST_SRAMS;</q-m>
+<a name="143"><q-n>     143  </q-n></a>  <q-m>//always@(*) sram_ahb_inf.mas_if[4].HPROT     = cortexm3_soc_i0.HPROT_SRAMS;</q-m>
+<a name="144"><q-n>     144  </q-n></a>  <q-m>//always@(*) sram_ahb_inf.mas_if[4].HMASTLOCK = cortexm3_soc_i0.HMASTLOCK_SRAMS;</q-m>
+<a name="145"><q-n>     145  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[4].HWRITE    = cortexm3_soc_i0.HWRITE_SRAMS;
+<a name="146"><q-n>     146  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[4].HSIZE     = cortexm3_soc_i0.HSIZE_SRAMS;
+<a name="147"><q-n>     147  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[4].HWDATA    = cortexm3_soc_i0.HWDATA_SRAMS;
+<a name="148"><q-n>     148  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[4].HRDATA    = cortexm3_soc_i0.HRDATA_SRAMS;
+<a name="149"><q-n>     149  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[4].HREADY    = cortexm3_soc_i0.HREADYOUT_SRAMS;
+<a name="150"><q-n>     150  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.mas_if[4].HRESP     = cortexm3_soc_i0.HRESP_SRAMS;
+<a name="151"><q-n>     151  </q-n></a>
+<a name="152"><q-n>     152  </q-n></a>  <q-m>//SRAMS</q-m>
+<a name="153"><q-n>     153  </q-n></a>  <q-w>always</q-w>@(*) sram_if.SRAMCS    = cortexm3_soc_i0.CS_SRAMS;
+<a name="154"><q-n>     154  </q-n></a>  <q-w>always</q-w>@(*) sram_if.SRAMWEN   = cortexm3_soc_i0.WREN_SRAMS;
+<a name="155"><q-n>     155  </q-n></a>  <q-w>always</q-w>@(*) sram_if.SRAMADDR  = cortexm3_soc_i0.ADDR_SRAMS;
+<a name="156"><q-n>     156  </q-n></a>  <q-w>always</q-w>@(*) sram_if.SRAMWDATA = cortexm3_soc_i0.WDATA_SRAMS;
+<a name="157"><q-n>     157  </q-n></a>  <q-w>always</q-w>@(*) sram_if.SRAMRDATA = cortexm3_soc_i0.RDATA_SRAMS;
+<a name="158"><q-n>     158  </q-n></a>
+<a name="159"><q-n>     159  </q-n></a>  <q-m>//S0 </q-m>
+<a name="160"><q-n>     160  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[0].HADDR     = cortexm3_soc_i0.HADDRS0;
+<a name="161"><q-n>     161  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[0].HTRANS    = cortexm3_soc_i0.HTRANSS0;
+<a name="162"><q-n>     162  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[0].HBURST    = cortexm3_soc_i0.HBURSTS0;
+<a name="163"><q-n>     163  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[0].HPROT     = cortexm3_soc_i0.HPROTS0;
+<a name="164"><q-n>     164  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[0].HMASTLOCK = cortexm3_soc_i0.HMASTLOCKS0;
+<a name="165"><q-n>     165  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[0].HWRITE    = cortexm3_soc_i0.HWRITES0;
+<a name="166"><q-n>     166  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[0].HSIZE     = cortexm3_soc_i0.HSIZES0;
+<a name="167"><q-n>     167  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[0].HWDATA    = cortexm3_soc_i0.HWDATAS0;
+<a name="168"><q-n>     168  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[0].HRDATA    = cortexm3_soc_i0.HRDATAS0;
+<a name="169"><q-n>     169  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[0].HREADY_IN = cortexm3_soc_i0.HREADYS0;
+<a name="170"><q-n>     170  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[0].HRESP     = cortexm3_soc_i0.HRESPS0;
+<a name="171"><q-n>     171  </q-n></a>
+<a name="172"><q-n>     172  </q-n></a>  <q-m>//S1</q-m>
+<a name="173"><q-n>     173  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[1].HADDR     = cortexm3_soc_i0.HADDRS1;
+<a name="174"><q-n>     174  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[1].HTRANS    = cortexm3_soc_i0.HTRANSS1;
+<a name="175"><q-n>     175  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[1].HBURST    = cortexm3_soc_i0.HBURSTS1;
+<a name="176"><q-n>     176  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[1].HPROT     = cortexm3_soc_i0.HPROTS1;
+<a name="177"><q-n>     177  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[1].HMASTLOCK = cortexm3_soc_i0.HMASTLOCKS1;
+<a name="178"><q-n>     178  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[1].HWRITE    = cortexm3_soc_i0.HWRITES1;
+<a name="179"><q-n>     179  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[1].HSIZE     = cortexm3_soc_i0.HSIZES1;
+<a name="180"><q-n>     180  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[1].HWDATA    = cortexm3_soc_i0.HWDATAS1;
+<a name="181"><q-n>     181  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[1].HRDATA    = cortexm3_soc_i0.HRDATAS1;
+<a name="182"><q-n>     182  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[1].HREADY_IN = cortexm3_soc_i0.HREADYS1;
+<a name="183"><q-n>     183  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[1].HRESP     = cortexm3_soc_i0.HRESPS1;
+<a name="184"><q-n>     184  </q-n></a>
+<a name="185"><q-n>     185  </q-n></a>  <q-m>//S3</q-m>
+<a name="186"><q-n>     186  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[2].HADDR     = cortexm3_soc_i0.HADDRS3;
+<a name="187"><q-n>     187  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[2].HTRANS    = cortexm3_soc_i0.HTRANSS3;
+<a name="188"><q-n>     188  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[2].HBURST    = cortexm3_soc_i0.HBURSTS3;
+<a name="189"><q-n>     189  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[2].HPROT     = cortexm3_soc_i0.HPROTS3;
+<a name="190"><q-n>     190  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[2].HMASTLOCK = cortexm3_soc_i0.HMASTLOCKS3;
+<a name="191"><q-n>     191  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[2].HWRITE    = cortexm3_soc_i0.HWRITES3;
+<a name="192"><q-n>     192  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[2].HSIZE     = cortexm3_soc_i0.HSIZES3;
+<a name="193"><q-n>     193  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[2].HWDATA    = cortexm3_soc_i0.HWDATAS3;
+<a name="194"><q-n>     194  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[2].HRDATA    = cortexm3_soc_i0.HRDATAS3;
+<a name="195"><q-n>     195  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[2].HREADY_IN = cortexm3_soc_i0.HREADYS3;
+<a name="196"><q-n>     196  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[2].HRESP     = cortexm3_soc_i0.HRESPS3;
+<a name="197"><q-n>     197  </q-n></a>
+<a name="198"><q-n>     198  </q-n></a>  <q-m>//S4</q-m>
+<a name="199"><q-n>     199  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[3].HADDR     = cortexm3_soc_i0.HADDRS4;
+<a name="200"><q-n>     200  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[3].HTRANS    = cortexm3_soc_i0.HTRANSS4;
+<a name="201"><q-n>     201  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[3].HBURST    = cortexm3_soc_i0.HBURSTS4;
+<a name="202"><q-n>     202  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[3].HPROT     = cortexm3_soc_i0.HPROTS4;
+<a name="203"><q-n>     203  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[3].HMASTLOCK = cortexm3_soc_i0.HMASTLOCKS4;
+<a name="204"><q-n>     204  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[3].HWRITE    = cortexm3_soc_i0.HWRITES4;
+<a name="205"><q-n>     205  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[3].HSIZE     = cortexm3_soc_i0.HSIZES4;
+<a name="206"><q-n>     206  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[3].HWDATA    = cortexm3_soc_i0.HWDATAS4;
+<a name="207"><q-n>     207  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[3].HRDATA    = cortexm3_soc_i0.HRDATAS4;
+<a name="208"><q-n>     208  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[3].HREADY_IN = cortexm3_soc_i0.HREADYS4;
+<a name="209"><q-n>     209  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[3].HRESP     = cortexm3_soc_i0.HRESPS4;
+<a name="210"><q-n>     210  </q-n></a>
+<a name="211"><q-n>     211  </q-n></a>  <q-m>//S5</q-m>
+<a name="212"><q-n>     212  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[4].HADDR     = cortexm3_soc_i0.HADDRS5;
+<a name="213"><q-n>     213  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[4].HTRANS    = cortexm3_soc_i0.HTRANSS5;
+<a name="214"><q-n>     214  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[4].HBURST    = cortexm3_soc_i0.HBURSTS5;
+<a name="215"><q-n>     215  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[4].HPROT     = cortexm3_soc_i0.HPROTS5;
+<a name="216"><q-n>     216  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[4].HMASTLOCK = cortexm3_soc_i0.HMASTLOCKS5;
+<a name="217"><q-n>     217  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[4].HWRITE    = cortexm3_soc_i0.HWRITES5;
+<a name="218"><q-n>     218  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[4].HSIZE     = cortexm3_soc_i0.HSIZES5;
+<a name="219"><q-n>     219  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[4].HWDATA    = cortexm3_soc_i0.HWDATAS5;
+<a name="220"><q-n>     220  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[4].HRDATA    = cortexm3_soc_i0.HRDATAS5;
+<a name="221"><q-n>     221  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[4].HREADY_IN = cortexm3_soc_i0.HREADYS5;
+<a name="222"><q-n>     222  </q-n></a>  <q-w>always</q-w>@(*) sram_ahb_inf.slv_if[4].HRESP     = cortexm3_soc_i0.HRESPS5;
+<a name="223"><q-n>     223  </q-n></a>
+<a name="224"><q-n>     224  </q-n></a>  uart_interface  uinf_master(HCLK,HRESETn);
+<a name="225"><q-n>     225  </q-n></a>  uart_interface  uinf_slave(HCLK,HRESETn);
+<a name="226"><q-n>     226  </q-n></a>  
+<a name="227"><q-n>     227  </q-n></a>  <q-w>always</q-w> @(*) uinf_master.rxd = cortexm3_soc_i0.TX_o_AU;
+<a name="228"><q-n>     228  </q-n></a>  <q-w>always</q-w> @(*) uinf_slave.rxd = cortexm3_soc_i0.RX_i_AU;
+<a name="229"><q-n>     229  </q-n></a>
+<a name="230"><q-n>     230  </q-n></a>  <q-w>initial</q-w> <q-w>begin</q-w>
+<a name="231"><q-n>     231  </q-n></a>
+<a name="232"><q-n>     232  </q-n></a>    uvm_config_db #(<q-w>virtual</q-w> ahb_inf)::set(<q-w>null</q-w>,<q-l>"*"</q-l>,<q-l>"inf"</q-l>,sram_ahb_inf);
+<a name="233"><q-n>     233  </q-n></a>    
+<a name="234"><q-n>     234  </q-n></a>    uvm_config_db #(<q-w>virtual</q-w> ahb_mas_inf)::set(<q-w>null</q-w>,<q-l>"*.env_h.ahb_uvc_h[0].mas_agent_h[0]*"</q-l>,<q-l>"mas_vif"</q-l>,sram_ahb_inf.mas_if[0]);	  
+<a name="235"><q-n>     235  </q-n></a>    uvm_config_db #(<q-w>virtual</q-w> ahb_mas_inf)::set(<q-w>null</q-w>,<q-l>"*.env_h.ahb_uvc_h[0].mas_agent_h[1]*"</q-l>,<q-l>"mas_vif"</q-l>,sram_ahb_inf.mas_if[1]);	  
+<a name="236"><q-n>     236  </q-n></a>    uvm_config_db #(<q-w>virtual</q-w> ahb_mas_inf)::set(<q-w>null</q-w>,<q-l>"*.env_h.ahb_uvc_h[0].mas_agent_h[2]*"</q-l>,<q-l>"mas_vif"</q-l>,sram_ahb_inf.mas_if[2]);	  
+<a name="237"><q-n>     237  </q-n></a>    uvm_config_db #(<q-w>virtual</q-w> ahb_mas_inf)::set(<q-w>null</q-w>,<q-l>"*.env_h.ahb_uvc_h[0].mas_agent_h[3]*"</q-l>,<q-l>"mas_vif"</q-l>,sram_ahb_inf.mas_if[3]);	  
+<a name="238"><q-n>     238  </q-n></a>    uvm_config_db #(<q-w>virtual</q-w> ahb_mas_inf)::set(<q-w>null</q-w>,<q-l>"*.env_h.ahb_uvc_h[0].mas_agent_h[4]*"</q-l>,<q-l>"mas_vif"</q-l>,sram_ahb_inf.mas_if[4]);	  
+<a name="239"><q-n>     239  </q-n></a>    
+<a name="240"><q-n>     240  </q-n></a>
+<a name="241"><q-n>     241  </q-n></a>    uvm_config_db #(<q-w>virtual</q-w> ahb_slv_inf)::set(<q-w>null</q-w>,<q-l>"*.env_h.ahb_uvc_h[0].slv_agent_h[0]*"</q-l>,<q-l>"slv_vif"</q-l>,sram_ahb_inf.slv_if[0]);	  
+<a name="242"><q-n>     242  </q-n></a>    uvm_config_db #(<q-w>virtual</q-w> ahb_slv_inf)::set(<q-w>null</q-w>,<q-l>"*.env_h.ahb_uvc_h[0].slv_agent_h[1]*"</q-l>,<q-l>"slv_vif"</q-l>,sram_ahb_inf.slv_if[1]);	  
+<a name="243"><q-n>     243  </q-n></a>    uvm_config_db #(<q-w>virtual</q-w> ahb_slv_inf)::set(<q-w>null</q-w>,<q-l>"*.env_h.ahb_uvc_h[0].slv_agent_h[2]*"</q-l>,<q-l>"slv_vif"</q-l>,sram_ahb_inf.slv_if[2]);	  
+<a name="244"><q-n>     244  </q-n></a>    uvm_config_db #(<q-w>virtual</q-w> ahb_slv_inf)::set(<q-w>null</q-w>,<q-l>"*.env_h.ahb_uvc_h[0].slv_agent_h[3]*"</q-l>,<q-l>"slv_vif"</q-l>,sram_ahb_inf.slv_if[3]);	  
+<a name="245"><q-n>     245  </q-n></a>    uvm_config_db #(<q-w>virtual</q-w> ahb_slv_inf)::set(<q-w>null</q-w>,<q-l>"*.env_h.ahb_uvc_h[0].slv_agent_h[4]*"</q-l>,<q-l>"slv_vif"</q-l>,sram_ahb_inf.slv_if[4]);	  
+<a name="246"><q-n>     246  </q-n></a>    
+<a name="247"><q-n>     247  </q-n></a>    uvm_config_db #(<q-w>virtual</q-w> sram_inf)::set(<q-w>null</q-w>,<q-l>"*"</q-l>,<q-l>"sram_if"</q-l>,sram_if);	  
+<a name="248"><q-n>     248  </q-n></a>       
+<a name="249"><q-n>     249  </q-n></a>    uvm_config_db#(<q-w>virtual</q-w> uart_interface)::set(<q-w>null</q-w>,<q-l>"*.env_hh*"</q-l>,<q-l>"mas_vif"</q-l>,uinf_master); 
+<a name="250"><q-n>     250  </q-n></a>    uvm_config_db#(<q-w>virtual</q-w> uart_interface)::set(<q-w>null</q-w>,<q-l>"*.env_hh*"</q-l>,<q-l>"slv_vif"</q-l>,uinf_slave); 
+<a name="251"><q-n>     251  </q-n></a>    
+<a name="252"><q-n>     252  </q-n></a>    run_test();  
+<a name="253"><q-n>     253  </q-n></a>
+<a name="254"><q-n>     254  </q-n></a>  <q-w>end</q-w>
+<a name="255"><q-n>     255  </q-n></a>
+<a name="256"><q-n>     256  </q-n></a><q-w>endmodule</q-w>
+</pre>
+</tt>
+
+  
+</body>
+</html>

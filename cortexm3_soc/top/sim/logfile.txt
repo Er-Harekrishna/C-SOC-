@@ -1,0 +1,203 @@
+# End time: 15:43:42 on May 15,2024, Elapsed time: 0:08:21
+# Errors: 2, Warnings: 6
+# vsim -novopt -suppress 12110 -l logfile.txt cortexm3_soc_tb 
+# Start time: 15:43:42 on May 15,2024
+# ** Warning: (vsim-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cortexm3_soc_tb
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.uart_interface
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cortexm3_soc_tb_sv_unit
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading sv_std.std
+# Loading mtiUvm.uvm_pkg
+# Loading work.cortexm3_soc_tb_sv_unit
+# Loading work.uart_interface
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.uvc_pkg
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.uvc_pkg
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.sram_inf
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.sram_inf
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.ahb_slv_inf
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.ahb_slv_inf
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.ahb_pkg
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.ahb_pkg
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.ahb_inf
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.ahb_inf
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.ahb_mas_inf
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.ahb_mas_inf
+# Loading work.cortexm3_soc_tb
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cortexm3_soc
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cortexm3_soc
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cmsdk_fpga_sram
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cmsdk_fpga_sram
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cmsdk_ahb_to_sram
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cmsdk_ahb_to_sram
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.ahb_to_apb
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.ahb_to_apb
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.ahb_slave
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.ahb_slave
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.fsm
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.fsm
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.apb_uart_sv
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.apb_uart_sv
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.uart_rx
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.uart_rx
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.uart_tx
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.uart_tx
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.io_generic_fifo
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.io_generic_fifo
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.uart_interrupt
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.uart_interrupt
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.i2c
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.i2c
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.fifo
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.fifo
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.apb
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.apb
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.module_i2c
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.module_i2c
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.apb_memory
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.apb_memory
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.CORTEXM3INTEGRATIONDS
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.CORTEXM3INTEGRATIONDS
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cortexm3ds_logic
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cortexm3ds_logic
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cm3_matrix_lite
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cm3_matrix_lite
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cm3_matrix
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cm3_matrix
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cm3_in
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cm3_in
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cmsdk_MyDecoderNameS0
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cmsdk_MyDecoderNameS0
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cm3_matrix_default_slave
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cm3_matrix_default_slave
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cmsdk_MyDecoderNameS1
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cmsdk_MyDecoderNameS1
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cmsdk_MyDecoderNameS3
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cmsdk_MyDecoderNameS3
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cmsdk_MyDecoderNameS4
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cmsdk_MyDecoderNameS4
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cmsdk_MyDecoderNameS5
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cmsdk_MyDecoderNameS5
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cm3_outM0
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cm3_outM0
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cmsdk_MyArbiterNameM0
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cmsdk_MyArbiterNameM0
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cm3_outM1
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cm3_outM1
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cmsdk_MyArbiterNameM1
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cmsdk_MyArbiterNameM1
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cm3_outM2
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cm3_outM2
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cmsdk_MyArbiterNameM2
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cmsdk_MyArbiterNameM2
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cm3_outM3
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cm3_outM3
+# Refreshing C:/Users/ADMIN/Desktop/SoC/cortexm3_soc/top/sim/work.cmsdk_MyArbiterNameM3
+# ** Warning: (vlog-8891) All optimizations are disabled because the -novopt option is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features, please see the User's Manual section on Preserving Object Visibility with vopt. -novopt option is now deprecated and will be removed in future releases.
+# Loading work.cmsdk_MyArbiterNameM3
+# Loading mtiUvm.questa_uvm_pkg
+# ** Warning: (vsim-2685) [TFMPC] - Too few port connections for 'bridge_ip'.  Expected 17, found 16.
+#    Time: 0 ps  Iteration: 0  Instance: /cortexm3_soc_tb/cortexm3_soc_i0/bridge_ip File: ../rtl/cortexm3_soc.v Line: 615
+# ** Warning: (vsim-3722) ../rtl/cortexm3_soc.v(615): [TFMPC] - Missing connection for port 'HSIZE'.
+# ** Warning: (vsim-2685) [TFMPC] - Too few port connections for 'uart_ip'.  Expected 13, found 12.
+#    Time: 0 ps  Iteration: 0  Instance: /cortexm3_soc_tb/cortexm3_soc_i0/uart_ip File: ../rtl/cortexm3_soc.v Line: 648
+# ** Warning: (vsim-3015) [PCDPC] - Port size (12) does not match connection size (32) for port 'PADDR'. The port definition is at: ../../UART/apb_uart.sv(22).
+#    Time: 0 ps  Iteration: 0  Instance: /cortexm3_soc_tb/cortexm3_soc_i0/uart_ip File: ../rtl/cortexm3_soc.v Line: 648
+# ** Warning: (vsim-3722) ../rtl/cortexm3_soc.v(648): [TFMPC] - Missing connection for port 'PSLVERR'.
+# ** Warning: (vsim-2685) [TFMPC] - Too few port connections for 'i2c_ip'.  Expected 16, found 9.
+#    Time: 0 ps  Iteration: 0  Instance: /cortexm3_soc_tb/cortexm3_soc_i0/i2c_ip File: ../rtl/cortexm3_soc.v Line: 675
+# ** Warning: (vsim-3722) ../rtl/cortexm3_soc.v(675): [TFMPC] - Missing connection for port 'PSLVERR'.
+# ** Warning: (vsim-3722) ../rtl/cortexm3_soc.v(675): [TFMPC] - Missing connection for port 'INT_RX'.
+# ** Warning: (vsim-3722) ../rtl/cortexm3_soc.v(675): [TFMPC] - Missing connection for port 'INT_TX'.
+# ** Warning: (vsim-3722) ../rtl/cortexm3_soc.v(675): [TFMPC] - Missing connection for port 'SDA_ENABLE'.
+# ** Warning: (vsim-3722) ../rtl/cortexm3_soc.v(675): [TFMPC] - Missing connection for port 'SCL_ENABLE'.
+# ** Warning: (vsim-3722) ../rtl/cortexm3_soc.v(675): [TFMPC] - Missing connection for port 'SDA'.
+# ** Warning: (vsim-3722) ../rtl/cortexm3_soc.v(675): [TFMPC] - Missing connection for port 'SCL'.
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (32) for port 'addr_i'. The port definition is at: ../../MEMORY/apb_memory.v(6).
+#    Time: 0 ps  Iteration: 0  Instance: /cortexm3_soc_tb/cortexm3_soc_i0/mem_ip File: ../rtl/cortexm3_soc.v Line: 697
+# ** Warning: (vsim-8441) Clocking block output uif.uart_drv_cb.txd is not legal in this
+# or another expression.
+#    Time: 0 ps  Iteration: 0  Region: /uvc_pkg::uart_driver File: ../../../UART/UART_UVC/UART_TX_AGENT/uart_driver.sv Line: 88
+# Loading C:/questasim64_10.7c/uvm-1.1d\win64\uvm_dpi.dll
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(215) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(216) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_FATAL @ 0: reporter [NOCOMP] No components instantiated. You must either instantiate at least one component before calling run_test or use run_test to do so. To run a test using run_test, use +UVM_TESTNAME or supply the test name in the argument to run_test(). Exiting simulation.
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :    2
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    1
+# ** Report counts by id
+# [NOCOMP]     1
+# [Questa UVM]     2
+# ** Note: $finish    : C:/questasim64_10.7c/win64/../verilog_src/uvm-1.1d/src/base/uvm_report_object.svh(292)
+#    Time: 0 ps  Iteration: 0  Instance: /cortexm3_soc_tb
+# 1
+# Break in Function uvm_pkg/uvm_report_object::die at C:/questasim64_10.7c/win64/../verilog_src/uvm-1.1d/src/base/uvm_report_object.svh line 292
+# End time: 15:49:22 on May 15,2024, Elapsed time: 0:05:40
+# Errors: 0, Warnings: 16

@@ -1,0 +1,434 @@
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Questa Coverage Report</title>
+  <link rel="StyleSheet" media="screen" href="../css/hdl2html.css"/>
+</head>
+<body id="hdl2html">
+  <tt>
+<pre>
+<a name="1"><q-n>     1  </q-n></a><q-m>// ----------------------------------------------------------------------------</q-m>
+<a name="2"><q-n>     2  </q-n></a><q-m>// The confidential and proprietary information contained in this file may</q-m>
+<a name="3"><q-n>     3  </q-n></a><q-m>// only be used by a person authorised under and to the extent permitted</q-m>
+<a name="4"><q-n>     4  </q-n></a><q-m>// by a subsisting licensing agreement from ARM Limited.</q-m>
+<a name="5"><q-n>     5  </q-n></a><q-m>//</q-m>
+<a name="6"><q-n>     6  </q-n></a><q-m>//        (C) COPYRIGHT 2010-2013 ARM Limited.</q-m>
+<a name="7"><q-n>     7  </q-n></a><q-m>//                ALL RIGHTS RESERVED</q-m>
+<a name="8"><q-n>     8  </q-n></a><q-m>//</q-m>
+<a name="9"><q-n>     9  </q-n></a><q-m>// This entire notice must be reproduced on all copies of this file</q-m>
+<a name="10"><q-n>     10  </q-n></a><q-m>// and copies of this file may only be made by a person if such person is</q-m>
+<a name="11"><q-n>     11  </q-n></a><q-m>// permitted to do so under the terms of a subsisting license agreement</q-m>
+<a name="12"><q-n>     12  </q-n></a><q-m>// from ARM Limited.</q-m>
+<a name="13"><q-n>     13  </q-n></a><q-m>//</q-m>
+<a name="14"><q-n>     14  </q-n></a><q-m>//      SVN Information</q-m>
+<a name="15"><q-n>     15  </q-n></a><q-m>//</q-m>
+<a name="16"><q-n>     16  </q-n></a><q-m>//      Checked In          : $Date: 2012-09-18 17:14:17 +0100 (Tue, 18 Sep 2012) $</q-m>
+<a name="17"><q-n>     17  </q-n></a><q-m>//</q-m>
+<a name="18"><q-n>     18  </q-n></a><q-m>//      Revision            : $Revision: 223062 $</q-m>
+<a name="19"><q-n>     19  </q-n></a><q-m>//</q-m>
+<a name="20"><q-n>     20  </q-n></a><q-m>//      Release Information : Cortex-M System Design Kit-r1p0-00rel0</q-m>
+<a name="21"><q-n>     21  </q-n></a><q-m>//</q-m>
+<a name="22"><q-n>     22  </q-n></a><q-m>// ----------------------------------------------------------------------------</q-m>
+<a name="23"><q-n>     23  </q-n></a><q-m>//  Purpose : AHB OnChip RAM interface. Also suitable for FPGA RAM implmentation</q-m>
+<a name="24"><q-n>     24  </q-n></a><q-m>// ----------------------------------------------------------------------------</q-m>
+<a name="25"><q-n>     25  </q-n></a>
+<a name="26"><q-n>     26  </q-n></a><q-w>module</q-w> cmsdk_ahb_to_sram #(
+<a name="27"><q-n>     27  </q-n></a><q-m>// --------------------------------------------------------------------------</q-m>
+<a name="28"><q-n>     28  </q-n></a><q-m>// Parameter Declarations</q-m>
+<a name="29"><q-n>     29  </q-n></a><q-m>// --------------------------------------------------------------------------</q-m>
+<a name="30"><q-n>     30  </q-n></a>  <q-w>parameter</q-w> AW       = 16) <q-m>// Address width</q-m>
+<a name="31"><q-n>     31  </q-n></a> (
+<a name="32"><q-n>     32  </q-n></a><q-m>// --------------------------------------------------------------------------</q-m>
+<a name="33"><q-n>     33  </q-n></a><q-m>// Port Definitions</q-m>
+<a name="34"><q-n>     34  </q-n></a><q-m>// --------------------------------------------------------------------------</q-m>
+<a name="35"><q-n>     35  </q-n></a>  <q-w>input</q-w>  <q-w>wire</q-w>          HCLK,      <q-m>// system bus clock</q-m>
+<a name="36"><q-n>     36  </q-n></a>  <q-w>input</q-w>  <q-w>wire</q-w>          HRESETn,   <q-m>// system bus reset</q-m>
+<a name="37"><q-n>     37  </q-n></a>  <q-w>input</q-w>  <q-w>wire</q-w>          HSEL,      <q-m>// AHB peripheral select</q-m>
+<a name="38"><q-n>     38  </q-n></a>  <q-w>input</q-w>  <q-w>wire</q-w>          HREADY,    <q-m>// AHB ready input</q-m>
+<a name="39"><q-n>     39  </q-n></a>  <q-w>input</q-w>  <q-w>wire</q-w>    [1:0] HTRANS,    <q-m>// AHB transfer type</q-m>
+<a name="40"><q-n>     40  </q-n></a>  <q-w>input</q-w>  <q-w>wire</q-w>    [2:0] HSIZE,     <q-m>// AHB hsize</q-m>
+<a name="41"><q-n>     41  </q-n></a>  <q-w>input</q-w>  <q-w>wire</q-w>          HWRITE,    <q-m>// AHB hwrite</q-m>
+<a name="42"><q-n>     42  </q-n></a>  <q-w>input</q-w>  <q-w>wire</q-w> [AW-1:0] HADDR,     <q-m>// AHB address bus</q-m>
+<a name="43"><q-n>     43  </q-n></a>  <q-w>input</q-w>  <q-w>wire</q-w>   [31:0] HWDATA,    <q-m>// AHB write data bus</q-m>
+<a name="44"><q-n>     44  </q-n></a>  <q-w>output</q-w> <q-w>wire</q-w>          HREADYOUT, <q-m>// AHB ready output to S-&gt;M mux</q-m>
+<a name="45"><q-n>     45  </q-n></a>  <q-w>output</q-w> <q-w>wire</q-w>          HRESP,     <q-m>// AHB response</q-m>
+<a name="46"><q-n>     46  </q-n></a>  <q-w>output</q-w> <q-w>wire</q-w>   [31:0] HRDATA,    <q-m>// AHB read data bus</q-m>
+<a name="47"><q-n>     47  </q-n></a>
+<a name="48"><q-n>     48  </q-n></a>  <q-w>input</q-w>  <q-w>wire</q-w>   [31:0] SRAMRDATA, <q-m>// SRAM Read Data</q-m>
+<a name="49"><q-n>     49  </q-n></a>  <q-w>output</q-w> <q-w>wire</q-w> [AW-3:0] SRAMADDR,  <q-m>// SRAM address</q-m>
+<a name="50"><q-n>     50  </q-n></a>  <q-w>output</q-w> <q-w>wire</q-w>    [3:0] SRAMWEN,   <q-m>// SRAM write enable (active high)</q-m>
+<a name="51"><q-n>     51  </q-n></a>  <q-w>output</q-w> <q-w>wire</q-w>   [31:0] SRAMWDATA, <q-m>// SRAM write data</q-m>
+<a name="52"><q-n>     52  </q-n></a>  <q-w>output</q-w> <q-w>wire</q-w>          SRAMCS);   <q-m>// SRAM Chip Select  (active high)</q-m>
+<a name="53"><q-n>     53  </q-n></a>
+<a name="54"><q-n>     54  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="55"><q-n>     55  </q-n></a>   <q-m>// Internal state</q-m>
+<a name="56"><q-n>     56  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="57"><q-n>     57  </q-n></a>   <q-w>reg</q-w>  [(AW-3):0]           buf_addr;        <q-m>// Write address buffer</q-m>
+<a name="58"><q-n>     58  </q-n></a>   <q-w>reg</q-w>  [ 3:0]               buf_we;          <q-m>// Write enable buffer (data phase)</q-m>
+<a name="59"><q-n>     59  </q-n></a>   <q-w>reg</q-w>                       buf_hit;         <q-m>// High when AHB read address</q-m>
+<a name="60"><q-n>     60  </q-n></a>                                              <q-m>// matches buffered address</q-m>
+<a name="61"><q-n>     61  </q-n></a>   <q-w>reg</q-w>  [31:0]               buf_data;        <q-m>// AHB write bus buffered</q-m>
+<a name="62"><q-n>     62  </q-n></a>   <q-w>reg</q-w>                       buf_pend;        <q-m>// Buffer write data valid</q-m>
+<a name="63"><q-n>     63  </q-n></a>   <q-w>reg</q-w>                       buf_data_en;     <q-m>// Data buffer write enable (data phase)</q-m>
+<a name="64"><q-n>     64  </q-n></a>
+<a name="65"><q-n>     65  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="66"><q-n>     66  </q-n></a>   <q-m>// Read/write control logic</q-m>
+<a name="67"><q-n>     67  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="68"><q-n>     68  </q-n></a>
+<a name="69"><q-n>     69  </q-n></a>   <q-w>wire</q-w>        ahb_access   = HTRANS[1] &amp; HSEL &amp; HREADY;
+<a name="70"><q-n>     70  </q-n></a>   <q-w>wire</q-w>        ahb_write    = ahb_access &amp;  HWRITE;
+<a name="71"><q-n>     71  </q-n></a>   <q-w>wire</q-w>        ahb_read     = ahb_access &amp; (~HWRITE);
+<a name="72"><q-n>     72  </q-n></a>
+<a name="73"><q-n>     73  </q-n></a>   <q-m>// Stored write data in pending state if new transfer is read</q-m>
+<a name="74"><q-n>     74  </q-n></a>   <q-m>//   buf_data_en indicate new write (data phase)</q-m>
+<a name="75"><q-n>     75  </q-n></a>   <q-m>//   ahb_read    indicate new read  (address phase)</q-m>
+<a name="76"><q-n>     76  </q-n></a>   <q-m>//   buf_pend    is registered version of buf_pend_nxt</q-m>
+<a name="77"><q-n>     77  </q-n></a>   <q-w>wire</q-w>        buf_pend_nxt = (buf_pend | buf_data_en) &amp; ahb_read;
+<a name="78"><q-n>     78  </q-n></a>
+<a name="79"><q-n>     79  </q-n></a>   <q-m>// RAM write happens when</q-m>
+<a name="80"><q-n>     80  </q-n></a>   <q-m>// - write pending (buf_pend), or</q-m>
+<a name="81"><q-n>     81  </q-n></a>   <q-m>// - new AHB write seen (buf_data_en) at data phase,</q-m>
+<a name="82"><q-n>     82  </q-n></a>   <q-m>// - and not reading (address phase)</q-m>
+<a name="83"><q-n>     83  </q-n></a>   <q-w>wire</q-w>        ram_write    = (buf_pend | buf_data_en)  &amp; (~ahb_read); <q-m>// ahb_write</q-m>
+<a name="84"><q-n>     84  </q-n></a>
+<a name="85"><q-n>     85  </q-n></a>   <q-m>// RAM WE is the buffered WE</q-m>
+<a name="86"><q-n>     86  </q-n></a>   <q-w>assign</q-w>      SRAMWEN  = {4{ram_write}} &amp; buf_we[3:0];
+<a name="87"><q-n>     87  </q-n></a>
+<a name="88"><q-n>     88  </q-n></a>   <q-m>// RAM address is the buffered address for RAM write otherwise HADDR</q-m>
+<a name="89"><q-n>     89  </q-n></a>   <q-w>assign</q-w>      SRAMADDR = ahb_read ? HADDR[AW-1:2] : buf_addr;
+<a name="90"><q-n>     90  </q-n></a>
+<a name="91"><q-n>     91  </q-n></a>   <q-m>// RAM chip select during read or write</q-m>
+<a name="92"><q-n>     92  </q-n></a>   <q-w>assign</q-w>      SRAMCS   = ahb_read | ram_write;
+<a name="93"><q-n>     93  </q-n></a>
+<a name="94"><q-n>     94  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="95"><q-n>     95  </q-n></a>   <q-m>// Byte lane decoder and next state logic</q-m>
+<a name="96"><q-n>     96  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="97"><q-n>     97  </q-n></a>
+<a name="98"><q-n>     98  </q-n></a>   <q-w>wire</q-w>       tx_byte    = (~HSIZE[1]) &amp; (~HSIZE[0]);
+<a name="99"><q-n>     99  </q-n></a>   <q-w>wire</q-w>       tx_half    = (~HSIZE[1]) &amp;  HSIZE[0];
+<a name="100"><q-n>     100  </q-n></a>   <q-w>wire</q-w>       tx_word    =   HSIZE[1];
+<a name="101"><q-n>     101  </q-n></a>
+<a name="102"><q-n>     102  </q-n></a>   <q-w>wire</q-w>       byte_at_00 = tx_byte &amp; (~HADDR[1]) &amp; (~HADDR[0]);
+<a name="103"><q-n>     103  </q-n></a>   <q-w>wire</q-w>       byte_at_01 = tx_byte &amp; (~HADDR[1]) &amp;   HADDR[0];
+<a name="104"><q-n>     104  </q-n></a>   <q-w>wire</q-w>       byte_at_10 = tx_byte &amp;   HADDR[1]  &amp; (~HADDR[0]);
+<a name="105"><q-n>     105  </q-n></a>   <q-w>wire</q-w>       byte_at_11 = tx_byte &amp;   HADDR[1]  &amp;   HADDR[0];
+<a name="106"><q-n>     106  </q-n></a>
+<a name="107"><q-n>     107  </q-n></a>   <q-w>wire</q-w>       half_at_00 = tx_half &amp; (~HADDR[1]);
+<a name="108"><q-n>     108  </q-n></a>   <q-w>wire</q-w>       half_at_10 = tx_half &amp;   HADDR[1];
+<a name="109"><q-n>     109  </q-n></a>
+<a name="110"><q-n>     110  </q-n></a>   <q-w>wire</q-w>       word_at_00 = tx_word;
+<a name="111"><q-n>     111  </q-n></a>
+<a name="112"><q-n>     112  </q-n></a>   <q-w>wire</q-w>       byte_sel_0 = word_at_00 | half_at_00 | byte_at_00;
+<a name="113"><q-n>     113  </q-n></a>   <q-w>wire</q-w>       byte_sel_1 = word_at_00 | half_at_00 | byte_at_01;
+<a name="114"><q-n>     114  </q-n></a>   <q-w>wire</q-w>       byte_sel_2 = word_at_00 | half_at_10 | byte_at_10;
+<a name="115"><q-n>     115  </q-n></a>   <q-w>wire</q-w>       byte_sel_3 = word_at_00 | half_at_10 | byte_at_11;
+<a name="116"><q-n>     116  </q-n></a>
+<a name="117"><q-n>     117  </q-n></a>   <q-m>// Address phase byte lane strobe</q-m>
+<a name="118"><q-n>     118  </q-n></a>   <q-w>wire</q-w> [3:0] buf_we_nxt = { byte_sel_3 &amp; ahb_write,
+<a name="119"><q-n>     119  </q-n></a>                             byte_sel_2 &amp; ahb_write,
+<a name="120"><q-n>     120  </q-n></a>                             byte_sel_1 &amp; ahb_write,
+<a name="121"><q-n>     121  </q-n></a>                             byte_sel_0 &amp; ahb_write };
+<a name="122"><q-n>     122  </q-n></a>
+<a name="123"><q-n>     123  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="124"><q-n>     124  </q-n></a>   <q-m>// Write buffer</q-m>
+<a name="125"><q-n>     125  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="126"><q-n>     126  </q-n></a>
+<a name="127"><q-n>     127  </q-n></a>   <q-m>// buf_data_en is data phase write control</q-m>
+<a name="128"><q-n>     128  </q-n></a>   <q-w>always</q-w> @(<q-a>posedge</q-w> HCLK <q-t>or</q-w> <q-a>negedge</q-w> HRESETn)
+<a name="129"><q-n>     129  </q-n></a>     <q-w>if</q-w> (~HRESETn)
+<a name="130"><q-n>     130  </q-n></a>       buf_data_en &lt;= 1'b0;
+<a name="131"><q-n>     131  </q-n></a>     <q-w>else</q-w>
+<a name="132"><q-n>     132  </q-n></a>       buf_data_en &lt;= ahb_write;
+<a name="133"><q-n>     133  </q-n></a>
+<a name="134"><q-n>     134  </q-n></a>   <q-w>always</q-w> @(<q-a>posedge</q-w> HCLK)
+<a name="135"><q-n>     135  </q-n></a>     <q-w>if</q-w>(buf_we[3] &amp; buf_data_en)
+<a name="136"><q-n>     136  </q-n></a>       buf_data[31:24] &lt;= HWDATA[31:24];
+<a name="137"><q-n>     137  </q-n></a>
+<a name="138"><q-n>     138  </q-n></a>   <q-w>always</q-w> @(<q-a>posedge</q-w> HCLK)
+<a name="139"><q-n>     139  </q-n></a>     <q-w>if</q-w>(buf_we[2] &amp; buf_data_en)
+<a name="140"><q-n>     140  </q-n></a>       buf_data[23:16] &lt;= HWDATA[23:16];
+<a name="141"><q-n>     141  </q-n></a>
+<a name="142"><q-n>     142  </q-n></a>   <q-w>always</q-w> @(<q-a>posedge</q-w> HCLK)
+<a name="143"><q-n>     143  </q-n></a>     <q-w>if</q-w>(buf_we[1] &amp; buf_data_en)
+<a name="144"><q-n>     144  </q-n></a>       buf_data[15: 8] &lt;= HWDATA[15: 8];
+<a name="145"><q-n>     145  </q-n></a>
+<a name="146"><q-n>     146  </q-n></a>   <q-w>always</q-w> @(<q-a>posedge</q-w> HCLK)
+<a name="147"><q-n>     147  </q-n></a>     <q-w>if</q-w>(buf_we[0] &amp; buf_data_en)
+<a name="148"><q-n>     148  </q-n></a>       buf_data[ 7: 0] &lt;= HWDATA[ 7: 0];
+<a name="149"><q-n>     149  </q-n></a>
+<a name="150"><q-n>     150  </q-n></a>   <q-m>// buf_we keep the valid status of each byte (data phase)</q-m>
+<a name="151"><q-n>     151  </q-n></a>   <q-w>always</q-w> @(<q-a>posedge</q-w> HCLK <q-t>or</q-w> <q-a>negedge</q-w> HRESETn)
+<a name="152"><q-n>     152  </q-n></a>     <q-w>if</q-w> (~HRESETn)
+<a name="153"><q-n>     153  </q-n></a>       buf_we &lt;= 4'b0000;
+<a name="154"><q-n>     154  </q-n></a>     <q-w>else</q-w> <q-w>if</q-w>(ahb_write)
+<a name="155"><q-n>     155  </q-n></a>       buf_we &lt;= buf_we_nxt;
+<a name="156"><q-n>     156  </q-n></a>
+<a name="157"><q-n>     157  </q-n></a>   <q-w>always</q-w> @(<q-a>posedge</q-w> HCLK <q-t>or</q-w> <q-a>negedge</q-w> HRESETn)
+<a name="158"><q-n>     158  </q-n></a>     <q-w>begin</q-w>
+<a name="159"><q-n>     159  </q-n></a>     <q-w>if</q-w> (~HRESETn)
+<a name="160"><q-n>     160  </q-n></a>       buf_addr &lt;= {(AW-2){1'b0}};
+<a name="161"><q-n>     161  </q-n></a>     <q-w>else</q-w> <q-w>if</q-w> (ahb_write)
+<a name="162"><q-n>     162  </q-n></a>         buf_addr &lt;= HADDR[(AW-1):2];
+<a name="163"><q-n>     163  </q-n></a>     <q-w>end</q-w>
+<a name="164"><q-n>     164  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="165"><q-n>     165  </q-n></a>   <q-m>// Buf_hit detection logic</q-m>
+<a name="166"><q-n>     166  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="167"><q-n>     167  </q-n></a>
+<a name="168"><q-n>     168  </q-n></a>   <q-w>wire</q-w>  buf_hit_nxt = (HADDR[AW-1:2] == buf_addr[AW-3:0]);
+<a name="169"><q-n>     169  </q-n></a>
+<a name="170"><q-n>     170  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="171"><q-n>     171  </q-n></a>   <q-m>// Read data merge : This is for the case when there is a AHB</q-m>
+<a name="172"><q-n>     172  </q-n></a>   <q-m>// write followed by AHB read to the same address. In this case</q-m>
+<a name="173"><q-n>     173  </q-n></a>   <q-m>// the data is merged from the buffer as the RAM write to that</q-m>
+<a name="174"><q-n>     174  </q-n></a>   <q-m>// address hasn't happened yet</q-m>
+<a name="175"><q-n>     175  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="176"><q-n>     176  </q-n></a>
+<a name="177"><q-n>     177  </q-n></a>   <q-w>wire</q-w> [ 3:0] merge1  = {4{buf_hit}} &amp; buf_we; <q-m>// data phase, buf_we indicates data is valid</q-m>
+<a name="178"><q-n>     178  </q-n></a>
+<a name="179"><q-n>     179  </q-n></a>   <q-w>assign</q-w> HRDATA =
+<a name="180"><q-n>     180  </q-n></a>              { merge1[3] ? buf_data[31:24] : SRAMRDATA[31:24],
+<a name="181"><q-n>     181  </q-n></a>                merge1[2] ? buf_data[23:16] : SRAMRDATA[23:16],
+<a name="182"><q-n>     182  </q-n></a>                merge1[1] ? buf_data[15: 8] : SRAMRDATA[15: 8],
+<a name="183"><q-n>     183  </q-n></a>                merge1[0] ? buf_data[ 7: 0] : SRAMRDATA[ 7: 0] };
+<a name="184"><q-n>     184  </q-n></a>
+<a name="185"><q-n>     185  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="186"><q-n>     186  </q-n></a>   <q-m>// Synchronous state update</q-m>
+<a name="187"><q-n>     187  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="188"><q-n>     188  </q-n></a>
+<a name="189"><q-n>     189  </q-n></a>   <q-w>always</q-w> @(<q-a>posedge</q-w> HCLK <q-t>or</q-w> <q-a>negedge</q-w> HRESETn)
+<a name="190"><q-n>     190  </q-n></a>     <q-w>if</q-w> (~HRESETn)
+<a name="191"><q-n>     191  </q-n></a>       buf_hit &lt;= 1'b0;
+<a name="192"><q-n>     192  </q-n></a>     <q-w>else</q-w> <q-w>if</q-w>(ahb_read)
+<a name="193"><q-n>     193  </q-n></a>       buf_hit &lt;= buf_hit_nxt;
+<a name="194"><q-n>     194  </q-n></a>
+<a name="195"><q-n>     195  </q-n></a>   <q-w>always</q-w> @(<q-a>posedge</q-w> HCLK <q-t>or</q-w> <q-a>negedge</q-w> HRESETn)
+<a name="196"><q-n>     196  </q-n></a>     <q-w>if</q-w> (~HRESETn)
+<a name="197"><q-n>     197  </q-n></a>       buf_pend &lt;= 1'b0;
+<a name="198"><q-n>     198  </q-n></a>     <q-w>else</q-w>
+<a name="199"><q-n>     199  </q-n></a>       buf_pend &lt;= buf_pend_nxt;
+<a name="200"><q-n>     200  </q-n></a>
+<a name="201"><q-n>     201  </q-n></a>   <q-m>// if there is an AHB write and valid data in the buffer, RAM write data</q-m>
+<a name="202"><q-n>     202  </q-n></a>   <q-m>// comes from the buffer. otherwise comes from the HWDATA</q-m>
+<a name="203"><q-n>     203  </q-n></a>   <q-w>assign</q-w> SRAMWDATA = (buf_pend) ? buf_data : HWDATA[31:0];
+<a name="204"><q-n>     204  </q-n></a>
+<a name="205"><q-n>     205  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="206"><q-n>     206  </q-n></a>   <q-m>// Assign outputs</q-m>
+<a name="207"><q-n>     207  </q-n></a>   <q-m>// ----------------------------------------------------------</q-m>
+<a name="208"><q-n>     208  </q-n></a>   <q-w>assign</q-w> HREADYOUT = 1'b1;
+<a name="209"><q-n>     209  </q-n></a>   <q-w>assign</q-w> HRESP     = 1'b0;
+<a name="210"><q-n>     210  </q-n></a>
+<a name="211"><q-n>     211  </q-n></a>`<q-a>ifdef</q-w> ARM_AHB_ASSERT_ON
+<a name="212"><q-n>     212  </q-n></a>
+<a name="213"><q-n>     213  </q-n></a>   <q-m>// ------------------------------------------------------------</q-m>
+<a name="214"><q-n>     214  </q-n></a>   <q-m>// Assertions</q-m>
+<a name="215"><q-n>     215  </q-n></a>   <q-m>// ------------------------------------------------------------</q-m>
+<a name="216"><q-n>     216  </q-n></a>   <q-m>//</q-m>
+<a name="217"><q-n>     217  </q-n></a>`<q-i>include</q-w> <q-l>"std_ovl_defines.h"</q-l>
+<a name="218"><q-n>     218  </q-n></a>
+<a name="219"><q-n>     219  </q-n></a>   <q-w>reg</q-w> ovl_ahb_read_reg;  <q-m>// Last cycle has an AHB read in address phase</q-m>
+<a name="220"><q-n>     220  </q-n></a>   <q-w>reg</q-w> ovl_ahb_write_reg; <q-m>// Last cycle has an AHB write in address phase</q-m>
+<a name="221"><q-n>     221  </q-n></a>   <q-w>reg</q-w> ovl_buf_pend_reg;  <q-m>// Value of buf_pend in the last cycle</q-m>
+<a name="222"><q-n>     222  </q-n></a>
+<a name="223"><q-n>     223  </q-n></a>   <q-w>always</q-w> @(<q-a>posedge</q-w> HCLK <q-t>or</q-w> <q-a>negedge</q-w> HRESETn)
+<a name="224"><q-n>     224  </q-n></a>   <q-w>begin</q-w>
+<a name="225"><q-n>     225  </q-n></a>   <q-w>if</q-w> (~HRESETn)
+<a name="226"><q-n>     226  </q-n></a>     <q-w>begin</q-w>
+<a name="227"><q-n>     227  </q-n></a>     ovl_ahb_read_reg  &lt;= 1'b0;
+<a name="228"><q-n>     228  </q-n></a>     ovl_ahb_write_reg &lt;= 1'b0;
+<a name="229"><q-n>     229  </q-n></a>     ovl_buf_pend_reg  &lt;= 1'b0;
+<a name="230"><q-n>     230  </q-n></a>     <q-w>end</q-w>
+<a name="231"><q-n>     231  </q-n></a>   <q-w>else</q-w>
+<a name="232"><q-n>     232  </q-n></a>     <q-w>begin</q-w>
+<a name="233"><q-n>     233  </q-n></a>     ovl_ahb_read_reg  &lt;= ahb_read;
+<a name="234"><q-n>     234  </q-n></a>     ovl_ahb_write_reg &lt;= ahb_write;
+<a name="235"><q-n>     235  </q-n></a>     ovl_buf_pend_reg  &lt;= buf_pend;
+<a name="236"><q-n>     236  </q-n></a>     <q-w>end</q-w>
+<a name="237"><q-n>     237  </q-n></a>   <q-w>end</q-w>
+<a name="238"><q-n>     238  </q-n></a>
+<a name="239"><q-n>     239  </q-n></a>   <q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="240"><q-n>     240  </q-n></a>   <q-m>// OVLs for read operations</q-m>
+<a name="241"><q-n>     241  </q-n></a>   <q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="242"><q-n>     242  </q-n></a>
+<a name="243"><q-n>     243  </q-n></a>   <q-m>// Check during a read (address phase), SRAMADDR must match</q-m>
+<a name="244"><q-n>     244  </q-n></a>   <q-m>// HADDR unless it is reading a word that is already inside the buffer.</q-m>
+<a name="245"><q-n>     245  </q-n></a>   <q-m>// Note:This interface module still generate a read to the SRAM although</q-m>
+<a name="246"><q-n>     246  </q-n></a>   <q-m>// strictly speaking it is not required.</q-m>
+<a name="247"><q-n>     247  </q-n></a>
+<a name="248"><q-n>     248  </q-n></a>   assert_never
+<a name="249"><q-n>     249  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="250"><q-n>     250  </q-n></a>       <q-l>"SRAMADDR read incorrect"</q-l>)
+<a name="251"><q-n>     251  </q-n></a>   u_ovl_sramaddr_read_transfer_error
+<a name="252"><q-n>     252  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="253"><q-n>     253  </q-n></a>      .test_expr(HTRANS[1] &amp; HSEL &amp; HREADY &amp; (~HWRITE) &amp; (SRAMADDR != HADDR[(AW-1):2]))
+<a name="254"><q-n>     254  </q-n></a>      );
+<a name="255"><q-n>     255  </q-n></a>
+<a name="256"><q-n>     256  </q-n></a>   <q-m>// Check during a read (address phase), SRAMWEN must be low</q-m>
+<a name="257"><q-n>     257  </q-n></a>   assert_never
+<a name="258"><q-n>     258  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="259"><q-n>     259  </q-n></a>       <q-l>"SRAMWEN read incorrect"</q-l>)
+<a name="260"><q-n>     260  </q-n></a>   u_ovl_sramwen_read_transfer_error
+<a name="261"><q-n>     261  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="262"><q-n>     262  </q-n></a>      .test_expr(HTRANS[1] &amp; HSEL &amp; HREADY &amp; (~HWRITE) &amp; (SRAMWEN!=4'b0000))
+<a name="263"><q-n>     263  </q-n></a>      );
+<a name="264"><q-n>     264  </q-n></a>
+<a name="265"><q-n>     265  </q-n></a>   <q-m>// Check during a read (address phase), SRAMCS must be high</q-m>
+<a name="266"><q-n>     266  </q-n></a>   assert_never
+<a name="267"><q-n>     267  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="268"><q-n>     268  </q-n></a>       <q-l>"SRAMCS read incorrect"</q-l>)
+<a name="269"><q-n>     269  </q-n></a>   u_ovl_sramcs_read_transfer_error
+<a name="270"><q-n>     270  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="271"><q-n>     271  </q-n></a>      .test_expr(HTRANS[1] &amp; HSEL &amp; HREADY &amp; (~HWRITE) &amp; (SRAMCS!=1'b1))
+<a name="272"><q-n>     272  </q-n></a>      );
+<a name="273"><q-n>     273  </q-n></a>
+<a name="274"><q-n>     274  </q-n></a>   <q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="275"><q-n>     275  </q-n></a>   <q-m>// OVLs for write operations</q-m>
+<a name="276"><q-n>     276  </q-n></a>   <q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="277"><q-n>     277  </q-n></a>
+<a name="278"><q-n>     278  </q-n></a>   <q-m>// Check during a write (data phase), if there is no read in address phase</q-m>
+<a name="279"><q-n>     279  </q-n></a>   <q-m>// SRAMADDR should be same as buffered address</q-m>
+<a name="280"><q-n>     280  </q-n></a>   assert_implication
+<a name="281"><q-n>     281  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="282"><q-n>     282  </q-n></a>       <q-l>"SRAMADDR write incorrect"</q-l>)
+<a name="283"><q-n>     283  </q-n></a>   u_ovl_sramaddr_wr_transfer_error
+<a name="284"><q-n>     284  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="285"><q-n>     285  </q-n></a>      .antecedent_expr(ovl_ahb_write_reg &amp; <q-m>// write data phase</q-m>
+<a name="286"><q-n>     286  </q-n></a>        (ahb_read==1'b0)), <q-m>// no read</q-m>
+<a name="287"><q-n>     287  </q-n></a>      .consequent_expr(SRAMADDR==buf_addr)
+<a name="288"><q-n>     288  </q-n></a>      );
+<a name="289"><q-n>     289  </q-n></a>
+<a name="290"><q-n>     290  </q-n></a>   <q-m>// Check during a write (data phase), if there is no read in address phase</q-m>
+<a name="291"><q-n>     291  </q-n></a>   <q-m>// SRAMCS should be high</q-m>
+<a name="292"><q-n>     292  </q-n></a>   assert_implication
+<a name="293"><q-n>     293  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="294"><q-n>     294  </q-n></a>       <q-l>"SRAMCS write incorrect"</q-l>)
+<a name="295"><q-n>     295  </q-n></a>   u_ovl_sramcs_wr_transfer_error
+<a name="296"><q-n>     296  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="297"><q-n>     297  </q-n></a>      .antecedent_expr(ovl_ahb_write_reg &amp; <q-m>// write data phase</q-m>
+<a name="298"><q-n>     298  </q-n></a>        (ahb_read==1'b0)), <q-m>// no read</q-m>
+<a name="299"><q-n>     299  </q-n></a>      .consequent_expr(SRAMCS)
+<a name="300"><q-n>     300  </q-n></a>      );
+<a name="301"><q-n>     301  </q-n></a>
+<a name="302"><q-n>     302  </q-n></a>   <q-m>// Check during a write (data phase), if there is no read in address phase</q-m>
+<a name="303"><q-n>     303  </q-n></a>   <q-m>// SRAMWEN should be active</q-m>
+<a name="304"><q-n>     304  </q-n></a>   assert_implication
+<a name="305"><q-n>     305  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="306"><q-n>     306  </q-n></a>       <q-l>"SRAMWEN write incorrect"</q-l>)
+<a name="307"><q-n>     307  </q-n></a>   u_ovl_sramwen_wr_transfer_error
+<a name="308"><q-n>     308  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="309"><q-n>     309  </q-n></a>      .antecedent_expr(ovl_ahb_write_reg &amp; <q-m>// write data phase</q-m>
+<a name="310"><q-n>     310  </q-n></a>        (ahb_read==1'b0)), <q-m>// no read</q-m>
+<a name="311"><q-n>     311  </q-n></a>      .consequent_expr(SRAMWEN==buf_we)
+<a name="312"><q-n>     312  </q-n></a>      );
+<a name="313"><q-n>     313  </q-n></a>
+<a name="314"><q-n>     314  </q-n></a>   <q-m>// Check during a write (data phase), if there is no read in address phase</q-m>
+<a name="315"><q-n>     315  </q-n></a>   <q-m>// SRAMWDATA should be same as HWDATA</q-m>
+<a name="316"><q-n>     316  </q-n></a>   assert_implication
+<a name="317"><q-n>     317  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="318"><q-n>     318  </q-n></a>       <q-l>"SRAMWDATA write incorrect"</q-l>)
+<a name="319"><q-n>     319  </q-n></a>   u_ovl_sramwdata_wr_transfer_error
+<a name="320"><q-n>     320  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="321"><q-n>     321  </q-n></a>      .antecedent_expr(ovl_ahb_write_reg &amp; <q-m>// write data phase</q-m>
+<a name="322"><q-n>     322  </q-n></a>        (ahb_read==1'b0)),  <q-m>// no read</q-m>
+<a name="323"><q-n>     323  </q-n></a>      .consequent_expr(buf_pend == 1'b0) <q-m>// Instead of checking SRAMWDATA and HWDATA</q-m>
+<a name="324"><q-n>     324  </q-n></a>      ); <q-m>// which can be X, check buf_pend instead. Otherwise OVL_ERROR will be</q-m>
+<a name="325"><q-n>     325  </q-n></a>         <q-m>// generated when write data is unknown.</q-m>
+<a name="326"><q-n>     326  </q-n></a>
+<a name="327"><q-n>     327  </q-n></a>   <q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="328"><q-n>     328  </q-n></a>   <q-m>// OVLs for buffered write operations</q-m>
+<a name="329"><q-n>     329  </q-n></a>   <q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="330"><q-n>     330  </q-n></a>
+<a name="331"><q-n>     331  </q-n></a>   <q-m>// Check during a write (address phase) or idle, if there is a buffered write</q-m>
+<a name="332"><q-n>     332  </q-n></a>   <q-m>// SRAMADDR should be same as buffered address</q-m>
+<a name="333"><q-n>     333  </q-n></a>   assert_implication
+<a name="334"><q-n>     334  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="335"><q-n>     335  </q-n></a>       <q-l>"SRAMADDR buffer write incorrect"</q-l>)
+<a name="336"><q-n>     336  </q-n></a>   u_ovl_sramaddr_bufwr_transfer_error
+<a name="337"><q-n>     337  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="338"><q-n>     338  </q-n></a>      .antecedent_expr(((~(HTRANS[1] &amp; HSEL &amp; HREADY))|(HWRITE)) &amp; <q-m>// Idle or write</q-m>
+<a name="339"><q-n>     339  </q-n></a>        (buf_pend==1'b1)), <q-m>// buffered write pending</q-m>
+<a name="340"><q-n>     340  </q-n></a>      .consequent_expr(SRAMADDR==buf_addr)
+<a name="341"><q-n>     341  </q-n></a>      );
+<a name="342"><q-n>     342  </q-n></a>
+<a name="343"><q-n>     343  </q-n></a>   <q-m>// Check during a write (address phase) or idle, if there is a buffered write</q-m>
+<a name="344"><q-n>     344  </q-n></a>   <q-m>// SRAMWDATA should be same as buffered write data</q-m>
+<a name="345"><q-n>     345  </q-n></a>   assert_implication
+<a name="346"><q-n>     346  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="347"><q-n>     347  </q-n></a>       <q-l>"SRAMWDATA buffer write incorrect"</q-l>)
+<a name="348"><q-n>     348  </q-n></a>   u_ovl_sramwdata_bufwr_transfer_error
+<a name="349"><q-n>     349  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="350"><q-n>     350  </q-n></a>      .antecedent_expr(((~(HTRANS[1] &amp; HSEL &amp; HREADY))|(HWRITE)) &amp; <q-m>// Idle or write</q-m>
+<a name="351"><q-n>     351  </q-n></a>        (buf_pend==1'b1)),  <q-m>// buffered write pending</q-m>
+<a name="352"><q-n>     352  </q-n></a>      .consequent_expr(SRAMWDATA==buf_data)
+<a name="353"><q-n>     353  </q-n></a>      );
+<a name="354"><q-n>     354  </q-n></a>
+<a name="355"><q-n>     355  </q-n></a>   <q-m>// Check during a write (address phase) or idle, if there is a buffered write</q-m>
+<a name="356"><q-n>     356  </q-n></a>   <q-m>// SRAMCS should be high</q-m>
+<a name="357"><q-n>     357  </q-n></a>   assert_implication
+<a name="358"><q-n>     358  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="359"><q-n>     359  </q-n></a>       <q-l>"SRAMWDATA buffer write incorrect"</q-l>)
+<a name="360"><q-n>     360  </q-n></a>   u_ovl_sramcs_bufwr_transfer_error
+<a name="361"><q-n>     361  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="362"><q-n>     362  </q-n></a>      .antecedent_expr(((~(HTRANS[1] &amp; HSEL &amp; HREADY))|(HWRITE)) &amp; <q-m>// Idle or write</q-m>
+<a name="363"><q-n>     363  </q-n></a>        (buf_pend==1'b1)),  <q-m>// buffered write pending</q-m>
+<a name="364"><q-n>     364  </q-n></a>      .consequent_expr(SRAMCS)
+<a name="365"><q-n>     365  </q-n></a>      );
+<a name="366"><q-n>     366  </q-n></a>
+<a name="367"><q-n>     367  </q-n></a>   <q-m>// Check during a write (address phase) or idle, if there is a buffered write</q-m>
+<a name="368"><q-n>     368  </q-n></a>   <q-m>// SRAMWEN should be high</q-m>
+<a name="369"><q-n>     369  </q-n></a>   assert_implication
+<a name="370"><q-n>     370  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="371"><q-n>     371  </q-n></a>       <q-l>"SRAMWEN buffer write incorrect"</q-l>)
+<a name="372"><q-n>     372  </q-n></a>   u_ovl_sramwen_bufwr_transfer_error
+<a name="373"><q-n>     373  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="374"><q-n>     374  </q-n></a>      .antecedent_expr(((~(HTRANS[1] &amp; HSEL &amp; HREADY))|(HWRITE)) &amp; <q-m>// Idle or write</q-m>
+<a name="375"><q-n>     375  </q-n></a>        (buf_pend==1'b1)), <q-m>// buffered write pending</q-m>
+<a name="376"><q-n>     376  </q-n></a>      .consequent_expr(SRAMWEN==buf_we)
+<a name="377"><q-n>     377  </q-n></a>      );
+<a name="378"><q-n>     378  </q-n></a>
+<a name="379"><q-n>     379  </q-n></a>   <q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="380"><q-n>     380  </q-n></a>   <q-m>// OVLs for write buffer status</q-m>
+<a name="381"><q-n>     381  </q-n></a>   <q-m>// -----------------------------------------------------------------------------</q-m>
+<a name="382"><q-n>     382  </q-n></a>
+<a name="383"><q-n>     383  </q-n></a>   <q-m>// Check if last cycle is an AHB write (address phase) and this cycle</q-m>
+<a name="384"><q-n>     384  </q-n></a>   <q-m>// we have an AHB read, then buf_pend_nxt should be high</q-m>
+<a name="385"><q-n>     385  </q-n></a>   assert_implication
+<a name="386"><q-n>     386  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="387"><q-n>     387  </q-n></a>       <q-l>"buf_pend not staying high at read"</q-l>)
+<a name="388"><q-n>     388  </q-n></a>   u_ovl_buf_pend_nxt_set_error
+<a name="389"><q-n>     389  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="390"><q-n>     390  </q-n></a>      .antecedent_expr(ovl_ahb_write_reg &amp; ahb_read),
+<a name="391"><q-n>     391  </q-n></a>      .consequent_expr(buf_pend_nxt)
+<a name="392"><q-n>     392  </q-n></a>      );
+<a name="393"><q-n>     393  </q-n></a>
+<a name="394"><q-n>     394  </q-n></a>   <q-m>// Check if last cycle is an AHB read and last buf_pend was high, then</q-m>
+<a name="395"><q-n>     395  </q-n></a>   <q-m>// buf_pend should still be high this cycle</q-m>
+<a name="396"><q-n>     396  </q-n></a>   assert_implication
+<a name="397"><q-n>     397  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="398"><q-n>     398  </q-n></a>       <q-l>"buf_pend not staying high at read"</q-l>)
+<a name="399"><q-n>     399  </q-n></a>   u_ovl_buf_pend_stay_error
+<a name="400"><q-n>     400  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="401"><q-n>     401  </q-n></a>      .antecedent_expr(ovl_ahb_read_reg &amp; ovl_buf_pend_reg),
+<a name="402"><q-n>     402  </q-n></a>      .consequent_expr(buf_pend)
+<a name="403"><q-n>     403  </q-n></a>      );
+<a name="404"><q-n>     404  </q-n></a>
+<a name="405"><q-n>     405  </q-n></a>   <q-m>// Check if last cycle is an AHB write (address phase) or idle, then</q-m>
+<a name="406"><q-n>     406  </q-n></a>   <q-m>// buf_pend should be low this cycle</q-m>
+<a name="407"><q-n>     407  </q-n></a>   assert_implication
+<a name="408"><q-n>     408  </q-n></a>     #(`OVL_ERROR,`OVL_ASSERT,
+<a name="409"><q-n>     409  </q-n></a>       <q-l>"buf_pend not clear"</q-l>)
+<a name="410"><q-n>     410  </q-n></a>   u_ovl_buf_pend_clear_error
+<a name="411"><q-n>     411  </q-n></a>     (.clk(HCLK), .reset_n(HRESETn),
+<a name="412"><q-n>     412  </q-n></a>      .antecedent_expr(ovl_ahb_write_reg | (~ovl_ahb_read_reg)),
+<a name="413"><q-n>     413  </q-n></a>      .consequent_expr(~buf_pend)
+<a name="414"><q-n>     414  </q-n></a>      );
+<a name="415"><q-n>     415  </q-n></a>
+<a name="416"><q-n>     416  </q-n></a>`<q-a>endif</q-w>
+<a name="417"><q-n>     417  </q-n></a>
+<a name="418"><q-n>     418  </q-n></a><q-w>endmodule</q-w>
+</pre>
+</tt>
+
+  
+</body>
+</html>
